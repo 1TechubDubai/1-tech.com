@@ -5,7 +5,7 @@ import Navbar from "../components/Navbar";
 
 // Import your centralized data here! 
 // Adjust the path if your file is located somewhere else.
-import { servicesData } from "../data/ServicesData.js";
+import { servicesData } from "../Data/ServicesData.js";
 
 import { 
   ChevronRight,
