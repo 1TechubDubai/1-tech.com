@@ -1241,7 +1241,7 @@ const TransmissionTeaser = () => {
   }, []);
 
   return (
-    <section id="transmissions-teaser" className="relative w-full py-16 md:py-24 px-4 sm:px-6 bg-white/40 backdrop-blur-md border-t border-white/60 font-sans overflow-hidden" style={{ fontFamily: "'Syne', sans-serif" }}>
+    <section id="transmissions-teaser" className="relative w-full py-16 md:py-24 px-4 sm:px-6 bg-white/40 backdrop-blur-md border-t border-white/60 font-sans overflow-hidden">
       <div className="relative z-10 max-w-7xl mx-auto w-full flex flex-col items-center md:items-start">
         
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/80 backdrop-blur-md border border-blue-200/60 mb-6 shadow-sm">

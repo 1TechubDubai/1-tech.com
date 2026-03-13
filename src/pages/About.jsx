@@ -17,18 +17,317 @@ import {
   ArrowUpRight 
 } from 'lucide-react';
 
-// --- SUBTLE AMBIENT BACKGROUND ---
+// --- UPGRADED PREMIUM AMBIENT BACKGROUND ---
 const AmbientBackground = () => (
-  <div className="fixed inset-0 z-0 overflow-hidden bg-[#f8fafc] pointer-events-none">
-    <div 
-      className="absolute inset-0 opacity-[0.03]" 
-      style={{
-        backgroundImage: `radial-gradient(#0f172a 1px, transparent 1px)`,
-        backgroundSize: '32px 32px'
-      }}
-    ></div>
-    <div className="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] rounded-full bg-blue-400/10 blur-[120px] animate-pulse mix-blend-multiply"></div>
-    <div className="absolute bottom-[20%] left-[-10%] w-[500px] h-[500px] rounded-full bg-cyan-400/10 blur-[120px] animate-pulse mix-blend-multiply" style={{ animationDelay: '2s' }}></div>
+  <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
+    <style>{`
+      @keyframes d1 {
+        0%,100% { transform: translate(0,0) scale(1) rotate(0deg); }
+        25%  { transform: translate(45px,-60px) scale(1.1) rotate(2deg); }
+        50%  { transform: translate(-30px,-30px) scale(0.93) rotate(-1deg); }
+        75%  { transform: translate(20px,45px) scale(1.06) rotate(1deg); }
+      }
+      @keyframes d2 {
+        0%,100% { transform: translate(0,0) scale(1); }
+        30%  { transform: translate(-55px,40px) scale(1.12); }
+        65%  { transform: translate(40px,-50px) scale(0.91); }
+      }
+      @keyframes d3 {
+        0%,100% { transform: translate(0,0) scale(1) rotate(0deg); }
+        40%  { transform: translate(30px,55px) scale(1.08) rotate(3deg); }
+        70%  { transform: translate(-45px,-25px) scale(0.95) rotate(-2deg); }
+      }
+      @keyframes d4 {
+        0%,100% { transform: translate(0,0) scale(1); }
+        35%  { transform: translate(-30px,-50px) scale(1.09); }
+        70%  { transform: translate(50px,30px) scale(0.93); }
+      }
+      @keyframes d5 {
+        0%,100% { transform: translate(0,0) scale(1); }
+        45%  { transform: translate(35px,-40px) scale(1.07); }
+        80%  { transform: translate(-25px,35px) scale(0.96); }
+      }
+      @keyframes d6 {
+        0%,100% { transform: translate(0,0) scale(1); }
+        38%  { transform: translate(-40px,28px) scale(1.11); }
+        72%  { transform: translate(28px,-42px) scale(0.94); }
+      }
+      @keyframes gridBr {
+        0%,100% { opacity: 0.06; }
+        50%      { opacity: 0.13; }
+      }
+      @keyframes orbitSpin    { to { transform: rotate(360deg); } }
+      @keyframes orbitSpinRev { to { transform: rotate(-360deg); } }
+      @keyframes nodePulse {
+        0%,100% { opacity:0.25; transform:scale(1); }
+        50%      { opacity:0.9; transform:scale(2); }
+      }
+      @keyframes shimH {
+        0%   { transform:translateX(-110%); opacity:0; }
+        10%  { opacity:1; }
+        90%  { opacity:1; }
+        100% { transform:translateX(110vw); opacity:0; }
+      }
+      @keyframes shimV {
+        0%   { transform:translateY(-110%); opacity:0; }
+        10%  { opacity:1; }
+        90%  { opacity:1; }
+        100% { transform:translateY(110vh); opacity:0; }
+      }
+      @keyframes rise {
+        0%   { transform:translateY(105vh) scale(1); opacity:0; }
+        8%   { opacity:1; }
+        92%  { opacity:1; }
+        100% { transform:translateY(-8vh) scale(1.1); opacity:0; }
+      }
+      @keyframes arcSpin { to { stroke-dashoffset:-500; } }
+      @keyframes glowPulse {
+        0%,100% { opacity:0.45; transform:scale(1); }
+        50%      { opacity:0.85; transform:scale(1.1); }
+      }
+
+      .d1{animation:d1 20s ease-in-out infinite;}
+      .d2{animation:d2 27s ease-in-out infinite;animation-delay:-9s;}
+      .d3{animation:d3 18s ease-in-out infinite;animation-delay:-4s;}
+      .d4{animation:d4 24s ease-in-out infinite;animation-delay:-13s;}
+      .d5{animation:d5 31s ease-in-out infinite;animation-delay:-18s;}
+      .d6{animation:d6 22s ease-in-out infinite;animation-delay:-7s;}
+      .gbr{animation:gridBr 8s ease-in-out infinite;}
+      .orb1{animation:orbitSpin 70s linear infinite;}
+      .orb2{animation:orbitSpinRev 110s linear infinite;}
+      .orb3{animation:orbitSpin 150s linear infinite;animation-delay:-25s;}
+      .gp{animation:glowPulse 4s ease-in-out infinite;}
+    `}</style>
+
+    {/* ── Rich base canvas ── */}
+    <div className="absolute inset-0" style={{
+      background: `linear-gradient(135deg,
+        #e8f4fd 0%,
+        #eef2ff 15%,
+        #fdf2ff 30%,
+        #fff0f6 45%,
+        #e8fbff 60%,
+        #edfff8 75%,
+        #fff8e8 88%,
+        #eef0ff 100%
+      )`
+    }} />
+
+    {/* ── 6 large vivid orbs ── */}
+    {/* Royal blue — top-left */}
+    <div className="d1 absolute -top-[18%] -left-[12%]" style={{
+      width:'clamp(400px,62vw,860px)', height:'clamp(400px,62vw,860px)',
+      background:'radial-gradient(ellipse at 45% 42%, rgba(59,130,246,0.42) 0%, rgba(37,99,235,0.2) 35%, rgba(147,197,253,0.08) 62%, transparent 78%)',
+      filter:'blur(36px)', borderRadius:'50%',
+    }}/>
+
+    {/* Violet — top-right */}
+    <div className="d2 absolute -top-[14%] -right-[14%]" style={{
+      width:'clamp(360px,56vw,780px)', height:'clamp(360px,56vw,780px)',
+      background:'radial-gradient(ellipse at 55% 38%, rgba(139,92,246,0.42) 0%, rgba(109,40,217,0.2) 36%, rgba(196,181,253,0.08) 62%, transparent 80%)',
+      filter:'blur(40px)', borderRadius:'50%',
+    }}/>
+
+    {/* Cyan — mid-right */}
+    <div className="d3 absolute top-[35%] -right-[8%]" style={{
+      width:'clamp(300px,46vw,650px)', height:'clamp(300px,46vw,650px)',
+      background:'radial-gradient(ellipse at 55% 50%, rgba(6,182,212,0.4) 0%, rgba(8,145,178,0.2) 38%, rgba(103,232,249,0.07) 62%, transparent 80%)',
+      filter:'blur(44px)', borderRadius:'50%',
+    }}/>
+
+    {/* Rose-pink — center */}
+    <div className="d4 absolute top-[28%] left-[20%]" style={{
+      width:'clamp(280px,42vw,600px)', height:'clamp(280px,42vw,600px)',
+      background:'radial-gradient(ellipse at 50% 50%, rgba(244,63,94,0.3) 0%, rgba(225,29,72,0.14) 40%, rgba(253,164,175,0.06) 65%, transparent 80%)',
+      filter:'blur(52px)', borderRadius:'50%',
+    }}/>
+
+    {/* Emerald — bottom-left */}
+    <div className="d5 absolute -bottom-[16%] -left-[10%]" style={{
+      width:'clamp(380px,58vw,800px)', height:'clamp(380px,58vw,800px)',
+      background:'radial-gradient(ellipse at 42% 55%, rgba(16,185,129,0.38) 0%, rgba(5,150,105,0.18) 38%, rgba(110,231,183,0.07) 62%, transparent 80%)',
+      filter:'blur(40px)', borderRadius:'50%',
+    }}/>
+
+    {/* Amber — bottom-right */}
+    <div className="d6 absolute -bottom-[12%] -right-[10%]" style={{
+      width:'clamp(340px,52vw,720px)', height:'clamp(340px,52vw,720px)',
+      background:'radial-gradient(ellipse at 55% 55%, rgba(251,146,60,0.35) 0%, rgba(234,88,12,0.16) 38%, rgba(253,186,116,0.07) 62%, transparent 80%)',
+      filter:'blur(42px)', borderRadius:'50%',
+    }}/>
+
+    {/* ── Dot grid ── */}
+    <div className="gbr absolute inset-0" style={{
+      backgroundImage:'radial-gradient(rgba(30,27,75,0.45) 1.3px, transparent 1.3px)',
+      backgroundSize:'32px 32px',
+    }}/>
+
+    {/* ── Diagonal crosshatch ── */}
+    <svg className="absolute inset-0 w-full h-full" style={{opacity:0.035}} xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <pattern id="dxh" x="0" y="0" width="56" height="56" patternUnits="userSpaceOnUse">
+          <path d="M56 0L0 56" stroke="#4f46e5" strokeWidth="0.7" fill="none"/>
+          <path d="M0 0L56 56" stroke="#0891b2" strokeWidth="0.4" fill="none"/>
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#dxh)"/>
+    </svg>
+
+    {/* ── Orbit ring system (centered) ── */}
+    <div className="absolute inset-0 flex items-center justify-center">
+      <div className="orb1 absolute" style={{width:'min(105vw,1060px)',height:'min(105vw,1060px)'}}>
+        <svg width="100%" height="100%" viewBox="0 0 1060 1060">
+          <circle cx="530" cy="530" r="500" fill="none"
+            stroke="rgba(99,102,241,0.14)" strokeWidth="1.2" strokeDasharray="5 22"/>
+          <circle cx="1028" cy="530" r="5" fill="rgba(99,102,241,0.8)"
+            style={{filter:'drop-shadow(0 0 6px rgba(99,102,241,0.9))'}}>
+            <animateMotion dur="70s" repeatCount="indefinite">
+              <mpath href="#op1"/>
+            </animateMotion>
+          </circle>
+          <path id="op1" d="M530,30 a500,500 0 1,1 -0.1,0" fill="none"/>
+        </svg>
+      </div>
+      <div className="orb2 absolute" style={{width:'min(72vw,740px)',height:'min(72vw,740px)'}}>
+        <svg width="100%" height="100%" viewBox="0 0 740 740">
+          <circle cx="370" cy="370" r="340" fill="none"
+            stroke="rgba(6,182,212,0.14)" strokeWidth="1" strokeDasharray="3 16"/>
+          <circle cx="710" cy="370" r="4.5" fill="rgba(6,182,212,0.85)"
+            style={{filter:'drop-shadow(0 0 5px rgba(6,182,212,0.9))'}}>
+            <animateMotion dur="110s" repeatCount="indefinite">
+              <mpath href="#op2"/>
+            </animateMotion>
+          </circle>
+          <path id="op2" d="M370,30 a340,340 0 1,1 -0.1,0" fill="none"/>
+        </svg>
+      </div>
+      <div className="orb3 absolute" style={{width:'min(46vw,480px)',height:'min(46vw,480px)'}}>
+        <svg width="100%" height="100%" viewBox="0 0 480 480">
+          <circle cx="240" cy="240" r="218" fill="none"
+            stroke="rgba(16,185,129,0.13)" strokeWidth="0.9" strokeDasharray="4 26"/>
+          <circle cx="458" cy="240" r="4" fill="rgba(16,185,129,0.85)"
+            style={{filter:'drop-shadow(0 0 5px rgba(16,185,129,0.9))'}}>
+            <animateMotion dur="150s" repeatCount="indefinite">
+              <mpath href="#op3"/>
+            </animateMotion>
+          </circle>
+          <path id="op3" d="M240,22 a218,218 0 1,1 -0.1,0" fill="none"/>
+        </svg>
+      </div>
+    </div>
+
+    {/* ── Colorful shimmer beams — horizontal ── */}
+    {[
+      {top:'15%', dur:'9s',  delay:'0s',   c:'rgba(59,130,246,0.35)'},
+      {top:'38%', dur:'13s', delay:'3s',   c:'rgba(139,92,246,0.32)'},
+      {top:'62%', dur:'10s', delay:'6.5s', c:'rgba(6,182,212,0.3)'},
+      {top:'82%', dur:'15s', delay:'1.5s', c:'rgba(16,185,129,0.28)'},
+    ].map((b,i)=>(
+      <div key={i} className="absolute left-0 right-0" style={{top:b.top,height:'1px',overflow:'hidden'}}>
+        <div style={{
+          position:'absolute',top:0,left:0,width:'26%',height:'100%',
+          background:`linear-gradient(90deg,transparent,${b.c} 40%,${b.c} 60%,transparent)`,
+          animation:`shimH ${b.dur} ease-in-out infinite`,
+          animationDelay:b.delay,
+        }}/>
+      </div>
+    ))}
+
+    {/* ── Colorful shimmer beams — vertical ── */}
+    {[
+      {left:'18%', dur:'16s', delay:'2s',  c:'rgba(244,63,94,0.22)'},
+      {left:'52%', dur:'20s', delay:'8s',  c:'rgba(251,146,60,0.2)'},
+      {left:'80%', dur:'14s', delay:'5s',  c:'rgba(139,92,246,0.22)'},
+    ].map((b,i)=>(
+      <div key={i} className="absolute top-0 bottom-0" style={{left:b.left,width:'1px',overflow:'hidden'}}>
+        <div style={{
+          position:'absolute',top:0,left:0,width:'100%',height:'22%',
+          background:`linear-gradient(180deg,transparent,${b.c} 40%,${b.c} 60%,transparent)`,
+          animation:`shimV ${b.dur} ease-in-out infinite`,
+          animationDelay:b.delay,
+        }}/>
+      </div>
+    ))}
+
+    {/* ── Rising particles — 6 colors ── */}
+    {[
+      {c:'#3b82f6',s:3},{c:'#8b5cf6',s:2.5},{c:'#06b6d4',s:3.5},
+      {c:'#10b981',s:2},{c:'#f43f5e',s:3},{c:'#fb923c',s:2.5},
+      {c:'#3b82f6',s:2},{c:'#8b5cf6',s:3},{c:'#06b6d4',s:2.5},
+      {c:'#10b981',s:3.5},{c:'#f43f5e',s:2},{c:'#fb923c',s:3},
+      {c:'#3b82f6',s:2.5},{c:'#8b5cf6',s:3},{c:'#06b6d4',s:2},
+      {c:'#10b981',s:3},{c:'#f43f5e',s:2.5},{c:'#fb923c',s:3.5},
+    ].map(({c,s},i)=>(
+      <div key={i} style={{
+        position:'absolute',
+        left:`${(i/18)*100 + (i%3)*2.2}%`,
+        bottom:0,
+        width:s,height:s,
+        borderRadius:'50%',
+        background:c,
+        boxShadow:`0 0 ${s*3}px ${c}, 0 0 ${s*6}px ${c}66`,
+        animation:`rise ${14+(i%7)*3}s linear infinite`,
+        animationDelay:`-${(i*2.3)%22}s`,
+        opacity:0,
+      }}/>
+    ))}
+
+    {/* ── Node constellation: top-right ── */}
+    <svg className="absolute top-0 right-0 w-[44vw] h-[44vw] max-w-[520px] max-h-[520px]"
+      viewBox="0 0 520 520" xmlns="http://www.w3.org/2000/svg">
+      {[
+        [75,48,'#3b82f6'],[190,85,'#8b5cf6'],[330,42,'#06b6d4'],
+        [460,130,'#3b82f6'],[148,198,'#10b981'],[295,178,'#f43f5e'],
+        [430,255,'#8b5cf6'],[65,308,'#fb923c'],[222,315,'#06b6d4'],
+        [400,370,'#3b82f6'],[510,195,'#10b981'],
+      ].map(([x,y,c],i)=>(
+        <g key={i}>
+          <circle cx={x} cy={y} r="9" fill={c} opacity="0.12"
+            style={{animation:`nodePulse ${4+(i%4)}s ease-in-out infinite`,animationDelay:`${i*0.45}s`}}/>
+          <circle cx={x} cy={y} r="2.8" fill={c} opacity="0.8"
+            style={{filter:`drop-shadow(0 0 5px ${c})`}}/>
+        </g>
+      ))}
+      {[[75,48,190,85],[190,85,330,42],[330,42,460,130],[460,130,510,195],
+        [190,85,148,198],[330,42,295,178],[460,130,430,255],
+        [148,198,295,178],[295,178,430,255],[65,308,148,198],
+        [148,198,222,315],[295,178,222,315],[430,255,400,370],[222,315,400,370],
+      ].map(([x1,y1,x2,y2],i)=>(
+        <line key={i} x1={x1} y1={y1} x2={x2} y2={y2}
+          stroke="rgba(99,102,241,0.16)" strokeWidth="0.9"/>
+      ))}
+    </svg>
+
+    {/* ── Node constellation: bottom-left ── */}
+    <svg className="absolute bottom-0 left-0 w-[38vw] h-[38vw] max-w-[450px] max-h-[450px]"
+      viewBox="0 0 450 450" xmlns="http://www.w3.org/2000/svg"
+      style={{transform:'scaleX(-1) scaleY(-1)'}}>
+      {[
+        [60,40,'#10b981'],[165,75,'#3b82f6'],[295,38,'#fb923c'],
+        [405,115,'#8b5cf6'],[122,172,'#06b6d4'],[268,155,'#f43f5e'],
+        [390,220,'#10b981'],[50,278,'#3b82f6'],[214,285,'#8b5cf6'],
+      ].map(([x,y,c],i)=>(
+        <g key={i}>
+          <circle cx={x} cy={y} r="8" fill={c} opacity="0.12"
+            style={{animation:`nodePulse ${5+(i%3)}s ease-in-out infinite`,animationDelay:`${i*0.6}s`}}/>
+          <circle cx={x} cy={y} r="2.5" fill={c} opacity="0.75"
+            style={{filter:`drop-shadow(0 0 4px ${c})`}}/>
+        </g>
+      ))}
+      {[[60,40,165,75],[165,75,295,38],[295,38,405,115],
+        [165,75,122,172],[295,38,268,155],[405,115,390,220],
+        [122,172,268,155],[268,155,390,220],[50,278,122,172],
+        [122,172,214,285],[268,155,214,285],
+      ].map(([x1,y1,x2,y2],i)=>(
+        <line key={i} x1={x1} y1={y1} x2={x2} y2={y2}
+          stroke="rgba(16,185,129,0.15)" strokeWidth="0.9"/>
+      ))}
+    </svg>
+
+    {/* ── Soft edge vignette ── */}
+    <div className="absolute inset-0" style={{
+      background:'radial-gradient(ellipse 92% 92% at 50% 50%, transparent 42%, rgba(244,248,255,0.38) 74%, rgba(238,242,255,0.7) 100%)'
+    }}/>
   </div>
 );
 
@@ -73,7 +372,7 @@ const About = () => {
   ];
 
   return (
-    <div className="min-h-screen flex flex-col relative bg-[#f8fafc] font-sans selection:bg-blue-100 selection:text-blue-900">
+    <div className="min-h-screen flex flex-col relative bg-transparent font-sans selection:bg-blue-100 selection:text-blue-900">
       <AmbientBackground />
       <Navbar />
 
@@ -108,7 +407,7 @@ const About = () => {
             
             {/* 2. Image Block (Middle on mobile, Right on desktop) */}
             <div className="order-2 md:order-none w-full my-8 md:my-0">
-              <div className="relative w-full aspect-square max-w-lg mx-auto lg:ml-auto rounded-[2.5rem] overflow-hidden shadow-2xl shadow-blue-900/10 border border-slate-200">
+              <div className="relative w-full aspect-square max-w-lg mx-auto lg:ml-auto rounded-[2.5rem] overflow-hidden shadow-2xl shadow-blue-900/10 border border-slate-200 bg-white/50 backdrop-blur-sm">
                 <img 
                   src="https://images.unsplash.com/photo-1639322537228-f710d846310a?q=80&w=2064&auto=format&fit=crop" 
                   alt="Abstract Technology" 
@@ -128,7 +427,7 @@ const About = () => {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-            <div className="bg-white border border-slate-200 rounded-[2rem] p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+            <div className="bg-white/80 backdrop-blur-md border border-white rounded-[2rem] p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
               <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center mb-6 border border-blue-100">
                 <Globe size={24} />
               </div>
@@ -138,7 +437,7 @@ const About = () => {
               </p>
             </div>
 
-            <div className="bg-white border border-slate-200 rounded-[2rem] p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+            <div className="bg-white/80 backdrop-blur-md border border-white rounded-[2rem] p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
               <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center mb-6 border border-blue-100">
                 <Shield size={24} />
               </div>
@@ -148,7 +447,7 @@ const About = () => {
               </p>
             </div>
 
-            <div className="bg-white border border-slate-200 rounded-[2rem] p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+            <div className="bg-white/80 backdrop-blur-md border border-white rounded-[2rem] p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
               <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center mb-6 border border-blue-100">
                 <Rocket size={24} />
               </div>
@@ -161,11 +460,11 @@ const About = () => {
         </section>
 
         {/* --- WHAT MAKES US UNIQUE --- */}
-        <section className="bg-white border-y border-slate-200 py-24 md:py-32">
+        <section className="bg-white/60 backdrop-blur-md border-y border-white py-24 md:py-32">
           <div className="max-w-6xl mx-auto px-6">
             <div className="text-center mb-20">
               <h2 className="text-3xl md:text-5xl font-extrabold text-slate-900 tracking-tight">What Makes Us Unique</h2>
-              <p className="text-slate-500 mt-4 max-w-2xl mx-auto font-medium">
+              <p className="text-slate-600 mt-4 max-w-2xl mx-auto font-medium">
                 Integrating international best practices with regional insights to drive measurable business impact.
               </p>
             </div>
@@ -195,7 +494,7 @@ const About = () => {
                     {/* Text Block */}
                     <div className="w-full md:w-1/2 relative">
                       {/* Large Background Number */}
-                      <div className="absolute -top-12 -left-6 text-[8rem] lg:text-[10rem] font-extrabold text-slate-100 -z-10 leading-none select-none group-hover:text-blue-50 transition-colors duration-500">
+                      <div className="absolute -top-12 -left-6 text-[8rem] lg:text-[10rem] font-extrabold text-slate-200/50 -z-10 leading-none select-none group-hover:text-blue-100 transition-colors duration-500">
                         {point.num}
                       </div>
                       
@@ -217,7 +516,7 @@ const About = () => {
         <section className="max-w-7xl mx-auto px-6 py-24 md:py-32">
           <div className="text-center lg:text-left mb-12 lg:mb-16">
             <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight">Our Core Specializations</h2>
-            <p className="text-slate-500 font-medium mt-4">Hover or tap to explore our globally delivered capabilities.</p>
+            <p className="text-slate-600 font-medium mt-4">Hover or tap to explore our globally delivered capabilities.</p>
           </div>
 
           {/* MOBILE & TABLET VIEW: Grid of Clean Cards */}
@@ -225,7 +524,7 @@ const About = () => {
             {specializations.map((spec, idx) => {
               const Icon = spec.icon;
               return (
-                <div key={idx} className="bg-white border border-slate-200 rounded-[1.5rem] p-6 shadow-sm hover:border-blue-300 transition-colors flex flex-col">
+                <div key={idx} className="bg-white/80 backdrop-blur-md border border-white rounded-[1.5rem] p-6 shadow-sm hover:border-blue-300 transition-colors flex flex-col">
                   <div className="flex flex-col gap-4 mb-4">
                     <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center shrink-0 border border-blue-100">
                       <Icon size={24} />
@@ -255,7 +554,7 @@ const About = () => {
                     className={`text-left text-lg font-bold py-4 px-6 rounded-2xl transition-all duration-300 border ${
                       activeSpec === idx
                         ? 'bg-white border-blue-200 text-blue-700 shadow-md translate-x-2'
-                        : 'bg-transparent border-transparent text-slate-400 hover:text-slate-600 hover:bg-white/50'
+                        : 'bg-white/40 backdrop-blur-sm border-transparent text-slate-500 hover:text-slate-700 hover:bg-white/70'
                     }`}
                   >
                     {spec.title}
@@ -266,11 +565,11 @@ const About = () => {
 
             {/* Right Column: Dynamic Display Box */}
             <div className="w-7/12">
-              <div className="bg-white border border-slate-200 rounded-[2.5rem] p-12 lg:p-16 shadow-2xl shadow-blue-900/5 transition-all duration-500 relative overflow-hidden min-h-[480px] flex flex-col justify-center group">
+              <div className="bg-white/90 backdrop-blur-xl border border-white rounded-[2.5rem] p-12 lg:p-16 shadow-2xl shadow-blue-900/5 transition-all duration-500 relative overflow-hidden min-h-[480px] flex flex-col justify-center group">
                 
                 {/* Decorative Background Blurs */}
-                <div className="absolute -top-20 -right-20 w-64 h-64 bg-blue-50 rounded-full blur-[80px] group-hover:bg-blue-100 transition-colors duration-700 pointer-events-none"></div>
-                <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-cyan-50/50 rounded-full blur-[80px] transition-colors duration-700 pointer-events-none"></div>
+                <div className="absolute -top-20 -right-20 w-64 h-64 bg-blue-100/50 rounded-full blur-[80px] group-hover:bg-blue-200/50 transition-colors duration-700 pointer-events-none"></div>
+                <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-cyan-100/50 rounded-full blur-[80px] transition-colors duration-700 pointer-events-none"></div>
 
                 <div className="relative z-10">
                   {(() => {
@@ -278,7 +577,7 @@ const About = () => {
                     const ActiveIcon = activeData.icon;
                     return (
                       <div className="animate-in fade-in slide-in-from-bottom-4 duration-500" key={activeSpec}>
-                        <div className="w-20 h-20 bg-blue-50 border border-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mb-8 shadow-sm">
+                        <div className="w-20 h-20 bg-white border border-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mb-8 shadow-sm">
                           <ActiveIcon size={32} strokeWidth={1.5} />
                         </div>
                         <h3 className="text-3xl lg:text-4xl font-extrabold text-slate-900 mb-6 tracking-tight leading-tight">
@@ -326,7 +625,7 @@ const About = () => {
 
           {/* Overlapping CTA Box */}
           <div className="max-w-4xl mx-auto px-6 -mt-20 relative z-20">
-            <div className="bg-gradient-to-b from-[#f4f8ff] to-white border border-blue-100 rounded-[2rem] p-8 md:p-12 text-center shadow-2xl shadow-blue-900/10">
+            <div className="bg-white/90 backdrop-blur-xl border border-white rounded-[2rem] p-8 md:p-12 text-center shadow-2xl shadow-blue-900/10">
               <h3 className="text-2xl md:text-3xl font-extrabold text-slate-900 mb-8 tracking-tight">
                 Ready to orchestrate your digital transformation?
               </h3>
