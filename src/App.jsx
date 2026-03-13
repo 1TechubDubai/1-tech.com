@@ -6,6 +6,8 @@ import About from './pages/About.jsx';
 import Services from './pages/Services.jsx'; // Ensure this points to your Services.jsx file
 import Contact from './pages/Contact.jsx';
 import GeminiChatbot from './components/GeminiChatBot.jsx';
+import PrivacyPolicy from './pages/PrivacyPolicy.jsx';
+import TermsOfService from './pages/TermsOfService.jsx';
 import BlogsMain from './pages/BlogsMain.jsx';
 import BlogPage from './pages/BlogPage.jsx';
 
@@ -25,6 +27,8 @@ function App() {
         <Route path="/services" element={<Services />} />
         <Route path="/services/:id" element={<Services />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path='/privacy-policy' element={<PrivacyPolicy/>} />
+        <Route path='/terms-of-service' element={<TermsOfService/>} />
         <Route path='/blogs' element={<BlogsMain/>} />
         <Route path='/blogs/:id' element={<BlogPage/>} />
         {/* Catch-all route: redirect any invalid route to home */}
