@@ -10,6 +10,55 @@ import {
 
 export const servicesData = [
   {
+    id: 'gtm-market-expansion',
+    sidebarTitle: 'Enterprise GTM & Expansion',
+    icon: TrendingUp,
+    coverImage: 'https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070&auto=format&fit=crop',
+    title: 'Enterprise GTM & Market Expansion',
+    subtitle: 'Strategic. Proven. Results-Driven.',
+    description: "Entering a new geographical market is fraught with high costs, regulatory hurdles, and immense strategic risk. At 1TecHub, our Enterprise GTM & Market Expansion services are specifically engineered to help ambitious technology companies scale into the Middle East, Africa, and India with surgical precision and proven frameworks. We go far beyond traditional consulting—we literally become your on-the-ground regional sales and operational team. We represent your brand to top-tier enterprise clients, navigating local nuances to drive rapid, measurable, and highly profitable revenue growth.",
+    portfolio: [
+      {
+        title: 'Market Entry Strategy & Positioning',
+        description: 'Enter highly competitive new markets with absolute clarity through our comprehensive market sizing, strategic buyer persona mapping, and localized pricing strategies.',
+        tags: ['Market Sizing', 'Buyer Persona Mapping', 'Pricing Strategy', 'Compliance Insights']
+      },
+      {
+        title: 'End-to-End Sales Execution',
+        description: 'We operate directly as your dedicated regional sales force—aggressively handling lead generation, complex POCs, enterprise deal closures, and pipeline reporting.',
+        tags: ['Account-Based Targeting', 'Pre-Sales & Demos', 'Deal Closures', 'Pipeline Reporting']
+      },
+      {
+        title: 'Channel & Partner Development',
+        description: 'We rapidly build a powerful, localized ecosystem to scale your reach through established strategic alliances, reseller identification, and joint GTM campaigns.',
+        tags: ['SI Partnerships', 'Reseller Onboarding', 'Joint GTM Campaigns', 'Partner Lifecycle']
+      },
+      {
+        title: 'Regional Branding & Demand Gen',
+        description: 'Dramatically boost your brand visibility and authority in new markets with highly targeted digital campaigns, exclusive CXO-level roundtable events, and localized messaging.',
+        tags: ['Targeted Campaigns', 'CXO Roundtables', 'Brand Localization', 'Thought Leadership']
+      },
+      {
+        title: 'Localized Infrastructure Setup',
+        description: 'We quickly build a fully operational regional presence for you without the heavy overhead, including legal advisory, local market hiring, and multi-tier support setups.',
+        tags: ['Legal & Licensing', 'Local Hiring', 'L1/L2/L3 Support', 'Back-Office Setup']
+      },
+      {
+        title: 'High-Tech & SaaS GTM Frameworks',
+        description: 'We utilize specifically tailored GTM execution frameworks optimized for complex technology products spanning AI, highly technical SaaS, Cybersecurity, ERP, and IoT.',
+        tags: ['AI & SaaS', 'Cybersecurity', 'ERP Systems', 'IoT & Industry 4.0']
+      }
+    ],
+    benefits: [
+      { title: 'Unrivaled Enterprise Network', description: 'Gain immediate, direct access to our established network of top decision-makers in Retail, Healthcare, Government, and Manufacturing across the MEA region.' },
+      { title: 'A Proven, Turnkey Sales Engine', description: 'From initial cold prospecting to finalizing complex contract closures, we expertly run and manage your complete, end-to-end regional sales cycle.' },
+      { title: 'Deep, Actionable Regional Insights', description: 'We provide the nuanced, on-the-ground understanding of cultural, industry, and regulatory dynamics required to navigate and succeed in the Middle East and Africa.' },
+      { title: 'Strict Pipeline Governance', description: 'We operate with total transparency, providing weekly detailed dashboards, highly qualified opportunity metrics, and rigorous, accountable revenue tracking.' },
+      { title: 'Relentless Outcome-Focused Approach', description: 'We do not bill for mere activity; we strictly prioritize generating tangible revenue, aggressive customer acquisition, and establishing long-term enterprise client retention.' },
+      { title: 'Highly Flexible Engagement Models', description: 'We offer tailored, risk-mitigated partnership models including GTM retainers, hybrid commission structures, and exclusive regional master partnerships.' }
+    ]
+  },
+  {
     id: 'it-managed-services',
     sidebarTitle: 'Enterprise IT Managed Services',
     icon: Server,
@@ -273,53 +322,4 @@ export const servicesData = [
       { title: 'Rapid Agile Deployment', description: 'Our mature agile integration methodology guarantees a significantly faster time-to-market through continuous iterative development and automated continuous integration.' }
     ]
   },
-  {
-    id: 'gtm-market-expansion',
-    sidebarTitle: 'Enterprise GTM & Expansion',
-    icon: TrendingUp,
-    coverImage: 'https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070&auto=format&fit=crop',
-    title: 'Enterprise GTM & Market Expansion',
-    subtitle: 'Strategic. Proven. Results-Driven.',
-    description: "Entering a new geographical market is fraught with high costs, regulatory hurdles, and immense strategic risk. At 1TecHub, our Enterprise GTM & Market Expansion services are specifically engineered to help ambitious technology companies scale into the Middle East, Africa, and India with surgical precision and proven frameworks. We go far beyond traditional consulting—we literally become your on-the-ground regional sales and operational team. We represent your brand to top-tier enterprise clients, navigating local nuances to drive rapid, measurable, and highly profitable revenue growth.",
-    portfolio: [
-      {
-        title: 'Market Entry Strategy & Positioning',
-        description: 'Enter highly competitive new markets with absolute clarity through our comprehensive market sizing, strategic buyer persona mapping, and localized pricing strategies.',
-        tags: ['Market Sizing', 'Buyer Persona Mapping', 'Pricing Strategy', 'Compliance Insights']
-      },
-      {
-        title: 'End-to-End Sales Execution',
-        description: 'We operate directly as your dedicated regional sales force—aggressively handling lead generation, complex POCs, enterprise deal closures, and pipeline reporting.',
-        tags: ['Account-Based Targeting', 'Pre-Sales & Demos', 'Deal Closures', 'Pipeline Reporting']
-      },
-      {
-        title: 'Channel & Partner Development',
-        description: 'We rapidly build a powerful, localized ecosystem to scale your reach through established strategic alliances, reseller identification, and joint GTM campaigns.',
-        tags: ['SI Partnerships', 'Reseller Onboarding', 'Joint GTM Campaigns', 'Partner Lifecycle']
-      },
-      {
-        title: 'Regional Branding & Demand Gen',
-        description: 'Dramatically boost your brand visibility and authority in new markets with highly targeted digital campaigns, exclusive CXO-level roundtable events, and localized messaging.',
-        tags: ['Targeted Campaigns', 'CXO Roundtables', 'Brand Localization', 'Thought Leadership']
-      },
-      {
-        title: 'Localized Infrastructure Setup',
-        description: 'We quickly build a fully operational regional presence for you without the heavy overhead, including legal advisory, local market hiring, and multi-tier support setups.',
-        tags: ['Legal & Licensing', 'Local Hiring', 'L1/L2/L3 Support', 'Back-Office Setup']
-      },
-      {
-        title: 'High-Tech & SaaS GTM Frameworks',
-        description: 'We utilize specifically tailored GTM execution frameworks optimized for complex technology products spanning AI, highly technical SaaS, Cybersecurity, ERP, and IoT.',
-        tags: ['AI & SaaS', 'Cybersecurity', 'ERP Systems', 'IoT & Industry 4.0']
-      }
-    ],
-    benefits: [
-      { title: 'Unrivaled Enterprise Network', description: 'Gain immediate, direct access to our established network of top decision-makers in Retail, Healthcare, Government, and Manufacturing across the MEA region.' },
-      { title: 'A Proven, Turnkey Sales Engine', description: 'From initial cold prospecting to finalizing complex contract closures, we expertly run and manage your complete, end-to-end regional sales cycle.' },
-      { title: 'Deep, Actionable Regional Insights', description: 'We provide the nuanced, on-the-ground understanding of cultural, industry, and regulatory dynamics required to navigate and succeed in the Middle East and Africa.' },
-      { title: 'Strict Pipeline Governance', description: 'We operate with total transparency, providing weekly detailed dashboards, highly qualified opportunity metrics, and rigorous, accountable revenue tracking.' },
-      { title: 'Relentless Outcome-Focused Approach', description: 'We do not bill for mere activity; we strictly prioritize generating tangible revenue, aggressive customer acquisition, and establishing long-term enterprise client retention.' },
-      { title: 'Highly Flexible Engagement Models', description: 'We offer tailored, risk-mitigated partnership models including GTM retainers, hybrid commission structures, and exclusive regional master partnerships.' }
-    ]
-  }
 ];

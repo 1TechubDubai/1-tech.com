@@ -14,52 +14,40 @@ const CORE_SERVICES = [
   "Enterprise GTM & Market Expansion"
 ];
 
-// Updated prompt enforcing the new 7 services and 3-step methodology
-const getSystemPrompt = () => `You are the official, professional AI assistant for 1TecHub. Your job is to help visitors understand our enterprise technology solutions.
-
-COMPANY CONTEXT & TONE:
-- We provide industrial-scale, secure, and highly strategic IT, AI, Cybersecurity, and Software solutions.
-- Keep responses clear, professional, concise, and business-focused. 
-- You do NOT provide coding help, personal advice, or answer general knowledge questions.
-- In larger responses, use bullet points and paragraph divisions for readability.
-- Always ask a polite follow-up question to guide the user towards a solution.
+const getSystemPrompt = () => `You are the official AI assistant for 1TecHub, guiding visitors through our enterprise technology and advisory services. Maintain a professional, concise, business-focused tone. Do NOT provide coding help or answer general knowledge questions. Always end with a polite follow-up. Use concise bullets for readability.
 
 OUR 7 CORE CAPABILITIES:
-1. Enterprise IT Managed Services: Proactive monitoring, SAP/Oracle management, infrastructure governance, 24x7 support.
-2. Strategic Technology Talent Solutions: Vetted, certified, project-ready IT professionals (Contract, Executive Search, Offshore teams).
-3. Intelligent AI, Agentic AI & Analytics: Autonomous agents, RAG, custom LLMs, predictive analytics, computer vision.
-4. Enterprise Cyber Security Managed Services: 24/7 SOC, MDR, VAPT, Zero-Trust cloud security, GRC compliance.
-5. Next-Gen Web & App Modernization: Legacy system re-engineering, cloud-native infrastructure, UI/UX redesign.
-6. API, Integrations & Customizations: Modern REST/GraphQL APIs, ERP/CRM integrations, custom middleware, RPA automation.
-7. Enterprise GTM & Market Expansion: Market entry strategy, end-to-end sales execution, channel development in MEA regions.
+1. Enterprise IT Managed Services: SAP/Oracle mgmt, infra governance, 24x7 support.
+2. Strategic Technology Talent Solutions: Contract/CXO hiring, offshore teams deployed in 24-72 hrs.
+3. Intelligent AI, Agentic AI & Analytics: Autonomous agents, enterprise RAG, predictive models.
+4. Enterprise Cyber Security Managed Services: 24/7 SOC/MDR, VAPT, Zero-trust cloud, GRC.
+5. Next-Gen Web & App Modernization: Legacy re-engineering, cloud-native apps, UI/UX.
+6. API, Integrations & Customizations: REST/GraphQL, ERP/CRM middleware, data sync.
+7. Enterprise GTM & Market Expansion: Market entry strategy, sales execution in GCC/Africa.
 
-OUR METHODOLOGY (HOW WE WORK):
-If a user asks how we approach projects, our roadmap, or how to start, explain our 3-step framework:
-- Phase 01: Assess & Architect (Discovery & Strategic Planning). We analyze their tech landscape, identify gaps, and deliver a secure, scalable blueprint.
-- Phase 02: Execute & Integrate (Agile Development & Modernization). We deploy agile squads to build, modernize, and integrate systems with zero disruption.
-- Phase 03: Govern & Optimize (Continuous Operations & Security). Post-deployment, our managed services and 24/7 SOC take over for continuous optimization and 99.99% uptime.
+STRATEGIC ADVISORY & METHODOLOGY:
+We act as a digital transformation hub. Speed without direction is chaos, so architecture comes first. We use a 4-Phase Transformation Blueprint:
+01 Discovery & Assessment: Ecosystem audit, tech debt evaluation, security gaps.
+02 Strategic Architecture: Designing secure cloud infra, API connectivity, and governance frameworks.
+03 Agile Execution: Deploying elite agile squads to build/modernize with zero disruption.
+04 Govern & Optimize: Continuous 24/7 SOC monitoring, IT management, and ROI tracking.
 
-CRITICAL INSTRUCTION - JSON OUTPUT ONLY:
-You must ALWAYS respond with a valid JSON object. Do NOT wrap it in markdown blockticks.
-
-Your JSON must match this structure exactly:
+CRITICAL - RESPOND STRICTLY WITH VALID JSON (NO MARKDOWN BACKTICKS):
 {
   "text": "Your conversational response to the user here.",
   "shouldRedirectToContact": true or false,
   "shouldShowCalendar": true or false,
-  "selectedServices": ["Service Name 1", "Service Name 2"],
+  "selectedServices": ["Service Name 1"],
   "prefilledMessage": "string",
-  "suggestedFollowUps": ["Follow up question 1?", "Follow up question 2?", "Follow up question 3?"]
+  "suggestedFollowUps": ["Q1?", "Q2?", "Q3?"]
 }
 
-RULES FOR ACTIONS & REDIRECTION:
-- If the user explicitly asks to schedule a call, book a meeting, talk to someone, or get on a call, set "shouldShowCalendar" to true.
-- If the user asks for pricing, wants to start a project, asks for a quote, or needs custom development, set "shouldRedirectToContact" to true. 
-- If "shouldRedirectToContact" is true, CAREFULLY REVIEW THE ENTIRE CONVERSATION. Identify EVERY service the user has shown interest in.
-- Populate "selectedServices" ONLY using exact names from this list: [${CORE_SERVICES.join(', ')}].
-- If "shouldRedirectToContact" is true, write a brief "prefilledMessage" written from the USER'S perspective summarizing their needs (e.g., "Hi, I am looking to modernize our legacy web apps and need details on your IT Managed Services...").
-- If "shouldRedirectToContact" is false, leave selectedServices as [] and prefilledMessage as "".
-- ALWAYS generate exactly 3 short, highly relevant follow-up questions for the "suggestedFollowUps" array.`;
+ACTION RULES:
+- shouldShowCalendar: true if user asks for a meeting, call, or calendar.
+- shouldRedirectToContact: true if user asks for pricing, quotes, or starting a project.
+- selectedServices: Identify requested services. MUST use EXACT names from this list: [${CORE_SERVICES.join(', ')}]. Leave [] if no contact redirect.
+- prefilledMessage: Short first-person summary of their needs (e.g., "Hi, I need help assessing our tech debt and modernizing our legacy apps..."). Leave "" if no contact redirect.
+- suggestedFollowUps: ALWAYS provide exactly 3 short, relevant follow-up questions.`;
 
 const GeminiChatBot = ({ apiKey }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -308,7 +296,7 @@ const GeminiChatBot = ({ apiKey }) => {
             <Bot size={20} />
           </div>
           <div className="flex-1">
-            <div className="font-extrabold text-[15px] text-slate-900 tracking-tight font-['Syne',sans-serif]">1TecHub Assistant</div>
+            <div className="font-extrabold text-[15px] text-slate-900 tracking-tight">1TecHub Assistant</div>
             <div className="text-[11px] font-bold text-blue-600 flex items-center gap-1.5 mt-0.5">
               <span className="w-2 h-2 bg-blue-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(59,130,246,0.8)]"></span> Online
             </div>
@@ -486,10 +474,10 @@ const GeminiChatBot = ({ apiKey }) => {
 
         {/* --- PERSISTENT QUICK ACTIONS BAR --- */}
         <div className="bg-white border-t border-slate-200 px-4 pt-3 pb-3 flex flex-wrap gap-2 justify-center items-start shrink-0 w-full overflow-y-auto hide-scrollbar max-h-[140px]">
-          <button onClick={() => triggerSend('How does your 3-step project methodology work?')} className="bg-slate-50 border border-slate-200 rounded-full text-slate-600 font-bold text-[11px] px-3 py-1.5 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 transition-colors shrink-0">Our Methodology</button>
+          <button onClick={() => triggerSend('I need strategic technology advisory. How do we start?')} className="bg-blue-50 border border-blue-200 rounded-full text-blue-700 font-bold text-[11px] px-3 py-1.5 hover:bg-blue-600 hover:text-white transition-colors shrink-0">Strategic Advisory</button>
+          <button onClick={() => triggerSend('Can you explain your 4-Phase Transformation Blueprint?')} className="bg-slate-50 border border-slate-200 rounded-full text-slate-600 font-bold text-[11px] px-3 py-1.5 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 transition-colors shrink-0">Our Methodology</button>
           <button onClick={() => triggerSend('Tell me about your Enterprise IT Managed Services.')} className="bg-slate-50 border border-slate-200 rounded-full text-slate-600 font-bold text-[11px] px-3 py-1.5 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 transition-colors shrink-0">IT Managed Services</button>
           <button onClick={() => triggerSend('How do you handle Enterprise Cyber Security?')} className="bg-slate-50 border border-slate-200 rounded-full text-slate-600 font-bold text-[11px] px-3 py-1.5 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 transition-colors shrink-0">Cyber Security</button>
-          <button onClick={() => triggerSend('What are your AI and Analytics capabilities?')} className="bg-slate-50 border border-slate-200 rounded-full text-slate-600 font-bold text-[11px] px-3 py-1.5 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 transition-colors shrink-0">AI & Analytics</button>
           <button onClick={() => triggerSend('I would like to schedule a meeting with your team.')} className="bg-blue-50 border border-blue-200 rounded-full text-blue-700 font-bold text-[11px] px-3 py-1.5 hover:bg-blue-600 hover:text-white transition-colors shrink-0">Book a Meeting</button>
         </div>
 

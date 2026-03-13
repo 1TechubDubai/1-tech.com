@@ -427,6 +427,17 @@ const About = () => {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+            
+            <div className="bg-white/80 backdrop-blur-md border border-white rounded-[2rem] p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+              <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center mb-6 border border-blue-100">
+                <Rocket size={24} />
+              </div>
+              <h3 className="text-xl font-bold text-slate-900 mb-3">Go-to-Market Engine</h3>
+              <p className="text-slate-600 text-sm leading-relaxed font-medium">
+                We help tech companies expand globally, serving as their GTM partner in the MEA region while opening pathways into international markets through our vast network.
+              </p>
+            </div>
+
             <div className="bg-white/80 backdrop-blur-md border border-white rounded-[2rem] p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
               <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center mb-6 border border-blue-100">
                 <Globe size={24} />
@@ -447,15 +458,6 @@ const About = () => {
               </p>
             </div>
 
-            <div className="bg-white/80 backdrop-blur-md border border-white rounded-[2rem] p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-              <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center mb-6 border border-blue-100">
-                <Rocket size={24} />
-              </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-3">Go-to-Market Engine</h3>
-              <p className="text-slate-600 text-sm leading-relaxed font-medium">
-                We help tech companies expand globally, serving as their GTM partner in the MEA region while opening pathways into international markets through our vast network.
-              </p>
-            </div>
           </div>
         </section>
 

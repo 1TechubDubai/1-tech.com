@@ -6,18 +6,113 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { Search, ArrowRight, Settings, SlidersHorizontal, Clock, Loader2 } from 'lucide-react';
 
-// --- SUBTLE BACKGROUND (Matching New Design Language) ---
 const AmbientBackground = () => (
-  <div className="fixed inset-0 z-0 overflow-hidden bg-[#f8fafc] pointer-events-none">
-    <div 
-      className="absolute inset-0 opacity-[0.03]" 
-      style={{
-        backgroundImage: `radial-gradient(#0f172a 1px, transparent 1px)`,
-        backgroundSize: '32px 32px'
-      }}
-    ></div>
-    <div className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full bg-blue-400/5 blur-[120px] animate-pulse mix-blend-multiply"></div>
-    <div className="absolute bottom-0 left-0 w-[600px] h-[600px] rounded-full bg-cyan-400/5 blur-[120px] animate-pulse mix-blend-multiply" style={{ animationDelay: '2s' }}></div>
+  <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
+    <style>{`
+      @keyframes bg1 {
+        0%,100% { transform: translate(0,0) scale(1); }
+        40%  { transform: translate(28px,-36px) scale(1.06); }
+        70%  { transform: translate(-18px,20px) scale(0.96); }
+      }
+      @keyframes bg2 {
+        0%,100% { transform: translate(0,0) scale(1); }
+        35%  { transform: translate(-32px,24px) scale(1.07); }
+        68%  { transform: translate(20px,-28px) scale(0.95); }
+      }
+      @keyframes gridBlog {
+        0%,100% { opacity: 0.032; }
+        50%      { opacity: 0.062; }
+      }
+      .bg1 { animation: bg1 24s ease-in-out infinite; }
+      .bg2 { animation: bg2 30s ease-in-out infinite; animation-delay: -11s; }
+      .bg3 { animation: bg1 20s ease-in-out infinite; animation-delay: -6s; }
+      .bg4 { animation: bg2 27s ease-in-out infinite; animation-delay: -15s; }
+      .bgr { animation: gridBlog 9s ease-in-out infinite; }
+    `}</style>
+
+    {/* ── Base: editorial warm-white with ink undertones ── */}
+    <div className="absolute inset-0" style={{
+      background: `linear-gradient(160deg,
+        #fdfcfb 0%,
+        #faf8f5 18%,
+        #f8f6ff 35%,
+        #fdfaf6 52%,
+        #f5f8ff 68%,
+        #fdf8f2 82%,
+        #f8f7ff 100%
+      )`
+    }} />
+
+    {/* Orb 1: top-left — warm ink-purple (editorial/writing) */}
+    <div className="bg1 absolute -top-[15%] -left-[10%]" style={{
+      width: 'clamp(320px, 48vw, 660px)',
+      height: 'clamp(320px, 48vw, 660px)',
+      background: 'radial-gradient(ellipse at 45% 42%, rgba(124,58,237,0.13) 0%, rgba(109,40,217,0.06) 40%, rgba(196,181,253,0.02) 65%, transparent 78%)',
+      filter: 'blur(55px)', borderRadius: '50%',
+    }} />
+
+    {/* Orb 2: top-right — warm amber (paper/parchment) */}
+    <div className="bg2 absolute -top-[10%] -right-[10%]" style={{
+      width: 'clamp(300px, 44vw, 620px)',
+      height: 'clamp(300px, 44vw, 620px)',
+      background: 'radial-gradient(ellipse at 56% 38%, rgba(245,158,11,0.12) 0%, rgba(217,119,6,0.06) 40%, rgba(253,230,138,0.02) 65%, transparent 80%)',
+      filter: 'blur(58px)', borderRadius: '50%',
+    }} />
+
+    {/* Orb 3: mid-center — dusty rose (creative/cultural) */}
+    <div className="bg3 absolute top-[28%] left-[18%]" style={{
+      width: 'clamp(260px, 38vw, 540px)',
+      height: 'clamp(260px, 38vw, 540px)',
+      background: 'radial-gradient(ellipse at 50% 50%, rgba(251,113,133,0.09) 0%, rgba(244,63,94,0.04) 44%, transparent 72%)',
+      filter: 'blur(60px)', borderRadius: '50%',
+    }} />
+
+    {/* Orb 4: bottom-right — slate-blue (thoughtful/calm) */}
+    <div className="bg4 absolute -bottom-[12%] -right-[8%]" style={{
+      width: 'clamp(340px, 50vw, 680px)',
+      height: 'clamp(340px, 50vw, 680px)',
+      background: 'radial-gradient(ellipse at 55% 55%, rgba(99,102,241,0.11) 0%, rgba(79,70,229,0.05) 40%, rgba(199,210,254,0.02) 65%, transparent 80%)',
+      filter: 'blur(54px)', borderRadius: '50%',
+    }} />
+
+    {/* Orb 5: bottom-left — warm sage (fresh/readable) */}
+    <div className="bg1 absolute -bottom-[14%] -left-[8%]" style={{
+      width: 'clamp(280px, 42vw, 580px)',
+      height: 'clamp(280px, 42vw, 580px)',
+      background: 'radial-gradient(ellipse at 42% 56%, rgba(52,211,153,0.1) 0%, rgba(16,185,129,0.05) 40%, rgba(167,243,208,0.02) 65%, transparent 80%)',
+      filter: 'blur(58px)', borderRadius: '50%',
+    }} />
+
+    {/* ── Dot grid — warm sepia tint ── */}
+    <div className="bgr absolute inset-0" style={{
+      backgroundImage: 'radial-gradient(rgba(30,15,5,0.35) 1px, transparent 1px)',
+      backgroundSize: '28px 28px',
+    }} />
+
+    {/* ── Faint ruled-line texture (like paper) ── */}
+    <svg className="absolute inset-0 w-full h-full" style={{ opacity: 0.022 }} xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <pattern id="ruled" x="0" y="0" width="100%" height="36" patternUnits="userSpaceOnUse">
+          <line x1="0" y1="35.5" x2="100%" y2="35.5" stroke="#78350f" strokeWidth="0.6"/>
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#ruled)" />
+    </svg>
+
+    {/* ── Soft top header wash (darkens slightly for editorial weight) ── */}
+    <div className="absolute top-0 left-0 right-0 h-[35vh]" style={{
+      background: 'linear-gradient(180deg, rgba(124,58,237,0.04) 0%, transparent 100%)'
+    }} />
+
+    {/* ── Bottom fade-out ── */}
+    <div className="absolute bottom-0 left-0 right-0 h-[25vh]" style={{
+      background: 'linear-gradient(0deg, rgba(245,158,11,0.04) 0%, transparent 100%)'
+    }} />
+
+    {/* ── Edge vignette ── */}
+    <div className="absolute inset-0" style={{
+      background: 'radial-gradient(ellipse 90% 85% at 50% 45%, transparent 48%, rgba(253,252,251,0.4) 78%, rgba(253,252,251,0.82) 100%)'
+    }} />
   </div>
 );
 

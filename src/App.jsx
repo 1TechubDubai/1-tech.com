@@ -8,6 +8,7 @@ import Contact from './pages/Contact.jsx';
 import GeminiChatbot from './components/GeminiChatBot.jsx';
 import PrivacyPolicy from './pages/PrivacyPolicy.jsx';
 import TermsOfService from './pages/TermsOfService.jsx';
+import DigitalTransformation from './pages/Advisory.jsx';
 import BlogsMain from './pages/BlogsMain.jsx';
 import BlogPage from './pages/BlogPage.jsx';
 
@@ -24,6 +25,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/home" element={<Home />} />
         <Route path="/about" element={<About />} />
+        <Route path='/advisory' element={<DigitalTransformation/>} />
         <Route path="/services" element={<Services />} />
         <Route path="/services/:id" element={<Services />} />
         <Route path="/contact" element={<Contact />} />

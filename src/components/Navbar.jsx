@@ -56,6 +56,7 @@ const Navbar = () => {
           <div className="hidden lg:flex items-center gap-10 ml-auto mr-12">
             <NavLink to="/" label="Home" location={location} />
             <NavLink to="/services" label="Services" location={location} />
+            <NavLink to='/advisory' label="Advisory" location={location} />
             <NavLink to="/about" label="About Us" location={location} />
             <NavLink to="/blogs" label="Transmissions" location={location} />
             <NavLink to="/contact" label="Contact" location={location} />
@@ -99,6 +100,7 @@ const Navbar = () => {
         <div className="flex flex-col flex-grow gap-6 mt-4">
           <MobileNavLink to="/" label="Home" location={location} delay="100" />
           <MobileNavLink to="/services" label="Services" location={location} delay="150" />
+          <MobileNavLink to='/advisory' label="Advisory" location={location} delay="175" />
           <MobileNavLink to="/about" label="About Us" location={location} delay="200" />
           <MobileNavLink to="/blogs" label="Transmissions" location={location} delay="250" />
           <MobileNavLink to="/contact" label="Contact Us" location={location} delay="300" />
