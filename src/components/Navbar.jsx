@@ -24,7 +24,7 @@ const Navbar = () => {
   return (
     <>
       {/* --- MAIN NAVBAR --- */}
-      <div className="fixed top-0 left-0 right-0 z-[60] bg-white border-b border-gray-200 shadow-sm w-full">
+     <div className="fixed top-0 left-0 right-0 z-[60] bg-[rgba(248,250,252,0.75)] border-b border-gray-200 shadow-sm w-full">
         <nav className="flex items-center justify-between px-6 py-4 mx-auto w-full max-w-7xl">
           
           {/* Logo */}
@@ -106,9 +106,10 @@ const Navbar = () => {
                 e.preventDefault();
                 window.open("https://calendly.com/harish-krishnan1976", "_blank", "noopener,noreferrer");
               }}
-              className="block w-full py-4 rounded-full border border-[#2563eb] text-center font-bold text-[#2563eb] active:bg-blue-50 transition-colors"
+              className="w-full py-4 rounded-full border border-[#2563eb] text-center font-bold text-[#2563eb] active:bg-blue-50 transition-colors flex items-center justify-center gap-2"
             >
-              Book Meeting
+              <CalendarCheck className="w-4 h-4" />
+              <span>Book Meeting</span>
             </button>
           </div>
         </div>

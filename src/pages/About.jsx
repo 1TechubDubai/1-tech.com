@@ -19,225 +19,21 @@ import {
 
 // --- SUBTLE AMBIENT BACKGROUND ---
 const AmbientBackground = () => (
-  <div className="fixed inset-0 z-0 overflow-hidden bg-[#f4f8ff] pointer-events-none">
-    <style>{`
-      @keyframes driftA {
-        0%   { transform: translate(0,0) scale(1); }
-        33%  { transform: translate(35px,-55px) scale(1.1); }
-        66%  { transform: translate(-25px,20px) scale(0.93); }
-        100% { transform: translate(0,0) scale(1); }
-      }
-      @keyframes driftB {
-        0%   { transform: translate(0,0) scale(1); }
-        40%  { transform: translate(-45px,35px) scale(1.12); }
-        75%  { transform: translate(30px,-40px) scale(0.91); }
-        100% { transform: translate(0,0) scale(1); }
-      }
-      @keyframes driftC {
-        0%   { transform: translate(0,0) scale(1); }
-        45%  { transform: translate(20px,50px) scale(1.07); }
-        80%  { transform: translate(-35px,-20px) scale(0.95); }
-        100% { transform: translate(0,0) scale(1); }
-      }
-      @keyframes gridBreath {
-        0%,100% { opacity: 0.055; }
-        50%      { opacity: 0.1; }
-      }
-      @keyframes orbitSpin    { to { transform: rotate(360deg); } }
-      @keyframes orbitSpinRev { to { transform: rotate(-360deg); } }
-      @keyframes nodePulse {
-        0%,100% { opacity: 0.35; }
-        50%      { opacity: 0.85; }
-      }
-      @keyframes shimmerH {
-        0%   { transform: translateX(-110%); opacity: 0; }
-        10%  { opacity: 1; }
-        90%  { opacity: 1; }
-        100% { transform: translateX(110vw); opacity: 0; }
-      }
-      .da { animation: driftA 22s ease-in-out infinite; }
-      .db { animation: driftB 27s ease-in-out infinite; animation-delay:-8s; }
-      .dc { animation: driftC 19s ease-in-out infinite; animation-delay:-4s; }
-      .dd { animation: driftA 31s ease-in-out infinite; animation-delay:-14s; }
-      .de { animation: driftB 24s ease-in-out infinite; animation-delay:-18s; }
-      .gb { animation: gridBreath 10s ease-in-out infinite; }
-      .os1 { animation: orbitSpin    100s linear infinite; }
-      .os2 { animation: orbitSpinRev 150s linear infinite; }
-      .os3 { animation: orbitSpin    200s linear infinite; animation-delay:-40s; }
-    `}</style>
-
-    {/* Base tinted canvas */}
-    <div className="absolute inset-0" style={{
-      background: 'linear-gradient(145deg, #dbeafe 0%, #eff6ff 25%, #f5f3ff 55%, #e0f2fe 80%, #f0fdf4 100%)'
-    }} />
-
-    {/* ── Blobs ── */}
-    {/* Top-left: blue */}
-    <div className="da absolute -top-[18%] -left-[12%] rounded-full" style={{
-      width: 'clamp(380px,58vw,780px)', height: 'clamp(380px,58vw,780px)',
-      background: 'radial-gradient(ellipse at 45% 45%, rgba(96,165,250,0.45) 0%, rgba(59,130,246,0.22) 40%, transparent 72%)',
-      filter: 'blur(48px)'
-    }} />
-
-    {/* Top-right: cyan */}
-    <div className="db absolute -top-[8%] -right-[12%] rounded-full" style={{
-      width: 'clamp(320px,50vw,700px)', height: 'clamp(320px,50vw,700px)',
-      background: 'radial-gradient(ellipse at 55% 40%, rgba(34,211,238,0.38) 0%, rgba(6,182,212,0.18) 45%, transparent 72%)',
-      filter: 'blur(52px)'
-    }} />
-
-    {/* Center: violet */}
-    <div className="dc absolute top-[35%] left-[28%] rounded-full" style={{
-      width: 'clamp(280px,42vw,580px)', height: 'clamp(280px,42vw,580px)',
-      background: 'radial-gradient(ellipse, rgba(167,139,250,0.32) 0%, rgba(139,92,246,0.14) 45%, transparent 72%)',
-      filter: 'blur(56px)'
-    }} />
-
-    {/* Bottom-left: indigo */}
-    <div className="dd absolute -bottom-[14%] -left-[8%] rounded-full" style={{
-      width: 'clamp(340px,52vw,720px)', height: 'clamp(340px,52vw,720px)',
-      background: 'radial-gradient(ellipse at 42% 55%, rgba(99,102,241,0.35) 0%, rgba(79,70,229,0.15) 45%, transparent 72%)',
-      filter: 'blur(50px)'
-    }} />
-
-    {/* Bottom-right: sky */}
-    <div className="de absolute -bottom-[8%] -right-[8%] rounded-full" style={{
-      width: 'clamp(300px,45vw,640px)', height: 'clamp(300px,45vw,640px)',
-      background: 'radial-gradient(ellipse at 55% 55%, rgba(56,189,248,0.32) 0%, rgba(14,165,233,0.14) 45%, transparent 72%)',
-      filter: 'blur(54px)'
-    }} />
-
-    {/* ── Dot grid ── */}
-    <div className="gb absolute inset-0" style={{
-      backgroundImage: 'radial-gradient(rgba(30,58,138,0.45) 1.2px, transparent 1.2px)',
-      backgroundSize: '34px 34px'
-    }} />
-
-    {/* ── Diagonal crosshatch ── */}
-    <svg className="absolute inset-0 w-full h-full" style={{ opacity: 0.032 }} xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <pattern id="xh" x="0" y="0" width="52" height="52" patternUnits="userSpaceOnUse">
-          <path d="M52 0L0 52" stroke="#3730a3" strokeWidth="0.7" fill="none"/>
-          <path d="M0 0L52 52" stroke="#1e3a8a" strokeWidth="0.4" fill="none"/>
-        </pattern>
-      </defs>
-      <rect width="100%" height="100%" fill="url(#xh)" />
-    </svg>
-
-    {/* ── Orbit rings (centered) ── */}
-    <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
-      <div className="os1 absolute" style={{ width:'min(105vw,1060px)', height:'min(105vw,1060px)' }}>
-        <svg width="100%" height="100%" viewBox="0 0 1060 1060">
-          <circle cx="530" cy="530" r="500" fill="none"
-            stroke="rgba(99,102,241,0.11)" strokeWidth="1" strokeDasharray="5 22"/>
-          <circle cx="1028" cy="530" r="4.5" fill="rgba(99,102,241,0.55)"
-            style={{ filter:'drop-shadow(0 0 5px rgba(99,102,241,0.7))' }}>
-            <animateMotion dur="100s" repeatCount="indefinite">
-              <mpath href="#r1"/>
-            </animateMotion>
-          </circle>
-          <path id="r1" d="M530,30 a500,500 0 1,1 -0.1,0" fill="none"/>
-        </svg>
-      </div>
-
-      <div className="os2 absolute" style={{ width:'min(72vw,730px)', height:'min(72vw,730px)' }}>
-        <svg width="100%" height="100%" viewBox="0 0 730 730">
-          <circle cx="365" cy="365" r="335" fill="none"
-            stroke="rgba(34,211,238,0.1)" strokeWidth="0.8" strokeDasharray="3 18"/>
-          <circle cx="700" cy="365" r="3.5" fill="rgba(34,211,238,0.6)"
-            style={{ filter:'drop-shadow(0 0 4px rgba(34,211,238,0.75))' }}>
-            <animateMotion dur="150s" repeatCount="indefinite">
-              <mpath href="#r2"/>
-            </animateMotion>
-          </circle>
-          <path id="r2" d="M365,30 a335,335 0 1,1 -0.1,0" fill="none"/>
-        </svg>
-      </div>
-
-      <div className="os3 absolute" style={{ width:'min(45vw,460px)', height:'min(45vw,460px)' }}>
-        <svg width="100%" height="100%" viewBox="0 0 460 460">
-          <circle cx="230" cy="230" r="210" fill="none"
-            stroke="rgba(167,139,250,0.09)" strokeWidth="0.7" strokeDasharray="4 26"/>
-          <circle cx="440" cy="230" r="3" fill="rgba(167,139,250,0.65)"
-            style={{ filter:'drop-shadow(0 0 4px rgba(167,139,250,0.8))' }}>
-            <animateMotion dur="200s" repeatCount="indefinite">
-              <mpath href="#r3"/>
-            </animateMotion>
-          </circle>
-          <path id="r3" d="M230,20 a210,210 0 1,1 -0.1,0" fill="none"/>
-        </svg>
-      </div>
-    </div>
-
-    {/* ── Node constellation: top-right ── */}
-    <svg className="absolute top-0 right-0 w-[46vw] h-[46vw] max-w-[520px] max-h-[520px]"
-      viewBox="0 0 520 520" xmlns="http://www.w3.org/2000/svg">
-      {[[75,55,'#818cf8'],[185,88,'#38bdf8'],[310,42,'#a78bfa'],[445,125,'#818cf8'],
-        [140,195,'#38bdf8'],[285,175,'#a78bfa'],[420,240,'#818cf8'],[55,305,'#38bdf8'],[210,310,'#a78bfa'],[390,355,'#818cf8']]
-        .map(([x,y,c],i) => (
-        <g key={i}>
-          <circle cx={x} cy={y} r="8" fill={c} opacity="0.1"
-            style={{ animation:`nodePulse ${4+(i%4)}s ease-in-out infinite`, animationDelay:`${i*0.4}s` }}/>
-          <circle cx={x} cy={y} r="2.5" fill={c} opacity="0.7"
-            style={{ animation:`nodePulse ${4+(i%4)}s ease-in-out infinite`, animationDelay:`${i*0.4}s`, filter:`drop-shadow(0 0 3px ${c})` }}/>
-        </g>
-      ))}
-      {[[75,55,185,88],[185,88,310,42],[310,42,445,125],[185,88,140,195],[310,42,285,175],
-        [445,125,420,240],[140,195,285,175],[285,175,420,240],[55,305,140,195],
-        [140,195,210,310],[285,175,210,310],[420,240,390,355],[210,310,390,355]]
-        .map(([x1,y1,x2,y2],i) => (
-        <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="rgba(99,102,241,0.13)" strokeWidth="0.8"/>
-      ))}
-    </svg>
-
-    {/* ── Node constellation: bottom-left (mirrored) ── */}
-    <svg className="absolute bottom-0 left-0 w-[38vw] h-[38vw] max-w-[440px] max-h-[440px]"
-      viewBox="0 0 440 440" xmlns="http://www.w3.org/2000/svg"
-      style={{ transform:'scaleX(-1) scaleY(-1)' }}>
-      {[[55,40,'#34d399'],[155,72,'#38bdf8'],[275,38,'#a78bfa'],[385,105,'#34d399'],
-        [110,160,'#38bdf8'],[255,148,'#a78bfa'],[370,210,'#34d399'],[45,265,'#38bdf8'],[200,270,'#a78bfa']]
-        .map(([x,y,c],i) => (
-        <g key={i}>
-          <circle cx={x} cy={y} r="7" fill={c} opacity="0.1"
-            style={{ animation:`nodePulse ${5+(i%3)}s ease-in-out infinite`, animationDelay:`${i*0.55}s` }}/>
-          <circle cx={x} cy={y} r="2.2" fill={c} opacity="0.65"
-            style={{ animation:`nodePulse ${5+(i%3)}s ease-in-out infinite`, animationDelay:`${i*0.55}s`, filter:`drop-shadow(0 0 3px ${c})` }}/>
-        </g>
-      ))}
-      {[[55,40,155,72],[155,72,275,38],[275,38,385,105],[155,72,110,160],
-        [275,38,255,148],[385,105,370,210],[110,160,255,148],[255,148,370,210],
-        [45,265,110,160],[110,160,200,270],[255,148,200,270],[370,210,200,270]]
-        .map(([x1,y1,x2,y2],i) => (
-        <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="rgba(56,189,248,0.12)" strokeWidth="0.8"/>
-      ))}
-    </svg>
-
-    {/* ── Shimmer scan lines ── */}
-    {[
-      { top:'16%', dur:'10s', delay:'0s',   color:'rgba(99,102,241,0.28)' },
-      { top:'44%', dur:'13s', delay:'3.5s', color:'rgba(34,211,238,0.24)' },
-      { top:'70%', dur:'9s',  delay:'6s',   color:'rgba(167,139,250,0.26)' },
-      { top:'88%', dur:'15s', delay:'1s',   color:'rgba(99,102,241,0.18)' },
-    ].map((b,i) => (
-      <div key={i} className="absolute left-0 right-0 overflow-hidden" style={{ top:b.top, height:'1px' }}>
-        <div style={{
-          position:'absolute', top:0, left:0, width:'28%', height:'100%',
-          background:`linear-gradient(90deg, transparent 0%, ${b.color} 40%, ${b.color} 60%, transparent 100%)`,
-          animation:`shimmerH ${b.dur} ease-in-out infinite`,
-          animationDelay: b.delay
-        }} />
-      </div>
-    ))}
-
-    {/* ── Soft edge vignette ── */}
-    <div className="absolute inset-0" style={{
-      background:'radial-gradient(ellipse 95% 95% at 50% 50%, transparent 50%, rgba(244,248,255,0.5) 80%, rgba(244,248,255,0.82) 100%)'
-    }} />
+  <div className="fixed inset-0 z-0 overflow-hidden bg-[#f8fafc] pointer-events-none">
+    <div 
+      className="absolute inset-0 opacity-[0.03]" 
+      style={{
+        backgroundImage: `radial-gradient(#0f172a 1px, transparent 1px)`,
+        backgroundSize: '32px 32px'
+      }}
+    ></div>
+    <div className="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] rounded-full bg-blue-400/10 blur-[120px] animate-pulse mix-blend-multiply"></div>
+    <div className="absolute bottom-[20%] left-[-10%] w-[500px] h-[500px] rounded-full bg-cyan-400/10 blur-[120px] animate-pulse mix-blend-multiply" style={{ animationDelay: '2s' }}></div>
   </div>
 );
 
 const About = () => {
-  // State for the interactive Specializations section
+  // State for the interactive Specializations section (Desktop Only)
   const [activeSpec, setActiveSpec] = useState(0);
 
   // Ensure page loads at the top
@@ -285,31 +81,43 @@ const About = () => {
         
         {/* --- HERO SECTION --- */}
         <section className="max-w-7xl mx-auto px-6 mb-24 md:mb-32">
-          <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
-            <div className="w-full lg:w-1/2 space-y-6">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-600 text-white shadow-sm">
-                <span className="text-[10px] sm:text-xs font-bold tracking-[0.2em] uppercase font-mono">
-                  About 1TecHub
-                </span>
+          <div className="flex flex-col md:grid md:grid-cols-2 gap-8 md:gap-20 items-center">
+            
+            {/* Left Column wrapper: using 'contents' on mobile to allow reordering */}
+            <div className="contents md:flex md:flex-col text-center md:text-left">
+              
+              {/* 1. Heading Block (Top on mobile, Top Left on desktop) */}
+              <div className="order-1 md:order-none flex flex-col space-y-6">
+                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-600 text-white shadow-sm w-max mx-auto md:mx-0">
+                  <span className="text-[10px] sm:text-xs font-bold tracking-[0.2em] uppercase font-mono">
+                    About 1TecHub
+                  </span>
+                </div>
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.15]">
+                  Technology Has No Borders. Neither Should Innovation.
+                </h1>
               </div>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.15]">
-                Technology Has No Borders. Neither Should Innovation.
-              </h1>
-              <p className="text-lg md:text-xl text-slate-600 leading-relaxed font-medium">
-                We are your strategic partner in digital transformation, bringing together global expertise, governance excellence, and market expansion capabilities to drive your success.
-              </p>
+
+              {/* 3. Description Block (Bottom on mobile, Bottom Left on desktop) */}
+              <div className="order-3 md:order-none mt-6 md:mt-6">
+                <p className="text-lg md:text-xl text-slate-600 leading-relaxed font-medium">
+                  We are your strategic partner in digital transformation, bringing together global expertise, governance excellence, and market expansion capabilities to drive your success.
+                </p>
+              </div>
             </div>
             
-            <div className="w-full lg:w-1/2">
+            {/* 2. Image Block (Middle on mobile, Right on desktop) */}
+            <div className="order-2 md:order-none w-full my-8 md:my-0">
               <div className="relative w-full aspect-square max-w-lg mx-auto lg:ml-auto rounded-[2.5rem] overflow-hidden shadow-2xl shadow-blue-900/10 border border-slate-200">
                 <img 
                   src="https://images.unsplash.com/photo-1639322537228-f710d846310a?q=80&w=2064&auto=format&fit=crop" 
                   alt="Abstract Technology" 
                   className="w-full h-full object-cover object-center transform hover:scale-105 transition-transform duration-700"
                 />
-                <div className="absolute inset-0 bg-gradient-to-tr from-blue-900/20 to-transparent"></div>
+                <div className="absolute inset-0 bg-gradient-to-tr from-blue-900/20 to-transparent pointer-events-none"></div>
               </div>
             </div>
+
           </div>
         </section>
 
@@ -354,88 +162,99 @@ const About = () => {
 
         {/* --- WHAT MAKES US UNIQUE --- */}
         <section className="bg-white border-y border-slate-200 py-24 md:py-32">
-        <div className="max-w-6xl mx-auto px-6">
+          <div className="max-w-6xl mx-auto px-6">
             <div className="text-center mb-20">
-            <h2 className="text-3xl md:text-5xl font-extrabold text-slate-900 tracking-tight">
-                What Makes Us Unique
-            </h2>
-            <p className="text-slate-500 mt-4 max-w-2xl mx-auto font-medium">
+              <h2 className="text-3xl md:text-5xl font-extrabold text-slate-900 tracking-tight">What Makes Us Unique</h2>
+              <p className="text-slate-500 mt-4 max-w-2xl mx-auto font-medium">
                 Integrating international best practices with regional insights to drive measurable business impact.
-            </p>
+              </p>
             </div>
 
             <div className="space-y-16 lg:space-y-24">
-            {uniquePoints.map((point, idx) => {
-                const isOdd = idx % 2 !== 0;
+              {uniquePoints.map((point, idx) => {
+                const isEven = idx % 2 === 0;
 
                 return (
-                <div
-                    key={idx}
-                    className={`flex flex-col md:flex-row items-center gap-8 lg:gap-16 group ${
-                    isOdd ? "md:flex-row-reverse" : ""
-                    }`}
-                >
-                    {/* ── Image ── */}
+                  <div 
+                    key={idx} 
+                    className={`flex flex-col gap-8 lg:gap-16 group ${isEven ? 'md:flex-row-reverse' : 'md:flex-row'} items-center`}
+                  >
+                    
+                    {/* Image Block */}
                     <div className="w-full md:w-1/2">
-                    <div className="relative w-full aspect-[4/3] rounded-3xl overflow-hidden shadow-md group-hover:shadow-xl transition-all duration-500 border border-slate-100">
-                        <img
-                        src={point.image}
-                        alt={point.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                      <div className="relative w-full aspect-[4/3] rounded-3xl overflow-hidden shadow-md group-hover:shadow-xl transition-all duration-500 border border-slate-100">
+                        <img 
+                          src={point.image} 
+                          alt={point.title} 
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                         />
-                        <div className="absolute inset-0 bg-slate-900/10 group-hover:bg-transparent transition-colors duration-500" />
-                    </div>
+                        <div className="absolute inset-0 bg-slate-900/10 group-hover:bg-transparent transition-colors duration-500"></div>
+                      </div>
                     </div>
 
-                    {/* ── Text ── */}
+                    {/* Text Block */}
                     <div className="w-full md:w-1/2 relative">
-                    {/* Ghost number */}
-                    <div className="absolute -top-12 -left-4 text-[8rem] lg:text-[10rem] font-extrabold leading-none select-none -z-10 text-slate-100 group-hover:text-blue-50 transition-colors duration-500">
+                      {/* Large Background Number */}
+                      <div className="absolute -top-12 -left-6 text-[8rem] lg:text-[10rem] font-extrabold text-slate-100 -z-10 leading-none select-none group-hover:text-blue-50 transition-colors duration-500">
                         {point.num}
-                    </div>
-
-                    <span className="text-[11px] font-black tracking-[0.3em] uppercase text-blue-400 mb-4 block">
-                        {String(idx + 1).padStart(2, "0")} / {String(uniquePoints.length).padStart(2, "0")}
-                    </span>
-
-                    <h3 className="text-2xl lg:text-3xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                      </div>
+                      
+                      <h3 className="text-2xl lg:text-3xl font-extrabold text-slate-900 mb-4 tracking-tight">
                         {point.title}
-                    </h3>
-
-                    <div className="w-10 h-[3px] bg-blue-500 rounded-full mb-5" />
-
-                    <p className="text-slate-600 text-lg leading-relaxed font-medium">
+                      </h3>
+                      <p className="text-slate-600 text-lg leading-relaxed font-medium">
                         {point.desc}
-                    </p>
+                      </p>
                     </div>
-
-                </div>
+                  </div>
                 );
-            })}
+              })}
             </div>
-        </div>
+          </div>
         </section>
 
-        {/* --- INTERACTIVE CORE SPECIALIZATIONS --- */}
+        {/* --- RESPONSIVE CORE SPECIALIZATIONS --- */}
         <section className="max-w-7xl mx-auto px-6 py-24 md:py-32">
-          <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-start">
+          <div className="text-center lg:text-left mb-12 lg:mb-16">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight">Our Core Specializations</h2>
+            <p className="text-slate-500 font-medium mt-4">Hover or tap to explore our globally delivered capabilities.</p>
+          </div>
+
+          {/* MOBILE & TABLET VIEW: Grid of Clean Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:hidden">
+            {specializations.map((spec, idx) => {
+              const Icon = spec.icon;
+              return (
+                <div key={idx} className="bg-white border border-slate-200 rounded-[1.5rem] p-6 shadow-sm hover:border-blue-300 transition-colors flex flex-col">
+                  <div className="flex flex-col gap-4 mb-4">
+                    <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center shrink-0 border border-blue-100">
+                      <Icon size={24} />
+                    </div>
+                    <h3 className="text-lg font-bold text-slate-900 leading-tight">{spec.title}</h3>
+                  </div>
+                  <p className="text-sm text-slate-600 font-medium leading-relaxed mb-6 flex-grow">{spec.desc}</p>
+                  <Link to="/services" className="inline-flex items-center gap-2 text-blue-600 font-bold text-xs tracking-widest uppercase hover:text-blue-800 transition-colors mt-auto w-max">
+                    Explore Services <ArrowUpRight size={14} />
+                  </Link>
+                </div>
+              )
+            })}
+          </div>
+
+          {/* DESKTOP VIEW: Interactive Split Layout */}
+          <div className="hidden lg:flex flex-row gap-12 lg:gap-16 items-start">
             
             {/* Left Column: Interactive List */}
-            <div className="w-full lg:w-5/12 lg:sticky lg:top-32 space-y-4">
-              <div className="mb-10">
-                <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight">Our Core Specializations</h2>
-                <p className="text-slate-500 font-medium mt-4">Hover or tap to explore our globally delivered capabilities.</p>
-              </div>
-              
+            <div className="w-5/12 sticky top-32 space-y-4">
               <div className="flex flex-col gap-2">
                 {specializations.map((spec, idx) => (
                   <button
                     key={idx}
                     onMouseEnter={() => setActiveSpec(idx)}
                     onClick={() => setActiveSpec(idx)}
-                    className={`text-left text-base lg:text-lg font-bold py-4 px-6 rounded-2xl transition-all duration-300 border ${
+                    className={`text-left text-lg font-bold py-4 px-6 rounded-2xl transition-all duration-300 border ${
                       activeSpec === idx
-                        ? 'bg-white border-blue-200 text-blue-700 shadow-md lg:translate-x-2'
+                        ? 'bg-white border-blue-200 text-blue-700 shadow-md translate-x-2'
                         : 'bg-transparent border-transparent text-slate-400 hover:text-slate-600 hover:bg-white/50'
                     }`}
                   >
@@ -446,12 +265,12 @@ const About = () => {
             </div>
 
             {/* Right Column: Dynamic Display Box */}
-            <div className="w-full lg:w-7/12">
-              <div className="bg-white border border-slate-200 rounded-[2.5rem] p-8 sm:p-12 lg:p-16 shadow-2xl shadow-blue-900/5 transition-all duration-500 relative overflow-hidden min-h-[350px] lg:min-h-[480px] flex flex-col justify-center group">
+            <div className="w-7/12">
+              <div className="bg-white border border-slate-200 rounded-[2.5rem] p-12 lg:p-16 shadow-2xl shadow-blue-900/5 transition-all duration-500 relative overflow-hidden min-h-[480px] flex flex-col justify-center group">
                 
                 {/* Decorative Background Blurs */}
-                <div className="absolute -top-20 -right-20 w-64 h-64 bg-blue-50 rounded-full blur-[80px] group-hover:bg-blue-100 transition-colors duration-700"></div>
-                <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-cyan-50/50 rounded-full blur-[80px] transition-colors duration-700"></div>
+                <div className="absolute -top-20 -right-20 w-64 h-64 bg-blue-50 rounded-full blur-[80px] group-hover:bg-blue-100 transition-colors duration-700 pointer-events-none"></div>
+                <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-cyan-50/50 rounded-full blur-[80px] transition-colors duration-700 pointer-events-none"></div>
 
                 <div className="relative z-10">
                   {(() => {
@@ -459,13 +278,13 @@ const About = () => {
                     const ActiveIcon = activeData.icon;
                     return (
                       <div className="animate-in fade-in slide-in-from-bottom-4 duration-500" key={activeSpec}>
-                        <div className="w-16 h-16 sm:w-20 sm:h-20 bg-blue-50 border border-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mb-8 shadow-sm">
+                        <div className="w-20 h-20 bg-blue-50 border border-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mb-8 shadow-sm">
                           <ActiveIcon size={32} strokeWidth={1.5} />
                         </div>
-                        <h3 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 mb-6 tracking-tight leading-tight">
+                        <h3 className="text-3xl lg:text-4xl font-extrabold text-slate-900 mb-6 tracking-tight leading-tight">
                           {activeData.title}
                         </h3>
-                        <p className="text-base sm:text-lg lg:text-xl text-slate-600 font-medium leading-relaxed mb-10">
+                        <p className="text-lg lg:text-xl text-slate-600 font-medium leading-relaxed mb-10">
                           {activeData.desc}
                         </p>
                         <Link 
@@ -487,7 +306,7 @@ const About = () => {
         {/* --- DARK BANNER & CTA --- */}
         <section className="relative mt-12 pb-24">
           {/* Dark Background Section */}
-          <div className="bg-[#0a1128] pt-24 pb-40 px-6 text-center relative overflow-hidden">
+          <div className="bg-[#0a1128] pt-24 pb-40 px-6 rounded-t-[3rem] text-center relative overflow-hidden">
             {/* Background Details */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-3xl h-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-900/40 via-transparent to-transparent pointer-events-none"></div>
             
