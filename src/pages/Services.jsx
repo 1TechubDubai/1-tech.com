@@ -254,7 +254,7 @@ const Services = () => {
         {/* --- STICKY SIDEBAR / MOBILE NAVIGATION --- */}
         <aside className="
           w-[calc(100%+2rem)] -ml-4 sm:w-[calc(100%+3rem)] sm:-ml-6 lg:w-1/4 lg:ml-0 shrink-0 
-          sticky top-[75px] sm:top-[75px] lg:top-35 z-40 
+          sticky top-[60px] sm:top-[75px] lg:top-35 z-40 
           bg-[#f8fafc]/95 lg:bg-transparent backdrop-blur-xl lg:backdrop-blur-none
           border-b lg:border-b-0 lg:border-r border-slate-200 
           pt-4 pb-3 lg:py-0 lg:pb-12 
