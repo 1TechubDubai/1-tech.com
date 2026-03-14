@@ -448,8 +448,8 @@ const DigitalTransformation = () => {
                 <Link 
                   to="/contact"
                   state={{
-                    selectedServices: ["Next-Gen Web & App Modernization", "API, Integrations & Customizations"],
-                    prefilledMessage: "Hi team,\n\nI am interested in orchestrating a digital transformation for my enterprise. I would like to learn more about modernizing our legacy applications and scaling our technological footprint.\n\nPlease let me know the next steps to start our journey."
+                    selectedServices: [],
+                    prefilledMessage: "Hi team,\n\nWe are looking for strategic technology advisory to guide our enterprise's digital transformation. We would like to discuss an initial assessment of our ecosystem and map out a high-level architecture roadmap.\n\nPlease let me know the best time to connect with your consulting team."
                   }}
                   className="px-8 py-4 rounded-full font-bold text-sm uppercase tracking-widest text-white bg-blue-600 hover:bg-blue-700 shadow-lg shadow-blue-600/20 hover:shadow-xl transition-all flex items-center justify-center gap-2 group"
                 >

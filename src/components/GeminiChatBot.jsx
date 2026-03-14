@@ -5,13 +5,13 @@ import { CalendarCheck, Trash2, ArrowDown, Mic, MicOff, Volume2, VolumeX, Bot, U
 
 // Core enterprise services matching your exact data structure
 const CORE_SERVICES = [
+    "Enterprise GTM & Market Expansion",
   "Enterprise IT Managed Services", 
   "Strategic Technology Talent Solutions", 
   "Intelligent AI, Agentic AI & Analytics", 
   "Enterprise Cyber Security Managed Services", 
   "Next-Gen Web & App Modernization", 
-  "API, Integrations & Customizations", 
-  "Enterprise GTM & Market Expansion"
+  "API, Integrations & Customizations"
 ];
 
 // Highly optimized prompt for maximum accuracy and strict boundary control

@@ -349,8 +349,14 @@ const Hero = () => {
                   className="w-full sm:w-auto px-8 py-4 rounded-full bg-blue-600 text-white font-bold flex items-center justify-center gap-2 hover:bg-blue-700 transition-all shadow-lg shadow-blue-600/20 hover:shadow-xl hover:shadow-blue-600/30 hover:-translate-y-0.5">
                   Explore Services <ArrowRight size={18} />
                 </Link>
-                <Link to="/contact"
-                  className="w-full sm:w-auto px-8 py-4 rounded-full bg-white/80 backdrop-blur-md border border-slate-200 text-slate-900 font-bold flex items-center justify-center hover:border-blue-400 hover:text-blue-600 hover:bg-white transition-all shadow-sm">
+                <Link 
+                  to="/contact"
+                  state={{
+                    selectedServices: [],
+                    prefilledMessage: "Hi team,\n\nI would like to schedule a consultation to discuss how 1TecHub can help with our enterprise technology needs and digital transformation initiatives.\n\nPlease let me know the best time to connect."
+                  }}
+                  className="w-full sm:w-auto px-8 py-4 rounded-full bg-white/80 backdrop-blur-md border border-slate-200 text-slate-900 font-bold flex items-center justify-center hover:border-blue-400 hover:text-blue-600 hover:bg-white transition-all shadow-sm"
+                >
                   Let's Talk
                   <Phone size={18} className="ml-2" />
                 </Link>
@@ -595,13 +601,13 @@ const Hero = () => {
 };
 
 const servicesData = [
+  { id: 'gtm-market-expansion', icon: TrendingUp, title: 'Enterprise GTM & Market Expansion', description: 'Strategic consulting and digital platforms to accelerate product launches and international growth.' },
   { id: 'it-managed-services', icon: Users, title: 'Enterprise IT Managed Services', description: 'End-to-end management of IT operations, ensuring 99.99% uptime and proactive maintenance.' },
   { id: 'strategic-talent-solutions', icon: Users, title: 'Strategic Technology Talent Solutions', description: 'Access elite, certified technology architects and engineers to scale your global operations instantly.' },
   { id: 'ai-analytics', icon: Brain, title: 'Intelligent AI, Agentic AI & Analytics', description: 'Deploy autonomous agents and predictive models to automate complex enterprise workflows.' },
   { id: 'cyber-security', icon: ShieldCheck, title: 'Cyber Security Services & Solutions', description: 'Zero-Trust architecture and proactive SOC monitoring to secure your digital perimeter globally.' },
   { id: 'web-app-modernization', icon: TabletSmartphone, title: 'Next-Gen Web & App Modernization', description: 'Refactor and rebuild legacy applications into high-performance, scalable cloud-native platforms.' },
   { id: 'api-integrations', icon: Link2, title: 'API, Integrations & Customizations', description: 'Eliminate data silos with seamless API-led connectivity across your entire enterprise ecosystem.' },
-  { id: 'gtm-market-expansion', icon: TrendingUp, title: 'Enterprise GTM & Market Expansion', description: 'Strategic consulting and digital platforms to accelerate product launches and international growth.' },
 ];
 
 const ServiceCard = ({ id, icon: Icon, title, description }) => (
@@ -749,7 +755,6 @@ const EnterpriseSolutionsSection = () => {
     </section>
   );
 };
-
 const steps = [
   {
     id: "step-1",
@@ -761,7 +766,6 @@ const steps = [
     image:
       "https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070&auto=format&fit=crop",
     accent: "#3b82f6", 
-    primaryService: "Enterprise GTM & Market Expansion",
     prefilledMessage: "Hi team,\n\nWe are interested in the 'Assess & Architect' phase of your methodology. We would like to assess our current technology landscape and discuss a strategic roadmap for our enterprise.\n\nPlease let me know the next steps."
   },
   {
@@ -774,7 +778,6 @@ const steps = [
     image:
       "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=2034&auto=format&fit=crop",
     accent: "#8b5cf6", 
-    primaryService: "API, Integrations & Customizations",
     prefilledMessage: "Hi team,\n\nWe are looking for execution and integration support. We need to modernize our existing systems, integrate APIs, and deploy new solutions without disrupting our current operations.\n\nLet's discuss how your agile teams can assist us."
   },
   {
@@ -787,7 +790,6 @@ const steps = [
     image:
       "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop",
     accent: "#06b6d4", 
-    primaryService: "Enterprise IT Managed Services",
     prefilledMessage: "Hi team,\n\nWe need robust managed services and security governance for our operations. We are interested in your 24/7 support, proactive monitoring, and continuous optimization frameworks.\n\nPlease reach out to discuss further."
   },
 ];
@@ -811,9 +813,10 @@ const ProcessSection = () => {
   }, []);
 
   const handleLearnMore = (step) => {
+    // Removed the specific service mapping, relying only on the pre-filled message
     navigate('/contact', {
       state: {
-        selectedService: step.primaryService,
+        selectedServices: [], 
         prefilledMessage: step.prefilledMessage
       }
     });

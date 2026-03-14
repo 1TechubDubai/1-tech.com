@@ -350,13 +350,13 @@ const About = () => {
   }, []);
 
   const specializations = [
+    { icon: TrendingUp, title: "Enterprise GTM Expansion", desc: "Enabling global product companies to strategically expand their sales and operations into the GCC & Africa." },
     { icon: Server, title: "Enterprise IT Managed Services", desc: "Robust SAP, Oracle, and Microsoft ecosystem management delivered to enterprise clients across the globe." },
     { icon: Users, title: "Strategic Technology Talent", desc: "Elite, vetted technology architects and specialized engineering talent deployed across the globe within 24-72 hours." },
     { icon: Brain, title: "Intelligent AI & Analytics", desc: "Autonomous workflows, agentic AI, and predictive analytics used by forward-thinking organizations worldwide." },
     { icon: ShieldCheck, title: "Cyber Security Services", desc: "Zero-trust architectures, 24/7 SOC, and enterprise security frameworks implemented internationally." },
     { icon: TabletSmartphone, title: "Web & App Modernization", desc: "Transforming slow, legacy systems into incredibly fast, modern, and scalable cloud-native digital platforms." },
     { icon: Link2, title: "API & Integrations", desc: "Complex enterprise integrations and custom middleware optimized for seamless operations in global enterprises." },
-    { icon: TrendingUp, title: "Enterprise GTM Expansion", desc: "Enabling global product companies to strategically expand their sales and operations into the GCC & Africa." },
   ];
 
   const uniquePoints = [
@@ -642,6 +642,10 @@ const About = () => {
               </h3>
               <Link 
                 to="/contact" 
+                state={{
+                  selectedServices: [],
+                  prefilledMessage: "Hi team,\n\nWe are interested in partnering with 1TecHub to drive our digital transformation and support our global growth initiatives. We would like to schedule a consultation to discuss our enterprise technology needs and explore how your team can assist us.\n\nPlease let us know the best time to connect."
+                }}
                 className="inline-flex items-center gap-2 bg-blue-600 text-white font-bold text-sm uppercase tracking-widest px-8 py-4 rounded-full hover:bg-blue-700 hover:scale-105 hover:shadow-lg transition-all duration-300 group"
               >
                 Partner With Us

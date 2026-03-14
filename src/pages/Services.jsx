@@ -370,9 +370,10 @@ const Services = () => {
             <h3 className="text-lg md:text-xl font-bold text-blue-600">
               {activeService.subtitle}
             </h3>
-            <p className="text-slate-600 text-base md:text-lg leading-relaxed font-medium">
+            <p className="text-slate-600 text-base md:text-lg leading-relaxed font-medium text-justify">
               {activeService.description}
             </p>
+
           </div>
 
           {/* Portfolio Grid */}
@@ -387,7 +388,7 @@ const Services = () => {
                 {activeService.portfolio.map((item, idx) => (
                   <div key={idx} className="bg-white border border-slate-200 rounded-2xl p-6 md:p-8 shadow-sm hover:shadow-md hover:border-blue-200 transition-all group flex flex-col h-full">
                     <h4 className="text-lg font-bold text-slate-900 mb-3 group-hover:text-blue-700 transition-colors">{item.title}</h4>
-                    <p className="text-sm text-slate-600 mb-6 font-medium leading-relaxed flex-grow">{item.description}</p>
+                    <p className="text-sm text-slate-600 mb-6 font-medium leading-relaxed flex-grow text-justify">{item.description}</p>
                     
                     {/* Tags */}
                     <div className="flex flex-wrap gap-2 mt-auto">
@@ -416,7 +417,7 @@ const Services = () => {
                     </div>
                     <div>
                       <h4 className="text-sm md:text-base font-bold text-slate-900 mb-1.5">{benefit.title}</h4>
-                      <p className="text-xs md:text-sm text-slate-500 leading-relaxed font-medium">{benefit.description}</p>
+                      <p className="text-xs md:text-sm text-slate-500 leading-relaxed font-medium text-justify">{benefit.description}</p>
                     </div>
                   </div>
                 ))}
