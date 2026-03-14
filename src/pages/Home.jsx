@@ -367,7 +367,7 @@ const Hero = () => {
                   to="/contact"
                   state={{
                     selectedServices: [],
-                    prefilledMessage: "Hi team,\n\nI would like to schedule a consultation to discuss how 1TecHub can help with our enterprise technology needs and digital transformation initiatives.\n\nPlease let me know the best time to connect."
+                    prefilledMessage: "Hi Team,\n\nI would like to schedule a consultation to discuss how 1TecHub can help with our enterprise technology needs and digital transformation initiatives.\n\nPlease let me know the best time to connect."
                   }}
                   className="w-full sm:w-auto px-8 py-4 rounded-full bg-white/80 backdrop-blur-md border border-slate-200 text-slate-900 font-bold flex items-center justify-center hover:border-blue-400 hover:text-blue-600 hover:bg-white transition-all shadow-sm"
                 >
@@ -780,7 +780,7 @@ const steps = [
     image:
       "https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070&auto=format&fit=crop",
     accent: "#3b82f6", 
-    prefilledMessage: "Hi team,\n\nWe are interested in the 'Assess & Architect' phase of your methodology. We would like to assess our current technology landscape and discuss a strategic roadmap for our enterprise.\n\nPlease let me know the next steps."
+    prefilledMessage: "Hi Team,\n\nWe are interested in the 'Assess & Architect' phase of your methodology. We would like to assess our current technology landscape and discuss a strategic roadmap for our enterprise.\n\nPlease let me know the next steps."
   },
   {
     id: "step-2",
@@ -792,7 +792,7 @@ const steps = [
     image:
       "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=2034&auto=format&fit=crop",
     accent: "#8b5cf6", 
-    prefilledMessage: "Hi team,\n\nWe are looking for execution and integration support. We need to modernize our existing systems, integrate APIs, and deploy new solutions without disrupting our current operations.\n\nLet's discuss how your agile teams can assist us."
+    prefilledMessage: "Hi Team,\n\nWe are looking for execution and integration support. We need to modernize our existing systems, integrate APIs, and deploy new solutions without disrupting our current operations.\n\nLet's discuss how your agile teams can assist us."
   },
   {
     id: "step-3",
@@ -804,7 +804,7 @@ const steps = [
     image:
       "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop",
     accent: "#06b6d4", 
-    prefilledMessage: "Hi team,\n\nWe need robust managed services and security governance for our operations. We are interested in your 24/7 support, proactive monitoring, and continuous optimization frameworks.\n\nPlease reach out to discuss further."
+    prefilledMessage: "Hi Team,\n\nWe need robust managed services and security governance for our operations. We are interested in your 24/7 support, proactive monitoring, and continuous optimization frameworks.\n\nPlease reach out to discuss further."
   },
 ];
 

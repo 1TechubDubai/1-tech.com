@@ -65,7 +65,7 @@ const Navbar = () => {
 
           {/* CTA & Mobile Toggle */}
           <div className="flex items-center gap-4 z-[110]">
-            <a
+            {/* <a
               href="https://calendly.com/harish-krishnan1976"
               className="
                 hidden md:flex items-center justify-center gap-2
@@ -78,7 +78,7 @@ const Navbar = () => {
             >
               <CalendarCheck className="w-4 h-4 group-hover:scale-110 transition-transform" />
               Book Meeting
-            </a>
+            </a> */}
 
             {/* Hamburger Button */}
             <button 
@@ -110,7 +110,7 @@ const Navbar = () => {
 
         {/* Bottom Mobile CTA */}
         <div className="w-full pt-8 mt-auto flex-shrink-0 border-t border-slate-200/60">
-          <button 
+          {/* <button 
             onClick={(e) => {
               e.preventDefault();
               window.open("https://calendly.com/harish-krishnan1976", "_blank", "noopener,noreferrer");
@@ -119,7 +119,7 @@ const Navbar = () => {
           >
             <CalendarCheck className="w-5 h-5 group-active:scale-110 transition-transform" />
             <span>Book Meeting</span>
-          </button>
+          </button> */}
         </div>
       </div>
     </>

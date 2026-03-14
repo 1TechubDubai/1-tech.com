@@ -644,7 +644,7 @@ const About = () => {
                 to="/contact" 
                 state={{
                   selectedServices: [],
-                  prefilledMessage: "Hi team,\n\nWe are interested in partnering with 1TecHub to drive our digital transformation and support our global growth initiatives. We would like to schedule a consultation to discuss our enterprise technology needs and explore how your team can assist us.\n\nPlease let us know the best time to connect."
+                  prefilledMessage: "Hi Team,\n\nWe are interested in partnering with 1TecHub to drive our digital transformation and support our global growth initiatives. We would like to schedule a consultation to discuss our enterprise technology needs and explore how your team can assist us.\n\nPlease let us know the best time to connect."
                 }}
                 className="inline-flex items-center gap-2 bg-blue-600 text-white font-bold text-sm uppercase tracking-widest px-8 py-4 rounded-full hover:bg-blue-700 hover:scale-105 hover:shadow-lg transition-all duration-300 group"
               >

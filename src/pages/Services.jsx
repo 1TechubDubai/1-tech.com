@@ -239,7 +239,7 @@ const Services = () => {
     navigate('/contact', { 
       state: { 
         selectedService: activeService.title,
-        prefilledMessage: `Hi team,\n\nI would like to speak with an architect regarding ${activeService.title}.\n\nPlease let me know the next steps.`
+        prefilledMessage: `Hi Team,\n\nI would like to speak with an architect regarding ${activeService.title}.\n\nPlease let me know the next steps.`
       } 
     });
   };

@@ -449,7 +449,7 @@ const DigitalTransformation = () => {
                   to="/contact"
                   state={{
                     selectedServices: [],
-                    prefilledMessage: "Hi team,\n\nWe are looking for strategic technology advisory to guide our enterprise's digital transformation. We would like to discuss an initial assessment of our ecosystem and map out a high-level architecture roadmap.\n\nPlease let me know the best time to connect with your consulting team."
+                    prefilledMessage: "Hi Team,\n\nWe are looking for strategic technology advisory to guide our enterprise's digital transformation. We would like to discuss an initial assessment of our ecosystem and map out a high-level architecture roadmap.\n\nPlease let me know the best time to connect with your consulting team."
                   }}
                   className="px-8 py-4 rounded-full font-bold text-sm uppercase tracking-widest text-white bg-blue-600 hover:bg-blue-700 shadow-lg shadow-blue-600/20 hover:shadow-xl transition-all flex items-center justify-center gap-2 group"
                 >
@@ -608,8 +608,8 @@ const DigitalTransformation = () => {
                   <Link 
                     to="/contact"
                     state={{
-                      selectedServices: ["Enterprise IT Managed Services", "Intelligent AI, Agentic AI & Analytics"],
-                      prefilledMessage: "Hi team,\n\nI would like to book a strategy call to discuss a comprehensive technological roadmap for our business. We are looking to scale our operations and want to explore your advisory services.\n\nLooking forward to speaking with an expert."
+                      selectedServices: [],
+                      prefilledMessage: "Hi Team,\n\nI would like to book a strategy call to discuss a comprehensive technological roadmap for our business. We are looking to scale our operations and want to explore your advisory services.\n\nLooking forward to speaking with an expert."
                     }}
                     className="inline-flex items-center justify-center gap-3 px-8 py-4 md:px-10 md:py-5 rounded-full font-bold text-sm md:text-base uppercase tracking-widest text-[#0a1128] bg-white hover:bg-blue-50 transition-colors shadow-[0_0_40px_rgba(255,255,255,0.3)] group"
                   >
