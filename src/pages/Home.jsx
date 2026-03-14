@@ -332,10 +332,24 @@ const Hero = () => {
 
             {/* ── Left Column ── */}
             <div className="flex flex-col space-y-6 md:pr-8 text-center md:text-left order-2 md:order-1">
-              <div className="inline-block px-5 py-2 rounded-full bg-white/60 backdrop-blur-md border border-blue-200/60 text-blue-700 text-sm font-bold tracking-wide w-max mx-auto md:mx-0 mb-2 shadow-sm">
-                Accelerate Your Growth
-              </div>
-              <h1 className="text-3xl sm:text-5xl lg:text-7xl font-extrabold text-slate-900 leading-[1.1] tracking-tight break-words">
+<a 
+                href="https://1techub.ai" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="group inline-flex items-center gap-3 px-2 py-1.5 pr-5 rounded-full bg-white/60 backdrop-blur-md border border-blue-200/60 w-max mx-auto md:mx-0 shadow-sm hover:bg-white hover:border-cyan-300 hover:shadow-md transition-all hover:-translate-y-0.5"
+              >
+                <div className="flex items-center justify-center w-7 h-7 rounded-full bg-gradient-to-tr from-cyan-400 to-blue-600 text-white shadow-inner">
+                  <svg className="w-3.5 h-3.5 relative z-10" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 2L13.5 8.5L20 7L15.5 12L20 17L13.5 15.5L12 22L10.5 15.5L4 17L8.5 12L4 7L10.5 8.5L12 2Z" fill="currentColor" />
+                  </svg>
+                </div>
+                <span className="text-xs sm:text-sm font-bold text-slate-700 tracking-wide">
+                  Explore our dedicated <span className="text-blue-600">AI Division</span>
+                </span>
+                <ArrowRight size={14} className="text-slate-400 group-hover:text-blue-600 transition-colors group-hover:translate-x-1" />
+              </a>
+
+              <h1 className="text-3xl sm:text-5xl lg:text-7xl font-extrabold text-slate-900 leading-[1.1] tracking-tight break-words mt-4">
                 Empowering your business with{" "}
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500">
                   next-gen solutions.

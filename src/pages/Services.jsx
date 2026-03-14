@@ -8,7 +8,9 @@ import {
   ChevronRight,
   CheckCircle2,
   ArrowRight,
-  ChevronsRight
+  ChevronsRight,
+  Brain,
+  ArrowUpRight 
 } from 'lucide-react';
 
 // --- SUBTLE BACKGROUND ---
@@ -328,6 +330,24 @@ const Services = () => {
                   </button>
                 );
               })}
+                            <a 
+                href="https://1techub.ai" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="flex items-center justify-between text-left w-[260px] sm:w-[280px] lg:w-full shrink-0 snap-start p-3.5 lg:p-4 rounded-2xl bg-[#0a192f] border border-slate-700 hover:border-cyan-500/50 hover:bg-[#0d2340] transition-all group shadow-lg shadow-blue-900/10"
+              >
+                <div className="flex items-center gap-3 lg:gap-4">
+                  <div className="shrink-0 w-8 h-8 rounded-xl bg-gradient-to-tr from-cyan-400 to-blue-600 flex items-center justify-center relative shadow-[0_0_15px_rgba(6,182,212,0.3)]">
+                    <span className="absolute inset-0 rounded-xl bg-cyan-400 animate-ping opacity-30"></span>
+                    <Brain size={16} className="text-white relative z-10" />
+                  </div>
+                  <div className="flex flex-col justify-center">
+                    <span className="text-[9px] font-bold text-cyan-400 tracking-widest uppercase font-mono mb-0.5 leading-none">Dedicated Portal</span>
+                    <span className="text-xs lg:text-sm font-bold text-white leading-tight">1TecHub AI Division</span>
+                  </div>
+                </div>
+                <ArrowUpRight size={16} className="text-slate-400 group-hover:text-cyan-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all hidden lg:block shrink-0" />
+              </a>
               <div className="w-8 shrink-0 lg:hidden block" />
             </div>
 
