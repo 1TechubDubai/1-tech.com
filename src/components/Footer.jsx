@@ -59,10 +59,10 @@ const Footer = () => {
 
             {/* Contact Info */}
             <div className="flex flex-col md:items-end space-y-3 pt-2">
-              <a href="tel:+971568001040" className="group flex items-center gap-2.5 text-slate-600 hover:text-blue-600 transition-colors text-sm md:text-base font-semibold">
+              {/* <a href="tel:+971568001040" className="group flex items-center gap-2.5 text-slate-600 hover:text-blue-600 transition-colors text-sm md:text-base font-semibold">
                 <Phone size={18} className="text-blue-500 transition-colors" />
                 +971 56 800 1040
-              </a>
+              </a> */}
               <a href="mailto:contactus@1techub.com" className="group flex items-center gap-2.5 text-slate-600 hover:text-blue-600 transition-colors text-sm md:text-base font-semibold">
                 <Mail size={18} className="text-blue-500 transition-colors" />
                 contactus@1techub.com

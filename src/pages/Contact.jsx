@@ -10,8 +10,8 @@ import {
   FileText, 
   Rocket 
 } from 'lucide-react';
+import { BrandWhatsapp } from 'tabler-icons-react';
 
-// Subtle ambient background to match the new brand identity
 const AmbientBackground = () => (
   <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
     <style>{`
@@ -312,20 +312,27 @@ const Contact = () => {
             {/* Contact Details List */}
             <div className="space-y-8">
               
-              {/* Phone */}
+              {/* WhatsApp */}
               <div className="flex items-start gap-5 group">
-                <div className="w-14 h-14 rounded-2xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300 shadow-sm group-hover:shadow-md">
-                  <Phone size={24} className="transition-transform group-hover:scale-110" />
+                <div className="w-14 h-14 rounded-2xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300 shadow-sm group-hover:shadow-md shrink-0">
+                  <BrandWhatsapp size={24} className="transition-transform group-hover:scale-110" />
                 </div>
                 <div className="pt-1">
-                  <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Phone</h4>
-                  <p className="text-lg font-bold text-slate-900">+971 56 800 1040</p>
+                  <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">WhatsApp</h4>
+                  <a 
+                    href="https://wa.me/971568001040" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-lg font-bold text-slate-900 hover:text-blue-600 transition-colors"
+                  >
+                    Message Support
+                  </a>
                 </div>
               </div>
 
               {/* Email */}
               <div className="flex items-start gap-5 group">
-                <div className="w-14 h-14 rounded-2xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300 shadow-sm group-hover:shadow-md">
+                <div className="w-14 h-14 rounded-2xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300 shadow-sm group-hover:shadow-md shrink-0">
                   <Mail size={24} className="transition-transform group-hover:scale-110" />
                 </div>
                 <div className="pt-1">
