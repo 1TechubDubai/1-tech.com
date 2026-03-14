@@ -284,34 +284,55 @@ const Services = () => {
                     onClick={() => handleServiceSelect(service)}
                     className={`
                       flex items-center text-left w-[260px] sm:w-[280px] lg:w-full shrink-0 snap-start
-                      p-3.5 lg:p-4 rounded-2xl transition-all duration-300 border
-                      ${isActive 
-                        ? 'bg-white border-blue-500 shadow-md lg:shadow-[0_8px_30px_-12px_rgba(59,130,246,0.3)] lg:border-l-4 lg:border-l-blue-600' 
-                        : 'bg-white/50 lg:bg-transparent border-slate-200 lg:border-transparent hover:bg-white hover:border-slate-300 hover:shadow-sm'}
+                      p-3.5 lg:p-4 rounded-2xl transition-all duration-300 border-0
+                      ${isActive
+                        ? 'bg-white lg:bg-white'
+                        : 'bg-white/50 lg:bg-transparent hover:bg-white/80'}
                     `}
+                    style={isActive ? {
+                      boxShadow: `
+                        0 4px 24px -4px rgba(59,130,246,0.22),
+                        0 1px 8px -2px rgba(99,102,241,0.14),
+                        0 0 0 1px rgba(147,197,253,0.35),
+                        inset 0 1px 0 rgba(255,255,255,0.9)
+                      `
+                    } : {
+                      boxShadow: '0 1px 4px -1px rgba(15,23,42,0.06)'
+                    }}
                   >
                     {Icon && (
-                      <Icon 
-                        size={20} 
-                        className={`shrink-0 mr-3 lg:mr-4 transition-colors ${isActive ? 'text-blue-600' : 'text-slate-400'}`} 
-                      />
+                      <div className={`shrink-0 mr-3 lg:mr-4 w-8 h-8 rounded-xl flex items-center justify-center transition-all duration-300 ${
+                        isActive
+                          ? 'bg-gradient-to-br from-blue-500 to-indigo-600 shadow-[0_4px_12px_-2px_rgba(59,130,246,0.45)]'
+                          : 'bg-slate-100'
+                      }`}>
+                        <Icon
+                          size={16}
+                          className={`transition-colors ${isActive ? 'text-white' : 'text-slate-400'}`}
+                        />
+                      </div>
                     )}
-                    <span className={`text-xs lg:text-sm font-bold flex-grow transition-colors pr-2 leading-tight ${isActive ? 'text-blue-700' : 'text-slate-600'}`}>
+                    <span className={`text-xs lg:text-sm font-bold flex-grow transition-colors pr-2 leading-tight ${
+                      isActive ? 'text-slate-900' : 'text-slate-500'
+                    }`}>
                       {service.sidebarTitle}
                     </span>
-                    <ChevronRight 
-                      size={16} 
-                      className={`shrink-0 transition-all hidden lg:block ${isActive ? 'text-blue-600 translate-x-0 opacity-100' : 'text-slate-300 -translate-x-2 opacity-0 lg:opacity-100 lg:translate-x-0'}`} 
+                    <ChevronRight
+                      size={15}
+                      className={`shrink-0 transition-all duration-300 hidden lg:block ${
+                        isActive
+                          ? 'text-blue-400 opacity-100 translate-x-0'
+                          : 'text-slate-200 opacity-0 -translate-x-1'
+                      }`}
                     />
                   </button>
                 );
               })}
-              {/* Spacer element to ensure the last mobile item isn't hidden under the fade gradient */}
-              <div className="w-8 shrink-0 lg:hidden block"></div>
+              <div className="w-8 shrink-0 lg:hidden block" />
             </div>
 
-            {/* Mobile Right Edge Fade Gradient - Fixed to sit flush against the right edge */}
-            <div className="absolute top-0 right-0 bottom-0 w-16 bg-gradient-to-l from-[#f8fafc] via-[#f8fafc]/80 to-transparent pointer-events-none lg:hidden z-20"></div>
+            {/* Mobile Right Edge Fade */}
+            <div className="absolute top-0 right-0 bottom-0 w-16 bg-gradient-to-l from-[#f8fafc] via-[#f8fafc]/80 to-transparent pointer-events-none lg:hidden z-20" />
           </div>
         </aside>
 

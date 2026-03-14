@@ -16,14 +16,14 @@ const CORE_SERVICES = [
 
 const getSystemPrompt = () => `You are the official AI assistant for 1TecHub, guiding visitors through our enterprise technology and advisory services. Maintain a professional, concise, business-focused tone. Do NOT provide coding help or answer general knowledge questions. Always end with a polite follow-up. Use concise bullets for readability.
 
-OUR 7 CORE CAPABILITIES:
-1. Enterprise IT Managed Services: SAP/Oracle mgmt, infra governance, 24x7 support.
-2. Strategic Technology Talent Solutions: Contract/CXO hiring, offshore teams deployed in 24-72 hrs.
-3. Intelligent AI, Agentic AI & Analytics: Autonomous agents, enterprise RAG, predictive models.
-4. Enterprise Cyber Security Managed Services: 24/7 SOC/MDR, VAPT, Zero-trust cloud, GRC.
-5. Next-Gen Web & App Modernization: Legacy re-engineering, cloud-native apps, UI/UX.
-6. API, Integrations & Customizations: REST/GraphQL, ERP/CRM middleware, data sync.
-7. Enterprise GTM & Market Expansion: Market entry strategy, sales execution in GCC/Africa.
+FULL SERVICE KNOWLEDGE:
+1) Enterprise IT Managed Services: SAP Managed Services, Oracle Managed Services, Cyber Security Operations, Enterprise Infrastructure Management, 24x7 monitoring and governance.
+2) Strategic Technology Talent Solutions: Contract and contract-to-hire engineers, CXO and executive technology hiring, Offshore development teams, Workforce lifecycle management.
+3) Intelligent AI, Agentic AI & Analytics: Autonomous AI agents, Enterprise RAG systems, Predictive analytics, Computer vision solutions.
+4) Enterprise Cyber Security Managed Services: 24/7 SOC & MDR, Vulnerability assessments & penetration testing, Zero-trust cloud security, Identity and endpoint protection, Governance, risk & compliance.
+5) Next-Gen Web & App Modernization: Legacy system re-engineering, UI/UX redesign, Cloud-native architecture, Mobile app modernization.
+6) API, Integrations & Customizations: REST & GraphQL API development, ERP / CRM integrations, Middleware platforms, Data integration & automation.
+7) Enterprise GTM & Market Expansion: Market entry strategy, Sales execution, Channel partner development, Regional branding & demand generation.
 
 STRATEGIC ADVISORY & METHODOLOGY:
 We act as a digital transformation hub. Speed without direction is chaos, so architecture comes first. We use a 4-Phase Transformation Blueprint:
@@ -46,8 +46,8 @@ ACTION RULES:
 - shouldShowCalendar: true if user asks for a meeting, call, or calendar.
 - shouldRedirectToContact: true if user asks for pricing, quotes, or starting a project.
 - selectedServices: Identify requested services. MUST use EXACT names from this list: [${CORE_SERVICES.join(', ')}]. Leave [] if no contact redirect.
-- prefilledMessage: Short first-person summary of their needs (e.g., "Hi, I need help assessing our tech debt and modernizing our legacy apps..."). Leave "" if no contact redirect.
-- suggestedFollowUps: ALWAYS provide exactly 3 short, relevant follow-up questions.`;
+- prefilledMessage: Short first-person summary of their needs. Leave "" if no contact redirect.
+- suggestedFollowUps: ALWAYS provide exactly 3 short, relevant follow-up questions. CRITICAL: These questions MUST be strictly derived from 1TecHub's 7 core services or 4-Phase methodology. Do NOT invent generic questions outside our listed capabilities.`;
 
 const GeminiChatBot = ({ apiKey }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -60,6 +60,7 @@ const GeminiChatBot = ({ apiKey }) => {
   // --- VOICE FEATURES ---
   const [isListening, setIsListening] = useState(false);
   const [speakingIndex, setSpeakingIndex] = useState(null);
+  const [availableVoices, setAvailableVoices] = useState([]);
   const recognitionRef = useRef(null);
   
   // Refs
@@ -70,8 +71,18 @@ const GeminiChatBot = ({ apiKey }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // --- INITIALIZE SPEECH RECOGNITION ---
+  // --- INITIALIZE SPEECH RECOGNITION & SYNTHESIS VOICES ---
   useEffect(() => {
+    // Load Voices for TTS
+    const loadVoices = () => {
+      setAvailableVoices(window.speechSynthesis.getVoices());
+    };
+    loadVoices();
+    if (window.speechSynthesis.onvoiceschanged !== undefined) {
+      window.speechSynthesis.onvoiceschanged = loadVoices;
+    }
+
+    // Init Speech Recognition
     if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
       const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
       recognitionRef.current = new SpeechRecognition();
@@ -120,6 +131,37 @@ const GeminiChatBot = ({ apiKey }) => {
     }
   };
 
+  // Select the best natural female voice available on the OS
+  const getBestFemaleVoice = () => {
+    if (!availableVoices.length) return null;
+
+    // 1. Search for explicitly named female voices across different OS/Browsers
+    const femaleVoice = availableVoices.find(v => {
+      const name = v.name.toLowerCase();
+      const uri = v.voiceURI.toLowerCase();
+      
+      return name.includes('female') || 
+             name.includes('woman') || 
+             name.includes('zira') ||       // Windows Female
+             name.includes('samantha') ||   // Apple Female
+             name.includes('tessa') ||      // Apple Female
+             name.includes('karen') ||      // Apple Female
+             name.includes('victoria') ||   // Apple Female
+             name.includes('google uk english female') || // Chrome Female
+             uri.includes('female');
+    });
+
+    // 2. If a female voice is found, return it
+    if (femaleVoice) {
+      return femaleVoice;
+    }
+
+    // 3. Fallback: If no explicit female voice is found, try to use a Google cloud voice (which defaults to female) or the first English voice
+    return availableVoices.find(v => v.name === 'Google US English') || 
+           availableVoices.find(v => v.lang.startsWith('en')) || 
+           availableVoices[0];
+  };
+
   const handleSpeak = (text, index) => {
     if (speakingIndex === index) {
       window.speechSynthesis.cancel();
@@ -131,6 +173,13 @@ const GeminiChatBot = ({ apiKey }) => {
     
     const cleanText = text.replace(/[*_~`#]/g, '');
     const utterance = new SpeechSynthesisUtterance(cleanText);
+    
+    // Apply voice and tuning
+    const bestVoice = getBestFemaleVoice();
+    if (bestVoice) utterance.voice = bestVoice;
+    
+    utterance.pitch = 1.05; // Slightly higher pitch for a friendlier tone
+    utterance.rate = 1.02; // Very slightly faster for natural pacing
     
     utterance.onend = () => setSpeakingIndex(null);
     utterance.onerror = () => setSpeakingIndex(null);
@@ -165,7 +214,6 @@ const GeminiChatBot = ({ apiKey }) => {
     }, 8000); 
     return () => clearTimeout(timer);
   }, [location.pathname]);
-
 
   const toggleChat = () => {
     setIsOpen(!isOpen);
@@ -226,19 +274,35 @@ const GeminiChatBot = ({ apiKey }) => {
       }
 
       const ai = new GoogleGenAI({ apiKey: apiKey });
-      const formattedContents = apiHistory.map(msg => ({
-        role: msg.role,
-        parts: [{ text: msg.text }]
-      }));
+      
+      const formattedContents = apiHistory.slice(0, -1).map(msg => {
+        if (msg.role === 'model') {
+          const reconstructedJSON = {
+            text: msg.text || "",
+            shouldRedirectToContact: !!msg.contactRouting,
+            shouldShowCalendar: msg.calendarRouting || false,
+            selectedServices: msg.contactRouting?.services || [],
+            prefilledMessage: msg.contactRouting?.message || "",
+            suggestedFollowUps: msg.suggestedFollowUps || []
+          };
+          return { role: 'model', parts: [{ text: JSON.stringify(reconstructedJSON) }] };
+        } else {
+          return { role: 'user', parts: [{ text: msg.text || "" }] };
+        }
+      });
+
+      // Add the current user message separately
+      const currentMessage = { role: 'user', parts: [{ text: userMessage.text }] };
+      const finalContents = [...formattedContents, currentMessage];
 
       const currentSystemPrompt = getSystemPrompt();
 
       const response = await ai.models.generateContent({
-        model: "gemini-2.5-flash", 
-        contents: formattedContents,
+        model: "gemini-2.5-flash",
+        contents: finalContents, 
         config: {
           systemInstruction: currentSystemPrompt,
-          responseMimeType: "application/json", 
+          responseMimeType: "application/json",
         }
       });
 
@@ -274,20 +338,20 @@ const GeminiChatBot = ({ apiKey }) => {
 
   return (
     <>
-      {/* Tooltip Popup (Light Theme) */}
+      {/* Tooltip Popup */}
       <div className={`fixed bottom-[96px] right-7 z-[9999] bg-white border border-slate-200 shadow-xl text-slate-700 text-[12px] font-bold tracking-wide py-2.5 px-4 rounded-xl transition-all duration-700 ease-in-out font-sans ${showTooltip && !isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'}`}>
         Need assistance? Chat with us! 👋
         <div className="absolute -bottom-1.5 right-6 w-3 h-3 bg-white border-b border-r border-slate-200 transform rotate-45"></div>
       </div>
 
-      {/* Launcher Button (Blue Corporate Gradient) */}
+      {/* Launcher Button */}
       <button onClick={toggleChat} title="Chat with us" className={`fixed bottom-7 right-7 w-[60px] h-[60px] rounded-full bg-gradient-to-br from-blue-600 to-cyan-500 text-white cursor-pointer flex items-center justify-center shadow-lg shadow-blue-500/30 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40 transition-all z-[9999] ${isOpen ? 'scale-0 opacity-0' : 'scale-100 opacity-100'}`}>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="w-7 h-7">
           <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
         </svg>
       </button>
 
-      {/* Chat Window (Light Glassmorphism) */}
+      {/* Chat Window */}
       <div className={`fixed bottom-[100px] right-7 w-[380px] max-w-[calc(100vw-40px)] h-[580px] max-h-[calc(100vh-130px)] bg-white/95 backdrop-blur-xl border border-slate-200 rounded-2xl shadow-2xl flex flex-col overflow-hidden z-[9998] transition-all duration-300 font-sans ${isOpen ? 'translate-y-0 scale-100 opacity-100 pointer-events-auto' : 'translate-y-4 scale-95 opacity-0 pointer-events-none'}`}>
         
         {/* Header */}
