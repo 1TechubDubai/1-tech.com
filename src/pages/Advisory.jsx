@@ -38,103 +38,111 @@ const AmbientBackground = () => (
         0%,100% { opacity: 0.22; transform: scale(1); }
         50%      { opacity: 0.72; transform: scale(1.9); }
       }
-      @keyframes floatAdv {
-        0%,100% { transform: translateY(0px); }
-        50%      { transform: translateY(-10px); }
-      }
-      .a1 { animation: adv1 23s ease-in-out infinite; }
-      .a2 { animation: adv2 29s ease-in-out infinite; animation-delay: -10s; }
-      .a3 { animation: adv3 20s ease-in-out infinite; animation-delay: -6s; }
-      .a4 { animation: adv1 26s ease-in-out infinite; animation-delay: -14s; }
-      .a5 { animation: adv2 33s ease-in-out infinite; animation-delay: -19s; }
+      @keyframes orbitCW  { to { transform: rotate(360deg); } }
+      @keyframes orbitCCW { to { transform: rotate(-360deg); } }
+      .a1   { animation: adv1 23s ease-in-out infinite; }
+      .a2   { animation: adv2 29s ease-in-out infinite; animation-delay: -10s; }
+      .a3   { animation: adv3 20s ease-in-out infinite; animation-delay: -6s; }
+      .a4   { animation: adv1 26s ease-in-out infinite; animation-delay: -14s; }
+      .a5   { animation: adv2 33s ease-in-out infinite; animation-delay: -19s; }
       .gadv { animation: gridAdv 9s ease-in-out infinite; }
+      .oCW  { animation: orbitCW  88s linear infinite; }
+      .oCCW { animation: orbitCCW 130s linear infinite; }
     `}</style>
 
-    {/* ── Base: deep slate-navy → warm advisory gold tones ── */}
+    {/* Base — very pale lavender-white, cooler than the original */}
     <div className="absolute inset-0" style={{
       background: `linear-gradient(148deg,
-        #f8f9ff 0%,
-        #f3f4ff 12%,
-        #faf8f2 26%,
-        #fffbf0 40%,
-        #f8f5ff 55%,
-        #f0f4ff 70%,
-        #fdfbf4 84%,
-        #f5f8ff 100%
+        #f4f5ff 0%,
+        #f1f2ff 14%,
+        #f5f6ff 28%,
+        #f0f2ff 42%,
+        #f3f4ff 56%,
+        #eef1ff 70%,
+        #f2f4ff 84%,
+        #f0f3ff 100%
       )`
     }} />
 
-    {/* Orb 1: top-left — deep navy-indigo (authority/trust) */}
+    {/* Secondary luminance layer — gives depth without colour noise */}
+    <div className="absolute inset-0" style={{
+      background: `
+        radial-gradient(ellipse 110% 70% at 65% 15%, rgba(99,102,241,0.07) 0%, transparent 55%),
+        radial-gradient(ellipse 90%  75% at 18% 85%, rgba(124,58,237,0.06)  0%, transparent 52%)
+      `
+    }} />
+
+    {/* Orb 1: top-left — deep royal blue */}
     <div className="a1 absolute -top-[16%] -left-[12%]" style={{
       width: 'clamp(360px, 54vw, 740px)',
       height: 'clamp(360px, 54vw, 740px)',
-      background: 'radial-gradient(ellipse at 44% 42%, rgba(67,56,202,0.32) 0%, rgba(55,48,163,0.15) 36%, rgba(165,180,252,0.06) 62%, transparent 78%)',
+      background: 'radial-gradient(ellipse at 44% 42%, rgba(37,99,235,0.20) 0%, rgba(29,78,216,0.10) 36%, rgba(147,197,253,0.04) 62%, transparent 78%)',
       filter: 'blur(44px)', borderRadius: '50%',
     }} />
 
-    {/* Orb 2: top-right — gold/amber (prestige/advisory) */}
+    {/* Orb 2: top-right — violet */}
     <div className="a2 absolute -top-[12%] -right-[12%]" style={{
       width: 'clamp(340px, 50vw, 700px)',
       height: 'clamp(340px, 50vw, 700px)',
-      background: 'radial-gradient(ellipse at 56% 38%, rgba(217,119,6,0.28) 0%, rgba(180,83,9,0.13) 38%, rgba(252,211,77,0.05) 62%, transparent 80%)',
+      background: 'radial-gradient(ellipse at 56% 38%, rgba(124,58,237,0.18) 0%, rgba(109,40,217,0.09) 38%, rgba(196,181,253,0.04) 62%, transparent 80%)',
       filter: 'blur(48px)', borderRadius: '50%',
     }} />
 
-    {/* Orb 3: center-right — slate-teal (strategic/calm) */}
+    {/* Orb 3: centre-right — cool periwinkle */}
     <div className="a3 absolute top-[32%] -right-[8%]" style={{
       width: 'clamp(280px, 42vw, 600px)',
       height: 'clamp(280px, 42vw, 600px)',
-      background: 'radial-gradient(ellipse at 55% 50%, rgba(15,118,110,0.26) 0%, rgba(13,148,136,0.12) 40%, rgba(94,234,212,0.05) 65%, transparent 80%)',
+      background: 'radial-gradient(ellipse at 55% 50%, rgba(99,102,241,0.17) 0%, rgba(79,70,229,0.08) 40%, rgba(165,180,252,0.04) 65%, transparent 80%)',
       filter: 'blur(50px)', borderRadius: '50%',
     }} />
 
-    {/* Orb 4: center — warm bronze bridge */}
+    {/* Orb 4: centre — slate-blue bridge */}
     <div className="a4 absolute top-[30%] left-[22%]" style={{
       width: 'clamp(260px, 38vw, 540px)',
       height: 'clamp(260px, 38vw, 540px)',
-      background: 'radial-gradient(ellipse at 50% 50%, rgba(180,120,60,0.18) 0%, rgba(161,98,7,0.08) 44%, transparent 72%)',
+      background: 'radial-gradient(ellipse at 50% 50%, rgba(55,65,181,0.13) 0%, rgba(49,60,170,0.06) 44%, transparent 72%)',
       filter: 'blur(56px)', borderRadius: '50%',
     }} />
 
-    {/* Orb 5: bottom-left — royal indigo */}
+    {/* Orb 5: bottom-left — deep sapphire */}
     <div className="a5 absolute -bottom-[15%] -left-[8%]" style={{
       width: 'clamp(360px, 54vw, 750px)',
       height: 'clamp(360px, 54vw, 750px)',
-      background: 'radial-gradient(ellipse at 40% 56%, rgba(79,70,229,0.3) 0%, rgba(67,56,202,0.14) 38%, rgba(199,210,254,0.05) 62%, transparent 80%)',
+      background: 'radial-gradient(ellipse at 40% 56%, rgba(30,64,175,0.19) 0%, rgba(29,78,216,0.09) 38%, rgba(191,219,254,0.04) 62%, transparent 80%)',
       filter: 'blur(46px)', borderRadius: '50%',
     }} />
 
-    {/* Orb 6: bottom-right — deep gold-ochre */}
+    {/* Orb 6: bottom-right — rich violet-indigo */}
     <div className="a1 absolute -bottom-[10%] -right-[10%]" style={{
       width: 'clamp(300px, 46vw, 640px)',
       height: 'clamp(300px, 46vw, 640px)',
-      background: 'radial-gradient(ellipse at 55% 55%, rgba(202,138,4,0.26) 0%, rgba(161,98,7,0.12) 38%, rgba(253,224,71,0.05) 62%, transparent 80%)',
+      background: 'radial-gradient(ellipse at 55% 55%, rgba(109,40,217,0.17) 0%, rgba(91,33,182,0.08) 38%, rgba(221,214,254,0.04) 62%, transparent 80%)',
       filter: 'blur(50px)', borderRadius: '50%',
     }} />
 
-    {/* ── Dot grid — warm navy tint ── */}
+    {/* Dot grid — deep sapphire */}
     <div className="gadv absolute inset-0" style={{
-      backgroundImage: 'radial-gradient(rgba(30,27,75,0.4) 1.2px, transparent 1.2px)',
+      backgroundImage: 'radial-gradient(rgba(30,27,120,0.30) 1.2px, transparent 1.2px)',
       backgroundSize: '34px 34px',
     }} />
 
-    {/* ── Diagonal texture — indigo + gold axes ── */}
-    <svg className="absolute inset-0 w-full h-full" style={{ opacity: 0.03 }} xmlns="http://www.w3.org/2000/svg">
+    {/* Diagonal texture — two blue-violet axes */}
+    <svg className="absolute inset-0 w-full h-full" style={{ opacity: 0.028 }} xmlns="http://www.w3.org/2000/svg">
       <defs>
         <pattern id="advDiag" x="0" y="0" width="56" height="56" patternUnits="userSpaceOnUse">
           <path d="M56 0L0 56" stroke="#3730a3" strokeWidth="0.8" fill="none"/>
-          <path d="M0 0L56 56" stroke="#92400e" strokeWidth="0.4" fill="none"/>
+          <path d="M0 0L56 56" stroke="#6d28d9" strokeWidth="0.4" fill="none"/>
         </pattern>
       </defs>
       <rect width="100%" height="100%" fill="url(#advDiag)" />
     </svg>
 
-    {/* ── Horizontal shimmer lines — indigo & gold alternating ── */}
+    {/* Shimmer lines — all blue-violet family, two distinct tones */}
     {[
-      { top: '18%', dur: '11s', delay: '0s',   color: 'rgba(99,102,241,0.28)'  },
-      { top: '44%', dur: '15s', delay: '4s',   color: 'rgba(217,119,6,0.24)'   },
-      { top: '68%', dur: '10s', delay: '7.5s', color: 'rgba(79,70,229,0.26)'   },
-      { top: '86%', dur: '13s', delay: '2s',   color: 'rgba(180,83,9,0.2)'     },
+      { top: '18%', dur: '11s', delay: '0s',   color: 'rgba(99,102,241,0.22)'  },
+      { top: '44%', dur: '15s', delay: '4s',   color: 'rgba(124,58,237,0.18)'  },
+      { top: '68%', dur: '10s', delay: '7.5s', color: 'rgba(37,99,235,0.20)'   },
+      { top: '86%', dur: '13s', delay: '2s',   color: 'rgba(79,70,229,0.16)'   },
     ].map((b, i) => (
       <div key={i} className="absolute left-0 right-0" style={{ top: b.top, height: '1px', overflow: 'hidden' }}>
         <div style={{
@@ -147,15 +155,14 @@ const AmbientBackground = () => (
       </div>
     ))}
 
-    {/* ── Orbit rings (centered, very subtle) ── */}
+    {/* Orbit rings */}
     <div className="absolute inset-0 flex items-center justify-center">
-      <div style={{ width: 'min(96vw,980px)', height: 'min(96vw,980px)', position: 'absolute',
-        animation: 'adv1 88s linear infinite' }}>
+      <div className="oCW absolute" style={{ width: 'min(96vw,980px)', height: 'min(96vw,980px)' }}>
         <svg width="100%" height="100%" viewBox="0 0 980 980">
           <circle cx="490" cy="490" r="460" fill="none"
-            stroke="rgba(79,70,229,0.1)" strokeWidth="1" strokeDasharray="5 24"/>
-          <circle cx="948" cy="490" r="5" fill="rgba(99,102,241,0.7)"
-            style={{ filter: 'drop-shadow(0 0 5px rgba(99,102,241,0.8))' }}>
+            stroke="rgba(79,70,229,0.09)" strokeWidth="1" strokeDasharray="5 24"/>
+          <circle r="4.5" fill="rgba(99,102,241,0.65)"
+            style={{ filter: 'drop-shadow(0 0 5px rgba(99,102,241,0.7))' }}>
             <animateMotion dur="88s" repeatCount="indefinite">
               <mpath href="#advR1"/>
             </animateMotion>
@@ -163,13 +170,12 @@ const AmbientBackground = () => (
           <path id="advR1" d="M490,30 a460,460 0 1,1 -0.1,0" fill="none"/>
         </svg>
       </div>
-      <div style={{ width: 'min(64vw,660px)', height: 'min(64vw,660px)', position: 'absolute',
-        animation: 'adv2 130s linear infinite' }}>
+      <div className="oCCW absolute" style={{ width: 'min(64vw,660px)', height: 'min(64vw,660px)' }}>
         <svg width="100%" height="100%" viewBox="0 0 660 660">
           <circle cx="330" cy="330" r="308" fill="none"
-            stroke="rgba(217,119,6,0.1)" strokeWidth="0.9" strokeDasharray="3 18"/>
-          <circle cx="636" cy="330" r="4" fill="rgba(217,119,6,0.75)"
-            style={{ filter: 'drop-shadow(0 0 5px rgba(217,119,6,0.85))' }}>
+            stroke="rgba(124,58,237,0.08)" strokeWidth="0.9" strokeDasharray="3 18"/>
+          <circle r="3.5" fill="rgba(139,92,246,0.65)"
+            style={{ filter: 'drop-shadow(0 0 5px rgba(139,92,246,0.7))' }}>
             <animateMotion dur="130s" repeatCount="indefinite">
               <mpath href="#advR2"/>
             </animateMotion>
@@ -179,19 +185,19 @@ const AmbientBackground = () => (
       </div>
     </div>
 
-    {/* ── Constellation: top-right (indigo + gold nodes) ── */}
+    {/* Constellation: top-right — blue/violet nodes, no gold */}
     <svg className="absolute top-0 right-0 w-[42vw] h-[42vw] max-w-[500px] max-h-[500px]"
       viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
       {[
-        [72,44,'#6366f1'],[188,82,'#d97706'],[318,40,'#6366f1'],
-        [438,125,'#d97706'],[144,192,'#4f46e5'],[285,172,'#b45309'],
-        [418,238,'#6366f1'],[62,305,'#d97706'],[215,308,'#4f46e5'],
-        [395,368,'#b45309'],
+        [72,44,'#6366f1'],[188,82,'#818cf8'],[318,40,'#a5b4fc'],
+        [438,125,'#6366f1'],[144,192,'#4f46e5'],[285,172,'#7c3aed'],
+        [418,238,'#818cf8'],[62,305,'#6366f1'],[215,308,'#a5b4fc'],
+        [395,368,'#7c3aed'],
       ].map(([x,y,c],i) => (
         <g key={i}>
           <circle cx={x} cy={y} r="8" fill={c} opacity="0.11"
             style={{ animation: `nodeAdv ${4+(i%4)}s ease-in-out infinite`, animationDelay: `${i*0.48}s` }}/>
-          <circle cx={x} cy={y} r="2.6" fill={c} opacity="0.72"
+          <circle cx={x} cy={y} r="2.6" fill={c} opacity="0.65"
             style={{ filter: `drop-shadow(0 0 4px ${c})` }}/>
         </g>
       ))}
@@ -202,23 +208,23 @@ const AmbientBackground = () => (
         [144,192,215,308],[285,172,215,308],[418,238,395,368],[215,308,395,368],
       ].map(([x1,y1,x2,y2],i) => (
         <line key={i} x1={x1} y1={y1} x2={x2} y2={y2}
-          stroke="rgba(99,102,241,0.14)" strokeWidth="0.8"/>
+          stroke="rgba(99,102,241,0.12)" strokeWidth="0.8"/>
       ))}
     </svg>
 
-    {/* ── Constellation: bottom-left (mirrored) ── */}
+    {/* Constellation: bottom-left */}
     <svg className="absolute bottom-0 left-0 w-[36vw] h-[36vw] max-w-[420px] max-h-[420px]"
       viewBox="0 0 420 420" xmlns="http://www.w3.org/2000/svg"
       style={{ transform: 'scaleX(-1) scaleY(-1)' }}>
       {[
-        [58,36,'#d97706'],[155,68,'#6366f1'],[272,35,'#d97706'],
-        [378,108,'#4f46e5'],[112,158,'#b45309'],[248,144,'#6366f1'],
-        [362,204,'#d97706'],[46,260,'#4f46e5'],[196,265,'#d97706'],
+        [58,36,'#818cf8'],[155,68,'#6366f1'],[272,35,'#a5b4fc'],
+        [378,108,'#4f46e5'],[112,158,'#7c3aed'],[248,144,'#818cf8'],
+        [362,204,'#6366f1'],[46,260,'#a5b4fc'],[196,265,'#7c3aed'],
       ].map(([x,y,c],i) => (
         <g key={i}>
-          <circle cx={x} cy={y} r="7" fill={c} opacity="0.1"
+          <circle cx={x} cy={y} r="7" fill={c} opacity="0.10"
             style={{ animation: `nodeAdv ${5+(i%3)}s ease-in-out infinite`, animationDelay: `${i*0.62}s` }}/>
-          <circle cx={x} cy={y} r="2.3" fill={c} opacity="0.65"
+          <circle cx={x} cy={y} r="2.3" fill={c} opacity="0.60"
             style={{ filter: `drop-shadow(0 0 3px ${c})` }}/>
         </g>
       ))}
@@ -229,13 +235,13 @@ const AmbientBackground = () => (
         [112,158,196,265],[248,144,196,265],
       ].map(([x1,y1,x2,y2],i) => (
         <line key={i} x1={x1} y1={y1} x2={x2} y2={y2}
-          stroke="rgba(217,119,6,0.13)" strokeWidth="0.8"/>
+          stroke="rgba(124,58,237,0.11)" strokeWidth="0.8"/>
       ))}
     </svg>
 
-    {/* ── Edge vignette ── */}
+    {/* Edge vignette */}
     <div className="absolute inset-0" style={{
-      background: 'radial-gradient(ellipse 90% 90% at 50% 50%, transparent 48%, rgba(248,249,255,0.42) 78%, rgba(250,248,242,0.72) 100%)'
+      background: 'radial-gradient(ellipse 90% 90% at 50% 50%, transparent 48%, rgba(244,245,255,0.40) 78%, rgba(240,243,255,0.70) 100%)'
     }} />
   </div>
 );

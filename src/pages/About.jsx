@@ -17,7 +17,7 @@ import {
   ArrowUpRight 
 } from 'lucide-react';
 
-// --- UPGRADED PREMIUM AMBIENT BACKGROUND ---
+// AMBIENT BACKGROUND ---
 const AmbientBackground = () => (
   <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
     <style>{`
@@ -53,14 +53,14 @@ const AmbientBackground = () => (
         72%  { transform: translate(28px,-42px) scale(0.94); }
       }
       @keyframes gridBr {
-        0%,100% { opacity: 0.06; }
-        50%      { opacity: 0.13; }
+        0%,100% { opacity: 0.05; }
+        50%      { opacity: 0.09; }
       }
       @keyframes orbitSpin    { to { transform: rotate(360deg); } }
       @keyframes orbitSpinRev { to { transform: rotate(-360deg); } }
       @keyframes nodePulse {
-        0%,100% { opacity:0.25; transform:scale(1); }
-        50%      { opacity:0.9; transform:scale(2); }
+        0%,100% { opacity:0.20; transform:scale(1); }
+        50%      { opacity:0.65; transform:scale(1.8); }
       }
       @keyframes shimH {
         0%   { transform:translateX(-110%); opacity:0; }
@@ -80,10 +80,9 @@ const AmbientBackground = () => (
         92%  { opacity:1; }
         100% { transform:translateY(-8vh) scale(1.1); opacity:0; }
       }
-      @keyframes arcSpin { to { stroke-dashoffset:-500; } }
       @keyframes glowPulse {
-        0%,100% { opacity:0.45; transform:scale(1); }
-        50%      { opacity:0.85; transform:scale(1.1); }
+        0%,100% { opacity:0.4; transform:scale(1); }
+        50%      { opacity:0.75; transform:scale(1.08); }
       }
 
       .d1{animation:d1 20s ease-in-out infinite;}
@@ -99,88 +98,95 @@ const AmbientBackground = () => (
       .gp{animation:glowPulse 4s ease-in-out infinite;}
     `}</style>
 
-    {/* ── Rich base canvas ── */}
+    {/* Base — deep cool white, barely-there blue-grey tint */}
     <div className="absolute inset-0" style={{
       background: `linear-gradient(135deg,
-        #e8f4fd 0%,
-        #eef2ff 15%,
-        #fdf2ff 30%,
-        #fff0f6 45%,
-        #e8fbff 60%,
-        #edfff8 75%,
-        #fff8e8 88%,
-        #eef0ff 100%
+        #edf1f7 0%,
+        #eef2f9 15%,
+        #f0f3fa 30%,
+        #edf1f8 45%,
+        #eaeff7 60%,
+        #edf2f9 75%,
+        #ebf0f8 88%,
+        #eef2fa 100%
       )`
     }} />
 
-    {/* ── 6 large vivid orbs ── */}
-    {/* Royal blue — top-left */}
+    {/* Depth wash — two large luminance anchors */}
+    <div className="absolute inset-0" style={{
+      background: `
+        radial-gradient(ellipse 120% 75% at 70% 10%, rgba(51,75,145,0.08) 0%, transparent 55%),
+        radial-gradient(ellipse 100% 80% at 15% 90%, rgba(55,65,181,0.07) 0%, transparent 52%)
+      `
+    }} />
+
+    {/* Orb 1: top-left — deep navy */}
     <div className="d1 absolute -top-[18%] -left-[12%]" style={{
       width:'clamp(400px,62vw,860px)', height:'clamp(400px,62vw,860px)',
-      background:'radial-gradient(ellipse at 45% 42%, rgba(59,130,246,0.42) 0%, rgba(37,99,235,0.2) 35%, rgba(147,197,253,0.08) 62%, transparent 78%)',
-      filter:'blur(36px)', borderRadius:'50%',
-    }}/>
-
-    {/* Violet — top-right */}
-    <div className="d2 absolute -top-[14%] -right-[14%]" style={{
-      width:'clamp(360px,56vw,780px)', height:'clamp(360px,56vw,780px)',
-      background:'radial-gradient(ellipse at 55% 38%, rgba(139,92,246,0.42) 0%, rgba(109,40,217,0.2) 36%, rgba(196,181,253,0.08) 62%, transparent 80%)',
-      filter:'blur(40px)', borderRadius:'50%',
-    }}/>
-
-    {/* Cyan — mid-right */}
-    <div className="d3 absolute top-[35%] -right-[8%]" style={{
-      width:'clamp(300px,46vw,650px)', height:'clamp(300px,46vw,650px)',
-      background:'radial-gradient(ellipse at 55% 50%, rgba(6,182,212,0.4) 0%, rgba(8,145,178,0.2) 38%, rgba(103,232,249,0.07) 62%, transparent 80%)',
+      background:'radial-gradient(ellipse at 45% 42%, rgba(30,58,138,0.20) 0%, rgba(29,78,216,0.10) 35%, rgba(147,197,253,0.04) 62%, transparent 78%)',
       filter:'blur(44px)', borderRadius:'50%',
     }}/>
 
-    {/* Rose-pink — center */}
+    {/* Orb 2: top-right — slate-indigo */}
+    <div className="d2 absolute -top-[14%] -right-[14%]" style={{
+      width:'clamp(360px,56vw,780px)', height:'clamp(360px,56vw,780px)',
+      background:'radial-gradient(ellipse at 55% 38%, rgba(55,65,181,0.19) 0%, rgba(49,60,170,0.09) 36%, rgba(165,180,252,0.04) 62%, transparent 80%)',
+      filter:'blur(46px)', borderRadius:'50%',
+    }}/>
+
+    {/* Orb 3: mid-right — steel blue */}
+    <div className="d3 absolute top-[35%] -right-[8%]" style={{
+      width:'clamp(300px,46vw,650px)', height:'clamp(300px,46vw,650px)',
+      background:'radial-gradient(ellipse at 55% 50%, rgba(37,99,235,0.16) 0%, rgba(29,78,216,0.08) 38%, rgba(147,197,253,0.04) 62%, transparent 80%)',
+      filter:'blur(48px)', borderRadius:'50%',
+    }}/>
+
+    {/* Orb 4: centre — cool grey-blue bridge */}
     <div className="d4 absolute top-[28%] left-[20%]" style={{
       width:'clamp(280px,42vw,600px)', height:'clamp(280px,42vw,600px)',
-      background:'radial-gradient(ellipse at 50% 50%, rgba(244,63,94,0.3) 0%, rgba(225,29,72,0.14) 40%, rgba(253,164,175,0.06) 65%, transparent 80%)',
-      filter:'blur(52px)', borderRadius:'50%',
+      background:'radial-gradient(ellipse at 50% 50%, rgba(71,85,105,0.13) 0%, rgba(51,65,92,0.06) 40%, transparent 72%)',
+      filter:'blur(56px)', borderRadius:'50%',
     }}/>
 
-    {/* Emerald — bottom-left */}
+    {/* Orb 5: bottom-left — deep sapphire */}
     <div className="d5 absolute -bottom-[16%] -left-[10%]" style={{
       width:'clamp(380px,58vw,800px)', height:'clamp(380px,58vw,800px)',
-      background:'radial-gradient(ellipse at 42% 55%, rgba(16,185,129,0.38) 0%, rgba(5,150,105,0.18) 38%, rgba(110,231,183,0.07) 62%, transparent 80%)',
-      filter:'blur(40px)', borderRadius:'50%',
+      background:'radial-gradient(ellipse at 42% 55%, rgba(30,64,175,0.19) 0%, rgba(29,78,216,0.09) 38%, rgba(191,219,254,0.04) 62%, transparent 80%)',
+      filter:'blur(44px)', borderRadius:'50%',
     }}/>
 
-    {/* Amber — bottom-right */}
+    {/* Orb 6: bottom-right — violet-slate accent */}
     <div className="d6 absolute -bottom-[12%] -right-[10%]" style={{
       width:'clamp(340px,52vw,720px)', height:'clamp(340px,52vw,720px)',
-      background:'radial-gradient(ellipse at 55% 55%, rgba(251,146,60,0.35) 0%, rgba(234,88,12,0.16) 38%, rgba(253,186,116,0.07) 62%, transparent 80%)',
-      filter:'blur(42px)', borderRadius:'50%',
+      background:'radial-gradient(ellipse at 55% 55%, rgba(79,70,229,0.17) 0%, rgba(67,56,202,0.08) 38%, rgba(199,210,254,0.04) 62%, transparent 80%)',
+      filter:'blur(46px)', borderRadius:'50%',
     }}/>
 
-    {/* ── Dot grid ── */}
+    {/* Dot grid — deep navy */}
     <div className="gbr absolute inset-0" style={{
-      backgroundImage:'radial-gradient(rgba(30,27,75,0.45) 1.3px, transparent 1.3px)',
+      backgroundImage:'radial-gradient(rgba(25,35,90,0.28) 1.3px, transparent 1.3px)',
       backgroundSize:'32px 32px',
     }}/>
 
-    {/* ── Diagonal crosshatch ── */}
-    <svg className="absolute inset-0 w-full h-full" style={{opacity:0.035}} xmlns="http://www.w3.org/2000/svg">
+    {/* Diagonal crosshatch — two blue tones */}
+    <svg className="absolute inset-0 w-full h-full" style={{opacity:0.028}} xmlns="http://www.w3.org/2000/svg">
       <defs>
         <pattern id="dxh" x="0" y="0" width="56" height="56" patternUnits="userSpaceOnUse">
-          <path d="M56 0L0 56" stroke="#4f46e5" strokeWidth="0.7" fill="none"/>
-          <path d="M0 0L56 56" stroke="#0891b2" strokeWidth="0.4" fill="none"/>
+          <path d="M56 0L0 56" stroke="#1e3a8a" strokeWidth="0.7" fill="none"/>
+          <path d="M0 0L56 56" stroke="#3730a3" strokeWidth="0.4" fill="none"/>
         </pattern>
       </defs>
       <rect width="100%" height="100%" fill="url(#dxh)"/>
     </svg>
 
-    {/* ── Orbit ring system (centered) ── */}
+    {/* Orbit ring system — all in blue/slate family */}
     <div className="absolute inset-0 flex items-center justify-center">
       <div className="orb1 absolute" style={{width:'min(105vw,1060px)',height:'min(105vw,1060px)'}}>
         <svg width="100%" height="100%" viewBox="0 0 1060 1060">
           <circle cx="530" cy="530" r="500" fill="none"
-            stroke="rgba(99,102,241,0.14)" strokeWidth="1.2" strokeDasharray="5 22"/>
-          <circle cx="1028" cy="530" r="5" fill="rgba(99,102,241,0.8)"
-            style={{filter:'drop-shadow(0 0 6px rgba(99,102,241,0.9))'}}>
+            stroke="rgba(55,65,181,0.10)" strokeWidth="1.2" strokeDasharray="5 22"/>
+          <circle r="4.5" fill="rgba(99,102,241,0.62)"
+            style={{filter:'drop-shadow(0 0 5px rgba(99,102,241,0.65))'}}>
             <animateMotion dur="70s" repeatCount="indefinite">
               <mpath href="#op1"/>
             </animateMotion>
@@ -191,9 +197,9 @@ const AmbientBackground = () => (
       <div className="orb2 absolute" style={{width:'min(72vw,740px)',height:'min(72vw,740px)'}}>
         <svg width="100%" height="100%" viewBox="0 0 740 740">
           <circle cx="370" cy="370" r="340" fill="none"
-            stroke="rgba(6,182,212,0.14)" strokeWidth="1" strokeDasharray="3 16"/>
-          <circle cx="710" cy="370" r="4.5" fill="rgba(6,182,212,0.85)"
-            style={{filter:'drop-shadow(0 0 5px rgba(6,182,212,0.9))'}}>
+            stroke="rgba(37,99,235,0.09)" strokeWidth="1" strokeDasharray="3 16"/>
+          <circle r="3.8" fill="rgba(59,130,246,0.58)"
+            style={{filter:'drop-shadow(0 0 4px rgba(59,130,246,0.60))'}}>
             <animateMotion dur="110s" repeatCount="indefinite">
               <mpath href="#op2"/>
             </animateMotion>
@@ -204,9 +210,9 @@ const AmbientBackground = () => (
       <div className="orb3 absolute" style={{width:'min(46vw,480px)',height:'min(46vw,480px)'}}>
         <svg width="100%" height="100%" viewBox="0 0 480 480">
           <circle cx="240" cy="240" r="218" fill="none"
-            stroke="rgba(16,185,129,0.13)" strokeWidth="0.9" strokeDasharray="4 26"/>
-          <circle cx="458" cy="240" r="4" fill="rgba(16,185,129,0.85)"
-            style={{filter:'drop-shadow(0 0 5px rgba(16,185,129,0.9))'}}>
+            stroke="rgba(79,70,229,0.08)" strokeWidth="0.9" strokeDasharray="4 26"/>
+          <circle r="3" fill="rgba(129,140,248,0.55)"
+            style={{filter:'drop-shadow(0 0 4px rgba(129,140,248,0.60))'}}>
             <animateMotion dur="150s" repeatCount="indefinite">
               <mpath href="#op3"/>
             </animateMotion>
@@ -216,12 +222,12 @@ const AmbientBackground = () => (
       </div>
     </div>
 
-    {/* ── Colorful shimmer beams — horizontal ── */}
+    {/* Horizontal shimmer beams — all blue/indigo, two tone depths */}
     {[
-      {top:'15%', dur:'9s',  delay:'0s',   c:'rgba(59,130,246,0.35)'},
-      {top:'38%', dur:'13s', delay:'3s',   c:'rgba(139,92,246,0.32)'},
-      {top:'62%', dur:'10s', delay:'6.5s', c:'rgba(6,182,212,0.3)'},
-      {top:'82%', dur:'15s', delay:'1.5s', c:'rgba(16,185,129,0.28)'},
+      {top:'15%', dur:'9s',  delay:'0s',   c:'rgba(37,99,235,0.18)'},
+      {top:'38%', dur:'13s', delay:'3s',   c:'rgba(55,65,181,0.16)'},
+      {top:'62%', dur:'10s', delay:'6.5s', c:'rgba(30,64,175,0.17)'},
+      {top:'82%', dur:'15s', delay:'1.5s', c:'rgba(79,70,229,0.14)'},
     ].map((b,i)=>(
       <div key={i} className="absolute left-0 right-0" style={{top:b.top,height:'1px',overflow:'hidden'}}>
         <div style={{
@@ -233,11 +239,11 @@ const AmbientBackground = () => (
       </div>
     ))}
 
-    {/* ── Colorful shimmer beams — vertical ── */}
+    {/* Vertical shimmer beams — slate/indigo */}
     {[
-      {left:'18%', dur:'16s', delay:'2s',  c:'rgba(244,63,94,0.22)'},
-      {left:'52%', dur:'20s', delay:'8s',  c:'rgba(251,146,60,0.2)'},
-      {left:'80%', dur:'14s', delay:'5s',  c:'rgba(139,92,246,0.22)'},
+      {left:'18%', dur:'16s', delay:'2s',  c:'rgba(55,65,181,0.13)'},
+      {left:'52%', dur:'20s', delay:'8s',  c:'rgba(37,99,235,0.11)'},
+      {left:'80%', dur:'14s', delay:'5s',  c:'rgba(79,70,229,0.12)'},
     ].map((b,i)=>(
       <div key={i} className="absolute top-0 bottom-0" style={{left:b.left,width:'1px',overflow:'hidden'}}>
         <div style={{
@@ -249,43 +255,46 @@ const AmbientBackground = () => (
       </div>
     ))}
 
-    {/* ── Rising particles — 6 colors ── */}
+    {/* Rising particles — unified blue/slate, three subtle tones only */}
     {[
-      {c:'#3b82f6',s:3},{c:'#8b5cf6',s:2.5},{c:'#06b6d4',s:3.5},
-      {c:'#10b981',s:2},{c:'#f43f5e',s:3},{c:'#fb923c',s:2.5},
-      {c:'#3b82f6',s:2},{c:'#8b5cf6',s:3},{c:'#06b6d4',s:2.5},
-      {c:'#10b981',s:3.5},{c:'#f43f5e',s:2},{c:'#fb923c',s:3},
-      {c:'#3b82f6',s:2.5},{c:'#8b5cf6',s:3},{c:'#06b6d4',s:2},
-      {c:'#10b981',s:3},{c:'#f43f5e',s:2.5},{c:'#fb923c',s:3.5},
-    ].map(({c,s},i)=>(
-      <div key={i} style={{
-        position:'absolute',
-        left:`${(i/18)*100 + (i%3)*2.2}%`,
-        bottom:0,
-        width:s,height:s,
-        borderRadius:'50%',
-        background:c,
-        boxShadow:`0 0 ${s*3}px ${c}, 0 0 ${s*6}px ${c}66`,
-        animation:`rise ${14+(i%7)*3}s linear infinite`,
-        animationDelay:`-${(i*2.3)%22}s`,
-        opacity:0,
-      }}/>
-    ))}
+      '#4f6eb5','#5b7cc9','#6b8fd6',
+      '#4a65aa','#5775c0','#6685ce',
+      '#506ab0','#5c7ac6','#6c8dd4',
+      '#4d67ad','#5978c3','#698bd1',
+      '#516cb2','#5d7dc8','#6e90d7',
+      '#4e69af','#5a7ac5','#6a8cd3',
+    ].map((c,i)=>{
+      const s = 2 + (i % 3) * 0.6;
+      return (
+        <div key={i} style={{
+          position:'absolute',
+          left:`${(i/18)*100 + (i%3)*2.2}%`,
+          bottom:0,
+          width:s, height:s,
+          borderRadius:'50%',
+          background:c,
+          boxShadow:`0 0 ${s*2.5}px ${c}99`,
+          animation:`rise ${14+(i%7)*3}s linear infinite`,
+          animationDelay:`-${(i*2.3)%22}s`,
+          opacity:0,
+        }}/>
+      );
+    })}
 
-    {/* ── Node constellation: top-right ── */}
+    {/* Constellation: top-right — blue/slate/indigo only */}
     <svg className="absolute top-0 right-0 w-[44vw] h-[44vw] max-w-[520px] max-h-[520px]"
       viewBox="0 0 520 520" xmlns="http://www.w3.org/2000/svg">
       {[
-        [75,48,'#3b82f6'],[190,85,'#8b5cf6'],[330,42,'#06b6d4'],
-        [460,130,'#3b82f6'],[148,198,'#10b981'],[295,178,'#f43f5e'],
-        [430,255,'#8b5cf6'],[65,308,'#fb923c'],[222,315,'#06b6d4'],
-        [400,370,'#3b82f6'],[510,195,'#10b981'],
+        [75,48,'#4f72c4'],[190,85,'#6386d0'],[330,42,'#5070bf'],
+        [460,130,'#6888cc'],[148,198,'#5878c5'],[295,178,'#4a68be'],
+        [430,255,'#607ac8'],[65,308,'#5270c0'],[222,315,'#6684cb'],
+        [400,370,'#4e6abb'],[510,195,'#5a7bc7'],
       ].map(([x,y,c],i)=>(
         <g key={i}>
-          <circle cx={x} cy={y} r="9" fill={c} opacity="0.12"
+          <circle cx={x} cy={y} r="9" fill={c} opacity="0.10"
             style={{animation:`nodePulse ${4+(i%4)}s ease-in-out infinite`,animationDelay:`${i*0.45}s`}}/>
-          <circle cx={x} cy={y} r="2.8" fill={c} opacity="0.8"
-            style={{filter:`drop-shadow(0 0 5px ${c})`}}/>
+          <circle cx={x} cy={y} r="2.6" fill={c} opacity="0.62"
+            style={{filter:`drop-shadow(0 0 4px ${c})`}}/>
         </g>
       ))}
       {[[75,48,190,85],[190,85,330,42],[330,42,460,130],[460,130,510,195],
@@ -294,24 +303,24 @@ const AmbientBackground = () => (
         [148,198,222,315],[295,178,222,315],[430,255,400,370],[222,315,400,370],
       ].map(([x1,y1,x2,y2],i)=>(
         <line key={i} x1={x1} y1={y1} x2={x2} y2={y2}
-          stroke="rgba(99,102,241,0.16)" strokeWidth="0.9"/>
+          stroke="rgba(65,95,180,0.12)" strokeWidth="0.9"/>
       ))}
     </svg>
 
-    {/* ── Node constellation: bottom-left ── */}
+    {/* Constellation: bottom-left */}
     <svg className="absolute bottom-0 left-0 w-[38vw] h-[38vw] max-w-[450px] max-h-[450px]"
       viewBox="0 0 450 450" xmlns="http://www.w3.org/2000/svg"
       style={{transform:'scaleX(-1) scaleY(-1)'}}>
       {[
-        [60,40,'#10b981'],[165,75,'#3b82f6'],[295,38,'#fb923c'],
-        [405,115,'#8b5cf6'],[122,172,'#06b6d4'],[268,155,'#f43f5e'],
-        [390,220,'#10b981'],[50,278,'#3b82f6'],[214,285,'#8b5cf6'],
+        [60,40,'#5474c2'],[165,75,'#4866bc'],[295,38,'#6080ca'],
+        [405,115,'#5272bf'],[122,172,'#6484cc'],[268,155,'#4a68bd'],
+        [390,220,'#5878c6'],[50,278,'#4c6abd'],[214,285,'#6282cb'],
       ].map(([x,y,c],i)=>(
         <g key={i}>
-          <circle cx={x} cy={y} r="8" fill={c} opacity="0.12"
+          <circle cx={x} cy={y} r="8" fill={c} opacity="0.10"
             style={{animation:`nodePulse ${5+(i%3)}s ease-in-out infinite`,animationDelay:`${i*0.6}s`}}/>
-          <circle cx={x} cy={y} r="2.5" fill={c} opacity="0.75"
-            style={{filter:`drop-shadow(0 0 4px ${c})`}}/>
+          <circle cx={x} cy={y} r="2.4" fill={c} opacity="0.58"
+            style={{filter:`drop-shadow(0 0 3px ${c})`}}/>
         </g>
       ))}
       {[[60,40,165,75],[165,75,295,38],[295,38,405,115],
@@ -320,13 +329,13 @@ const AmbientBackground = () => (
         [122,172,214,285],[268,155,214,285],
       ].map(([x1,y1,x2,y2],i)=>(
         <line key={i} x1={x1} y1={y1} x2={x2} y2={y2}
-          stroke="rgba(16,185,129,0.15)" strokeWidth="0.9"/>
+          stroke="rgba(60,88,180,0.11)" strokeWidth="0.9"/>
       ))}
     </svg>
 
-    {/* ── Soft edge vignette ── */}
+    {/* Edge vignette */}
     <div className="absolute inset-0" style={{
-      background:'radial-gradient(ellipse 92% 92% at 50% 50%, transparent 42%, rgba(244,248,255,0.38) 74%, rgba(238,242,255,0.7) 100%)'
+      background:'radial-gradient(ellipse 92% 92% at 50% 50%, transparent 42%, rgba(237,241,247,0.38) 74%, rgba(235,240,248,0.68) 100%)'
     }}/>
   </div>
 );

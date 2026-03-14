@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { GoogleGenAI } from "@google/genai";
 import { useNavigate, useLocation } from 'react-router-dom';
-import { CalendarCheck, Trash2, ArrowDown, Mic, MicOff, Volume2, VolumeX, Bot, User, Send, X, ArrowRight } from 'lucide-react'; 
+import { CalendarCheck, Trash2, ArrowDown, Mic, MicOff, Volume2, VolumeX, Bot, User, Send, X, ArrowRight, ChevronLeft, LayoutGrid } from 'lucide-react'; 
 
 // Core enterprise services matching your exact data structure
 const CORE_SERVICES = [
@@ -14,40 +14,36 @@ const CORE_SERVICES = [
   "Enterprise GTM & Market Expansion"
 ];
 
-const getSystemPrompt = () => `You are the official AI assistant for 1TecHub, guiding visitors through our enterprise technology and advisory services. Maintain a professional, concise, business-focused tone. Do NOT provide coding help or answer general knowledge questions. Always end with a polite follow-up. Use concise bullets for readability.
+// Highly optimized prompt for maximum accuracy and strict boundary control
+const getSystemPrompt = () => `You are the official AI advisory assistant for 1TecHub. 
 
-FULL SERVICE KNOWLEDGE:
-1) Enterprise IT Managed Services: SAP Managed Services, Oracle Managed Services, Cyber Security Operations, Enterprise Infrastructure Management, 24x7 monitoring and governance.
-2) Strategic Technology Talent Solutions: Contract and contract-to-hire engineers, CXO and executive technology hiring, Offshore development teams, Workforce lifecycle management.
-3) Intelligent AI, Agentic AI & Analytics: Autonomous AI agents, Enterprise RAG systems, Predictive analytics, Computer vision solutions.
-4) Enterprise Cyber Security Managed Services: 24/7 SOC & MDR, Vulnerability assessments & penetration testing, Zero-trust cloud security, Identity and endpoint protection, Governance, risk & compliance.
-5) Next-Gen Web & App Modernization: Legacy system re-engineering, UI/UX redesign, Cloud-native architecture, Mobile app modernization.
-6) API, Integrations & Customizations: REST & GraphQL API development, ERP / CRM integrations, Middleware platforms, Data integration & automation.
-7) Enterprise GTM & Market Expansion: Market entry strategy, Sales execution, Channel partner development, Regional branding & demand generation.
+YOUR PERSONA & INSTRUCTIONS:
+- Tone: Professional, highly confident, concise, and business-focused.
+- Boundaries: ONLY discuss the services and methodology explicitly listed below. Do NOT invent or assume services. If a user asks about something unrelated, politely inform them that 1TecHub specializes in enterprise digital transformation and offer to connect them with our experts.
+- Formatting: Use concise bullet points for readability. Always end responses with a polite, guiding follow-up question.
 
-STRATEGIC ADVISORY & METHODOLOGY:
-We act as a digital transformation hub. Speed without direction is chaos, so architecture comes first. We use a 4-Phase Transformation Blueprint:
+OUR 7 CORE CAPABILITIES:
+1) Enterprise IT Managed Services: SAP/Oracle mgmt, infra governance, Cyber Security Operations, 24x7 support.
+2) Strategic Technology Talent Solutions: Contract/CXO hiring, offshore teams deployed in 24-72 hrs, lifecycle mgmt.
+3) Intelligent AI, Agentic AI & Analytics: Autonomous AI agents, Enterprise RAG systems, predictive analytics, computer vision.
+4) Enterprise Cyber Security Managed Services: 24/7 SOC & MDR, VAPT, Zero-trust cloud, Identity/endpoint protection, GRC.
+5) Next-Gen Web & App Modernization: Legacy system re-engineering, UI/UX redesign, cloud-native architecture, mobile apps.
+6) API, Integrations & Customizations: REST/GraphQL, ERP/CRM middleware, data integration & automation.
+7) Enterprise GTM & Market Expansion: Market entry strategy, sales execution, channel partner development, regional branding (GCC/Africa).
+
+STRATEGIC ADVISORY & METHODOLOGY (The 4-Phase Blueprint):
+We act as a digital transformation hub. Speed without direction is chaos, so architecture comes first. 
 01 Discovery & Assessment: Ecosystem audit, tech debt evaluation, security gaps.
 02 Strategic Architecture: Designing secure cloud infra, API connectivity, and governance frameworks.
 03 Agile Execution: Deploying elite agile squads to build/modernize with zero disruption.
 04 Govern & Optimize: Continuous 24/7 SOC monitoring, IT management, and ROI tracking.
 
-CRITICAL - RESPOND STRICTLY WITH VALID JSON (NO MARKDOWN BACKTICKS):
-{
-  "text": "Your conversational response to the user here.",
-  "shouldRedirectToContact": true or false,
-  "shouldShowCalendar": true or false,
-  "selectedServices": ["Service Name 1"],
-  "prefilledMessage": "string",
-  "suggestedFollowUps": ["Q1?", "Q2?", "Q3?"]
-}
-
-ACTION RULES:
-- shouldShowCalendar: true if user asks for a meeting, call, or calendar.
-- shouldRedirectToContact: true if user asks for pricing, quotes, or starting a project.
-- selectedServices: Identify requested services. MUST use EXACT names from this list: [${CORE_SERVICES.join(', ')}]. Leave [] if no contact redirect.
-- prefilledMessage: Short first-person summary of their needs. Leave "" if no contact redirect.
-- suggestedFollowUps: ALWAYS provide exactly 3 short, relevant follow-up questions. CRITICAL: These questions MUST be strictly derived from 1TecHub's 7 core services or 4-Phase methodology. Do NOT invent generic questions outside our listed capabilities.`;
+ROUTING RULES:
+- shouldShowCalendar: true ONLY if the user explicitly asks for a meeting, call, or calendar link.
+- shouldRedirectToContact: true ONLY if the user asks for pricing, quotes, or to start a project.
+- selectedServices: Map to the EXACT names from the 7 capabilities if the user implies interest.
+- prefilledMessage: Provide a short 1st-person summary if redirecting to contact.
+- suggestedFollowUps: Generate EXACTLY 3 short questions strictly related to the 7 capabilities or the methodology.`;
 
 const GeminiChatBot = ({ apiKey }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -56,6 +52,9 @@ const GeminiChatBot = ({ apiKey }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [showTooltip, setShowTooltip] = useState(true);
   const [showScrollBottom, setShowScrollBottom] = useState(false);
+  
+  // State to toggle the "Services Menu" in the quick actions bar
+  const [showServicesMenu, setShowServicesMenu] = useState(false);
   
   // --- VOICE FEATURES ---
   const [isListening, setIsListening] = useState(false);
@@ -73,7 +72,6 @@ const GeminiChatBot = ({ apiKey }) => {
 
   // --- INITIALIZE SPEECH RECOGNITION & SYNTHESIS VOICES ---
   useEffect(() => {
-    // Load Voices for TTS
     const loadVoices = () => {
       setAvailableVoices(window.speechSynthesis.getVoices());
     };
@@ -82,7 +80,6 @@ const GeminiChatBot = ({ apiKey }) => {
       window.speechSynthesis.onvoiceschanged = loadVoices;
     }
 
-    // Init Speech Recognition
     if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
       const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
       recognitionRef.current = new SpeechRecognition();
@@ -108,7 +105,6 @@ const GeminiChatBot = ({ apiKey }) => {
     }
   }, []);
 
-  // Stop any ongoing speech when component unmounts or chat closes
   useEffect(() => {
     if (!isOpen) {
       window.speechSynthesis.cancel();
@@ -117,6 +113,7 @@ const GeminiChatBot = ({ apiKey }) => {
         recognitionRef.current.stop();
         setIsListening(false);
       }
+      setShowServicesMenu(false); // Reset menu state on close
     }
   }, [isOpen, isListening]);
 
@@ -131,35 +128,18 @@ const GeminiChatBot = ({ apiKey }) => {
     }
   };
 
-  // Select the best natural female voice available on the OS
   const getBestFemaleVoice = () => {
     if (!availableVoices.length) return null;
 
-    // 1. Search for explicitly named female voices across different OS/Browsers
     const femaleVoice = availableVoices.find(v => {
       const name = v.name.toLowerCase();
       const uri = v.voiceURI.toLowerCase();
-      
-      return name.includes('female') || 
-             name.includes('woman') || 
-             name.includes('zira') ||       // Windows Female
-             name.includes('samantha') ||   // Apple Female
-             name.includes('tessa') ||      // Apple Female
-             name.includes('karen') ||      // Apple Female
-             name.includes('victoria') ||   // Apple Female
-             name.includes('google uk english female') || // Chrome Female
-             uri.includes('female');
+      return name.includes('female') || name.includes('woman') || name.includes('zira') || name.includes('samantha') || name.includes('tessa') || name.includes('karen') || name.includes('victoria') || name.includes('google uk english female') || uri.includes('female');
     });
 
-    // 2. If a female voice is found, return it
-    if (femaleVoice) {
-      return femaleVoice;
-    }
+    if (femaleVoice) return femaleVoice;
 
-    // 3. Fallback: If no explicit female voice is found, try to use a Google cloud voice (which defaults to female) or the first English voice
-    return availableVoices.find(v => v.name === 'Google US English') || 
-           availableVoices.find(v => v.lang.startsWith('en')) || 
-           availableVoices[0];
+    return availableVoices.find(v => v.name === 'Google US English') || availableVoices.find(v => v.lang.startsWith('en')) || availableVoices[0];
   };
 
   const handleSpeak = (text, index) => {
@@ -174,12 +154,11 @@ const GeminiChatBot = ({ apiKey }) => {
     const cleanText = text.replace(/[*_~`#]/g, '');
     const utterance = new SpeechSynthesisUtterance(cleanText);
     
-    // Apply voice and tuning
     const bestVoice = getBestFemaleVoice();
     if (bestVoice) utterance.voice = bestVoice;
     
-    utterance.pitch = 1.05; // Slightly higher pitch for a friendlier tone
-    utterance.rate = 1.02; // Very slightly faster for natural pacing
+    utterance.pitch = 1.05; 
+    utterance.rate = 1.02; 
     
     utterance.onend = () => setSpeakingIndex(null);
     utterance.onerror = () => setSpeakingIndex(null);
@@ -206,7 +185,6 @@ const GeminiChatBot = ({ apiKey }) => {
     }
   }, [messages, isLoading]);
 
-  // --- ROUTE TRACKING TOOLTIP LOGIC ---
   useEffect(() => {
     setShowTooltip(true);
     const timer = setTimeout(() => {
@@ -224,6 +202,7 @@ const GeminiChatBot = ({ apiKey }) => {
     setMessages([]);
     window.speechSynthesis.cancel();
     setSpeakingIndex(null);
+    setShowServicesMenu(false);
   };
 
   const handleScroll = () => {
@@ -259,6 +238,7 @@ const GeminiChatBot = ({ apiKey }) => {
     if (isListening) toggleListen();
     window.speechSynthesis.cancel();
     setSpeakingIndex(null);
+    setShowServicesMenu(false); // Auto-close services menu when asking a question
 
     const userMessage = { role: 'user', text: messageText.trim() };
     
@@ -275,6 +255,7 @@ const GeminiChatBot = ({ apiKey }) => {
 
       const ai = new GoogleGenAI({ apiKey: apiKey });
       
+      // Keep history formatting pristine to avoid confusion
       const formattedContents = apiHistory.slice(0, -1).map(msg => {
         if (msg.role === 'model') {
           const reconstructedJSON = {
@@ -291,10 +272,8 @@ const GeminiChatBot = ({ apiKey }) => {
         }
       });
 
-      // Add the current user message separately
       const currentMessage = { role: 'user', parts: [{ text: userMessage.text }] };
       const finalContents = [...formattedContents, currentMessage];
-
       const currentSystemPrompt = getSystemPrompt();
 
       const response = await ai.models.generateContent({
@@ -303,6 +282,19 @@ const GeminiChatBot = ({ apiKey }) => {
         config: {
           systemInstruction: currentSystemPrompt,
           responseMimeType: "application/json",
+          // NEW: Strict Schema Enforcement guarantees the bot will never cut off output
+          responseSchema: {
+            type: "OBJECT",
+            properties: {
+              text: { type: "STRING" },
+              shouldRedirectToContact: { type: "BOOLEAN" },
+              shouldShowCalendar: { type: "BOOLEAN" },
+              selectedServices: { type: "ARRAY", items: { type: "STRING" } },
+              prefilledMessage: { type: "STRING" },
+              suggestedFollowUps: { type: "ARRAY", items: { type: "STRING" } }
+            },
+            required: ["text", "shouldRedirectToContact", "shouldShowCalendar", "selectedServices", "prefilledMessage", "suggestedFollowUps"]
+          }
         }
       });
 
@@ -536,13 +528,45 @@ const GeminiChatBot = ({ apiKey }) => {
           <div ref={messagesEndRef} />
         </div>
 
-        {/* --- PERSISTENT QUICK ACTIONS BAR --- */}
-        <div className="bg-white border-t border-slate-200 px-4 pt-3 pb-3 flex flex-wrap gap-2 justify-center items-start shrink-0 w-full overflow-y-auto hide-scrollbar max-h-[140px]">
-          <button onClick={() => triggerSend('I need strategic technology advisory. How do we start?')} className="bg-blue-50 border border-blue-200 rounded-full text-blue-700 font-bold text-[11px] px-3 py-1.5 hover:bg-blue-600 hover:text-white transition-colors shrink-0">Strategic Advisory</button>
-          <button onClick={() => triggerSend('Can you explain your 4-Phase Transformation Blueprint?')} className="bg-slate-50 border border-slate-200 rounded-full text-slate-600 font-bold text-[11px] px-3 py-1.5 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 transition-colors shrink-0">Our Methodology</button>
-          <button onClick={() => triggerSend('Tell me about your Enterprise IT Managed Services.')} className="bg-slate-50 border border-slate-200 rounded-full text-slate-600 font-bold text-[11px] px-3 py-1.5 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 transition-colors shrink-0">IT Managed Services</button>
-          <button onClick={() => triggerSend('How do you handle Enterprise Cyber Security?')} className="bg-slate-50 border border-slate-200 rounded-full text-slate-600 font-bold text-[11px] px-3 py-1.5 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 transition-colors shrink-0">Cyber Security</button>
-          <button onClick={() => triggerSend('I would like to schedule a meeting with your team.')} className="bg-blue-50 border border-blue-200 rounded-full text-blue-700 font-bold text-[11px] px-3 py-1.5 hover:bg-blue-600 hover:text-white transition-colors shrink-0">Book a Meeting</button>
+        {/* --- PERSISTENT QUICK ACTIONS BAR WITH DYNAMIC SERVICES MENU --- */}
+        <div className="relative shrink-0 w-full bg-white border-t border-slate-200">
+          <div className="px-4 pt-3 pb-6 flex flex-wrap gap-2 justify-center items-start w-full overflow-y-auto hide-scrollbar max-h-[140px] relative z-10">
+            {showServicesMenu ? (
+              <>
+                <div className="w-full flex justify-between items-center mb-1">
+                  <span className="text-[11px] font-bold text-slate-500 uppercase tracking-widest">Select a Service</span>
+                  <button onClick={() => setShowServicesMenu(false)} className="text-slate-400 hover:text-red-500 flex items-center gap-1 text-[11px] font-bold">
+                    <ChevronLeft size={12} /> Back
+                  </button>
+                </div>
+                {CORE_SERVICES.map(service => (
+                  <button 
+                    key={service}
+                    onClick={() => triggerSend(`Tell me more about ${service}.`)} 
+                    className="bg-slate-50 border border-slate-200 rounded-lg text-slate-700 font-bold text-[11px] px-3 py-2 hover:bg-blue-50 hover:text-blue-700 hover:border-blue-200 transition-colors w-full text-left"
+                  >
+                    {service}
+                  </button>
+                ))}
+              </>
+            ) : (
+              <>
+                <button onClick={() => triggerSend('I need strategic technology advisory. How do we start?')} className="bg-blue-50 border border-blue-200 rounded-full text-blue-700 font-bold text-[11px] px-3 py-1.5 hover:bg-blue-600 hover:text-white transition-colors shrink-0">Strategic Advisory</button>
+                <button onClick={() => setShowServicesMenu(true)} className="bg-slate-50 border border-slate-200 rounded-full text-slate-600 font-bold text-[11px] px-3 py-1.5 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 transition-colors shrink-0 flex items-center gap-1">
+                  <LayoutGrid size={12} /> Explore Services
+                </button>
+                <button onClick={() => triggerSend('Can you explain your 4-Phase Transformation Blueprint?')} className="bg-slate-50 border border-slate-200 rounded-full text-slate-600 font-bold text-[11px] px-3 py-1.5 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 transition-colors shrink-0">Our Methodology</button>
+                <button onClick={() => triggerSend('I would like to schedule a meeting with your team.')} className="bg-blue-50 border border-blue-200 rounded-full text-blue-700 font-bold text-[11px] px-3 py-1.5 hover:bg-blue-600 hover:text-white transition-colors shrink-0">Book a Meeting</button>
+              </>
+            )}
+          </div>
+
+          {/* --- SCROLL INDICATOR FADE EFFECT --- */}
+          {showServicesMenu && (
+            <div className="absolute bottom-0 left-0 right-0 h-10 bg-gradient-to-t from-white via-white/90 to-transparent pointer-events-none flex items-end justify-center pb-1 z-20 rounded-b-2xl">
+              <ArrowDown size={14} className="text-slate-400 animate-bounce" />
+            </div>
+          )}
         </div>
 
         {/* Input Area */}
