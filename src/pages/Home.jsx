@@ -654,85 +654,282 @@ const commitments = [
     icon: Eye,
     title: "Our Vision",
     content: "To lead the global digital transformation by setting the standard for innovation and reliability.",
-    gradient: "from-blue-600 to-blue-400"
+    // Back: deep navy → royal blue
+    backGradient: "linear-gradient(135deg, #0f1f5c 0%, #1a3a8f 40%, #1d4ed8 100%)",
+    backGlow: "rgba(29,78,216,0.35)",
+    accentLine: "#3b82f6",
+    // Front: soft sky-blue tinted glass
+    frontGradient: "linear-gradient(145deg, rgba(219,234,254,0.82) 0%, rgba(191,219,254,0.55) 50%, rgba(255,255,255,0.75) 100%)",
+    frontBorder: "rgba(59,130,246,0.22)",
+    iconBg: "linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%)",
+    iconColor: "#1d4ed8",
+    iconShadow: "rgba(29,78,216,0.25)",
+    numColor: "#1e40af",
+    numberLabel: "01",
   },
   {
     id: 'mission',
     icon: Flag,
     title: "Our Mission",
     content: "Empowering businesses with resilient, scalable, and intelligent technology solutions.",
-    gradient: "from-cyan-500 to-blue-500"
+    // Back: slate-indigo → blue-violet
+    backGradient: "linear-gradient(135deg, #1e1b4b 0%, #312e81 38%, #4338ca 100%)",
+    backGlow: "rgba(67,56,202,0.35)",
+    accentLine: "#6366f1",
+    // Front: soft indigo-lavender tinted glass
+    frontGradient: "linear-gradient(145deg, rgba(224,231,255,0.85) 0%, rgba(199,210,254,0.55) 50%, rgba(255,255,255,0.78) 100%)",
+    frontBorder: "rgba(99,102,241,0.22)",
+    iconBg: "linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%)",
+    iconColor: "#4338ca",
+    iconShadow: "rgba(67,56,202,0.25)",
+    numColor: "#3730a3",
+    numberLabel: "02",
   },
   {
     id: 'promise',
     icon: Handshake,
     title: "Our Promise",
     content: "We promise an unwavering partnership, complete transparency, and absolute accountability.",
-    gradient: "from-indigo-500 to-cyan-400"
+    // Back: dark sapphire → periwinkle
+    backGradient: "linear-gradient(135deg, #172554 0%, #1e40af 42%, #2563eb 100%)",
+    backGlow: "rgba(37,99,235,0.35)",
+    accentLine: "#60a5fa",
+    // Front: cornflower-blue tinted glass
+    frontGradient: "linear-gradient(145deg, rgba(214,231,255,0.84) 0%, rgba(186,218,255,0.54) 50%, rgba(255,255,255,0.76) 100%)",
+    frontBorder: "rgba(37,99,235,0.22)",
+    iconBg: "linear-gradient(135deg, #dbeafe 0%, #bae6fd 100%)",
+    iconColor: "#2563eb",
+    iconShadow: "rgba(37,99,235,0.25)",
+    numColor: "#1d4ed8",
+    numberLabel: "03",
   }
 ];
 
 const CommitmentSection = () => {
   return (
     <section className="relative py-24 px-4 sm:px-6 bg-transparent z-10 overflow-hidden">
-      <style>
-        {`
-          .flip-card {
-            perspective: 1000px;
-          }
-          .flip-card-inner {
-            transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
-            transform-style: preserve-3d;
-          }
-          .flip-card:hover .flip-card-inner {
-            transform: rotateY(180deg);
-          }
-          .flip-card-front, .flip-card-back {
-            backface-visibility: hidden;
-            -webkit-backface-visibility: hidden;
-          }
-          .flip-card-back {
-            transform: rotateY(180deg);
-          }
-        `}
-      </style>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+        .commit-card { perspective: 1200px; }
+
+        .commit-inner {
+          transition: transform 0.75s cubic-bezier(0.34, 1.04, 0.64, 1);
+          transform-style: preserve-3d;
+          position: relative; width: 100%; height: 100%;
+        }
+        .commit-card:hover .commit-inner { transform: rotateY(180deg); }
+
+        .commit-front, .commit-back {
+          backface-visibility: hidden;
+          -webkit-backface-visibility: hidden;
+          position: absolute; inset: 0;
+          border-radius: 20px;
+        }
+        .commit-back { transform: rotateY(180deg); }
+
+        /* Front shimmer sweep on hover */
+        .commit-front::after {
+          content: '';
+          position: absolute; inset: 0;
+          border-radius: 20px;
+          background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.18) 50%, transparent 60%);
+          background-size: 200% 100%;
+          background-position: 200% 0;
+          transition: background-position 0.6s ease;
+          pointer-events: none;
+        }
+        .commit-card:hover .commit-front::after { background-position: -100% 0; }
+
+        /* Number label */
+        .num-label {
+          font-family: 'DM Serif Display', serif;
+          font-size: 72px;
+          line-height: 1;
+          letter-spacing: -2px;
+          opacity: 0.06;
+          color: #1e3a8a;
+          position: absolute;
+          top: -8px; right: 16px;
+          pointer-events: none;
+          user-select: none;
+        }
+
+        /* Ruled accent line */
+        .accent-rule {
+          width: 36px; height: 2px;
+          border-radius: 2px;
+          margin: 14px auto 0;
+          transition: width 0.4s ease;
+        }
+        .commit-card:hover .accent-rule { width: 56px; }
+
+        /* Back card inner glow */
+        .back-inner-glow {
+          position: absolute; inset: 0;
+          border-radius: 20px;
+          background: radial-gradient(ellipse 75% 60% at 30% 20%, rgba(255,255,255,0.10) 0%, transparent 65%);
+          pointer-events: none;
+        }
+        /* Back corner orbs */
+        .back-orb-tl {
+          position: absolute; top: -40px; right: -30px;
+          width: 140px; height: 140px;
+          border-radius: 50%;
+          background: rgba(255,255,255,0.07);
+          filter: blur(24px);
+          pointer-events: none;
+        }
+        .back-orb-br {
+          position: absolute; bottom: -35px; left: -25px;
+          width: 110px; height: 110px;
+          border-radius: 50%;
+          background: rgba(0,0,0,0.12);
+          filter: blur(20px);
+          pointer-events: none;
+        }
+
+        /* Quote mark styling */
+        .back-quote {
+          font-family: 'DM Serif Display', serif;
+          font-size: 88px;
+          line-height: 0.6;
+          color: rgba(255,255,255,0.13);
+          position: absolute;
+          top: 22px; left: 22px;
+          pointer-events: none;
+          user-select: none;
+        }
+
+        .section-title {
+          font-family: 'DM Serif Display', serif;
+          font-size: clamp(2rem, 4vw, 3rem);
+          color: #0f172a;
+          letter-spacing: -0.02em;
+        }
+        .section-sub {
+          font-family: 'DM Sans', sans-serif;
+          font-weight: 300;
+          color: #64748b;
+          letter-spacing: 0.01em;
+        }
+        .card-title {
+          font-family: 'DM Serif Display', serif;
+          font-size: 1.5rem;
+          color: #0f172a;
+          letter-spacing: -0.01em;
+        }
+        .card-body {
+          font-family: 'DM Sans', sans-serif;
+          font-weight: 400;
+        }
+        .back-text {
+          font-family: 'DM Sans', sans-serif;
+          font-weight: 300;
+          font-size: 1.05rem;
+          line-height: 1.7;
+          letter-spacing: 0.015em;
+          color: rgba(255,255,255,0.92);
+        }
+        .hint-text {
+          font-family: 'DM Sans', sans-serif;
+          font-size: 9px;
+          font-weight: 600;
+          letter-spacing: 0.18em;
+          text-transform: uppercase;
+          color: #94a3b8;
+        }
+      `}</style>
 
       <div className="max-w-6xl mx-auto">
+
+        {/* Header */}
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight">
             The 1TecHub Commitment
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {/* Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-7">
           {commitments.map((item) => {
             const Icon = item.icon;
             return (
-              <div key={item.id} className="flip-card h-80 w-full cursor-pointer group">
-                <div className="flip-card-inner relative w-full h-full rounded-3xl shadow-lg group-hover:shadow-2xl transition-shadow duration-300">
-                  
-                  {/* --- FRONT OF CARD --- */}
-                  <div className="flip-card-front absolute inset-0 w-full h-full bg-white/70 backdrop-blur-xl border border-white rounded-3xl p-8 flex flex-col items-center justify-center text-center">
-                    <div className="w-20 h-20 rounded-full bg-blue-50 border border-blue-100 flex items-center justify-center mb-6 shadow-sm group-hover:scale-110 transition-transform duration-500">
-                      <Icon size={36} className="text-blue-600" strokeWidth={1.5} />
+              <div key={item.id} className="commit-card h-[340px] w-full cursor-pointer">
+                <div className="commit-inner">
+
+                  {/* ── FRONT ── */}
+                  <div
+                    className="commit-front flex flex-col items-center justify-center text-center px-8 pt-8 pb-6"
+                    style={{
+                      background: item.frontGradient,
+                      backdropFilter: "blur(20px)",
+                      WebkitBackdropFilter: "blur(20px)",
+                      border: `1px solid ${item.frontBorder}`,
+                      boxShadow: `0 4px 28px -4px ${item.iconShadow}, 0 1px 4px rgba(15,23,42,0.05), inset 0 1px 0 rgba(255,255,255,0.85)`,
+                    }}
+                  >
+                    {/* Large ghost number */}
+                    <span className="num-label" style={{ color: item.numColor }}>{item.numberLabel}</span>
+
+                    {/* Icon container */}
+                    <div
+                      className="w-[72px] h-[72px] rounded-2xl flex items-center justify-center mb-5 flex-shrink-0"
+                      style={{
+                        background: item.iconBg,
+                        border: `1px solid ${item.frontBorder}`,
+                        boxShadow: `0 4px 16px -2px ${item.iconShadow}`,
+                      }}
+                    >
+                      <Icon size={30} style={{ color: item.iconColor }} strokeWidth={1.5} />
                     </div>
-                    <h3 className="text-2xl font-extrabold text-slate-900 tracking-tight">
-                      {item.title}
-                    </h3>
-                    <div className="absolute bottom-6 text-[10px] font-bold tracking-widest uppercase text-slate-400 opacity-50">
-                      Hover to Reveal
-                    </div>
+
+                    <h3 className="card-title">{item.title}</h3>
+
+                    {/* Accent rule */}
+                    <div className="accent-rule" style={{ background: item.accentLine }} />
+
+                    {/* Hint */}
+                    <span className="hint-text absolute bottom-5" style={{ color: item.iconColor, opacity: 0.45 }}>
+                      Hover to reveal
+                    </span>
                   </div>
 
-                  {/* --- BACK OF CARD --- */}
-                  <div className={`flip-card-back absolute inset-0 w-full h-full bg-gradient-to-br ${item.gradient} rounded-3xl p-8 flex flex-col items-center justify-center text-center border border-white/20 overflow-hidden`}>
-                    <div className="absolute -top-10 -right-10 w-40 h-40 bg-white/10 rounded-full blur-2xl"></div>
-                    <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-black/10 rounded-full blur-xl"></div>
-                    
-                    <Icon size={32} className="text-white/80 mb-6" strokeWidth={1} />
-                    <p className="text-lg md:text-xl font-semibold text-white leading-relaxed tracking-wide relative z-10">
-                      "{item.content}"
+                  {/* ── BACK ── */}
+                  <div
+                    className="commit-back flex flex-col items-center justify-center text-center px-8"
+                    style={{
+                      background: item.backGradient,
+                      boxShadow: `0 20px 48px -8px ${item.backGlow}, 0 4px 16px -4px rgba(0,0,0,0.2)`,
+                      border: "1px solid rgba(255,255,255,0.10)",
+                      overflow: "hidden",
+                    }}
+                  >
+                    {/* Decorative layers */}
+                    <div className="back-orb-tl" />
+                    <div className="back-orb-br" />
+                    <div className="back-inner-glow" />
+                    <span className="back-quote">"</span>
+
+                    {/* Icon */}
+                    <Icon
+                      size={28}
+                      strokeWidth={1}
+                      style={{ color: "rgba(255,255,255,0.55)", marginBottom: "20px", flexShrink: 0 }}
+                    />
+
+                    {/* Content */}
+                    <p className="back-text relative z-10">
+                      {item.content}
                     </p>
+
+                    {/* Bottom ruled line */}
+                    <div
+                      className="absolute bottom-0 left-0 right-0 h-[3px] rounded-b-[20px]"
+                      style={{
+                        background: `linear-gradient(90deg, transparent 0%, ${item.accentLine}99 40%, ${item.accentLine}99 60%, transparent 100%)`,
+                      }}
+                    />
                   </div>
 
                 </div>
@@ -769,6 +966,7 @@ const EnterpriseSolutionsSection = () => {
     </section>
   );
 };
+
 const steps = [
   {
     id: "step-1",

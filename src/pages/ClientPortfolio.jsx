@@ -84,7 +84,7 @@ const portfolioData = [
     overview: "1TecHub is the exclusive digital transformation partner for a leading global FMCG enterprise, managing every technology initiative across applications, mobility, Artificial Intelligence (AI), analytics, cloud, and IT operations.",
     icon: Building2,
     programs: [
-      { title: "Application Modernization", desc: "Consumer application modernization, SBD Admin platform, retail engagement apps, and field-force enablement tools providing data-driven mobile capabilities for sales, inventory, and marketing.", icon: Smartphone },
+      { title: "Application Modernization", desc: "Consumer application modernization, retail engagement apps, and field-force enablement tools providing data-driven mobile capabilities for sales, inventory, and marketing.", icon: Smartphone },
       { title: "Fleet & Logistics Automation", desc: "Intelligent routing and dispatch, AI-powered fleet monitoring, and driver workflow automation creating a real-time logistics control tower.", icon: Truck },
       { title: "Data Warehouse & Data Lake", desc: "Unified corporate data platform featuring standardized data models and a multi-source ingestion framework as the foundation for enterprise analytics and AI.", icon: Database },
       { title: "AI Insights & Agentic Automation", desc: "Retail sales intelligence, inventory and demand forecasting, agentic bots for reporting, and AI-driven decision automation.", icon: BrainCircuit },
@@ -344,7 +344,7 @@ const ClientPortfolio = () => {
                     </div>
 
                     <div className="md:w-5/12 shrink-0">
-                      <p className="text-slate-600 font-medium leading-relaxed text-justify md:text-left text-sm bg-slate-50 p-5 rounded-2xl border border-slate-100 text-justify">
+                      <p className="text-slate-600 font-medium leading-relaxed text-justify text-sm bg-slate-50 p-5 rounded-2xl border border-slate-100">
                         {project.overview}
                       </p>
                     </div>
@@ -369,7 +369,7 @@ const ClientPortfolio = () => {
                                 {prog.title}
                               </h4>
                             </div>
-                            <p className="text-sm text-slate-600 font-medium leading-relaxed text-justify text-justify">
+                            <p className="text-sm text-slate-600 font-medium leading-relaxed text-justify">
                               {prog.desc}
                             </p>
                           </div>
@@ -387,7 +387,7 @@ const ClientPortfolio = () => {
                     </div>
                     <div>
                       <h4 className="text-[10px] sm:text-xs font-bold text-cyan-400 uppercase tracking-widest mb-1.5">Business Outcome</h4>
-                      <p className="text-white font-medium leading-relaxed text-sm sm:text-base text-justify sm:text-left">
+                      <p className="text-white font-medium leading-relaxed text-sm sm:text-base text-justify">
                         {project.outcome}
                       </p>
                     </div>
