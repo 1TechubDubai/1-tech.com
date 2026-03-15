@@ -45,7 +45,7 @@ const AmbientBackground = () => (
       }
       @keyframes gridBreathe {
         0%, 100% { opacity: 0.05; }
-        50%       { opacity: 0.09; }
+        50%      { opacity: 0.09; }
       }
       .ad1  { animation: ambDrift1 22s ease-in-out infinite; }
       .ad2  { animation: ambDrift2 28s ease-in-out infinite; animation-delay: -9s; }
@@ -76,28 +76,28 @@ const AmbientBackground = () => (
 const portfolioData = [
   {
     id: 1,
-    client: "No.1 Fast-Moving Consumer Goods (FMCG) Company",
-    shortName: "Moroccan FMCG Leader", // Used for the sidebar
-    location: "Morocco",
+    client: "Leading Fast-Moving Consumer Goods (FMCG) Company",
+    shortName: "Global FMCG Leader", // Used for the sidebar
+    location: "Global",
     type: "Full Digital Transformation",
     status: "Completely Outsourced to 1TecHub",
-    overview: "1TecHub is the exclusive digital transformation partner for Morocco's leading FMCG enterprise, managing every technology initiative across applications, mobility, Artificial Intelligence (AI), analytics, cloud, and IT operations.",
+    overview: "1TecHub is the exclusive digital transformation partner for a leading global FMCG enterprise, managing every technology initiative across applications, mobility, Artificial Intelligence (AI), analytics, cloud, and IT operations.",
     icon: Building2,
     programs: [
-      { title: "Application Modernization", desc: "Dalaa Baby App modernization, SBD Admin platform, retail engagement apps, and field-force enablement tools providing data-driven mobile capabilities for sales, inventory, and marketing.", icon: Smartphone },
+      { title: "Application Modernization", desc: "Consumer application modernization, SBD Admin platform, retail engagement apps, and field-force enablement tools providing data-driven mobile capabilities for sales, inventory, and marketing.", icon: Smartphone },
       { title: "Fleet & Logistics Automation", desc: "Intelligent routing and dispatch, AI-powered fleet monitoring, and driver workflow automation creating a real-time logistics control tower.", icon: Truck },
       { title: "Data Warehouse & Data Lake", desc: "Unified corporate data platform featuring standardized data models and a multi-source ingestion framework as the foundation for enterprise analytics and AI.", icon: Database },
       { title: "AI Insights & Agentic Automation", desc: "Retail sales intelligence, inventory and demand forecasting, agentic bots for reporting, and AI-driven decision automation.", icon: BrainCircuit },
       { title: "Enterprise Resource Planning (ERP) Support", desc: "Ticketing and L1-L3 support, incident, change, and release governance, alongside a continuous enhancement and stabilization roadmap.", icon: Server },
       { title: "Full IT & Infrastructure Support", desc: "Cloud hosting and infrastructure modernization, server and network administration, disaster recovery readiness, and Azure cloud roadmap execution.", icon: Cloud }
     ],
-    outcome: "A fully digital, data-driven enterprise ecosystem built, run, and governed entirely by 1TecHub—enabling rapid market expansion and operational excellence across Morocco."
+    outcome: "A fully digital, data-driven enterprise ecosystem built, run, and governed entirely by 1TecHub—enabling rapid market expansion and operational excellence across global markets."
   },
   {
     id: 2,
     client: "Leading Healthcare Distribution Group",
-    shortName: "MEA Healthcare Distributor", // Used for the sidebar
-    location: "Middle East & Africa (MEA)",
+    shortName: "Global Healthcare Distributor", // Used for the sidebar
+    location: "Global",
     type: "Complete IT Managed Services",
     status: "Outsourced to 1TecHub",
     overview: "This multi-country healthcare distributor relies on 1TecHub as its central IT engine, outsourcing operations across ERP, cybersecurity, integrations, automation, and cloud environments.",
@@ -108,15 +108,15 @@ const portfolioData = [
         { title: "Enterprise API Modernization", desc: "Modernization of Application Programming Interface (API) gateways, implementing cross-business system integrations and secure interoperability frameworks.", icon: Network },
         { title: "Cybersecurity Managed Services", desc: "24/7 Security Operations Center (SOC) operations, threat detection, incident response, vulnerability lifecycle management, and regulatory compliance oversight.", icon: ShieldCheck },
         { title: "IAM & PAM Managed Services", desc: "End-to-end Identity and Access Management (IAM) and Privileged Access Management (PAM), encompassing identity governance, user lifecycle automation, and auditing.", icon: Key },
-        { title: "Offshore Resource Managed Services", desc: "Dedicated offshore engineering and support teams delivered from India, providing cost-efficient and scalable enterprise capabilities across application management, cloud operations, cybersecurity, and development. Structured engagement models ensure seamless integration with client teams through hybrid onsite–offshore delivery and 24/7 operational coverage.", icon: Globe }
+        { title: "Offshore Resource Managed Services", desc: "Dedicated offshore engineering and support teams, providing cost-efficient and scalable enterprise capabilities across application management, cloud operations, cybersecurity, and development. Structured engagement models ensure seamless integration with client teams through hybrid onsite–offshore delivery and 24/7 operational coverage.", icon: Globe }
     ],
-    outcome: "A modern, secure, and fully governed IT ecosystem enabling streamlined, compliant healthcare distribution across the entire MEA region."
+    outcome: "A modern, secure, and fully governed IT ecosystem enabling streamlined, compliant healthcare distribution across their entire global footprint."
   },
   {
     id: 3,
     client: "Global Healthcare Group",
-    shortName: "Global Healthcare (GCC)", // Used for the sidebar
-    location: "GCC Region",
+    shortName: "Global Healthcare Group", // Used for the sidebar
+    location: "Global",
     type: "Enterprise Finance Transformation",
     status: "Oracle Suite Implementation",
     overview: "A multinational healthcare organization partnered with 1TecHub to completely modernize their financial consolidation, compliance, and multi-entity reporting structures.",
@@ -131,17 +131,18 @@ const portfolioData = [
   {
     id: 4,
     client: "Global Waste Management Company",
-    shortName: "Oman Waste Management", // Used for the sidebar
-    location: "Oman",
+    shortName: "Global Waste Management", // Used for the sidebar
+    location: "Global",
     type: "Complete Digital Transformation",
     status: "Outsourced to 1TecHub",
-    overview: "Oman's largest waste management operator entrusted 1TecHub with the complete, end-to-end digitalization of its ERP, fleet operations, and overarching cloud landscape.",
+    overview: "A leading global waste management operator entrusted 1TecHub with the complete, end-to-end digitalization of its ERP, fleet operations, and overarching cloud landscape.",
     icon: Recycle,
     programs: [
       { title: "SAP Business One Implementation", desc: "Full module deployment covering Finance, Procurement, Inventory, Contracting, and Billing. Delivered through a certified SI with 1TecHub governing quality and timelines.", icon: Database },
       { title: "AI-Powered Fleet Operations", desc: "Implementation of route optimization, truck tracking via geo-intelligence, landfill automation, and smart-bin intelligence for collection scheduling.", icon: Truck },
       { title: "Cloud & Network Modernization", desc: "Comprehensive infrastructure assessment and architecture, executing a secure cloud migration roadmap to create a modernized network backbone.", icon: Cloud },
-      { title: "Microsoft 365 Tenant Migration", desc: "Complex tenant-to-tenant consolidation including identity, mailbox, and data migration executed with a zero-downtime cutover strategy.", icon: Server }
+      { title: "Microsoft 365 Tenant Migration", desc: "Complex tenant-to-tenant consolidation including identity, mailbox, and data migration executed with a zero-downtime cutover strategy.", icon: Server },
+      { title: "Offshore Resource Managed Services", desc: "Dedicated offshore engineering and support teams, providing cost-efficient and scalable enterprise capabilities across application management, cloud operations, cybersecurity, and development. Structured engagement models ensure seamless integration with client teams through hybrid onsite–offshore delivery and 24/7 operational coverage.", icon: Globe }
     ],
     outcome: "A fully digital, AI-enabled waste management platform featuring central governance, real-time fleet visibility, and seamless ERP operations."
   }
@@ -222,7 +223,7 @@ const ClientPortfolio = () => {
           </h1>
           
           <p className="text-lg md:text-xl text-slate-600 leading-relaxed font-medium">
-            Trusted by leading enterprises across the Gulf Cooperation Council (GCC), Africa & global markets. At 1TecHub, we don't just implement technology—we govern, orchestrate, and own complex digital programs end-to-end.
+            Trusted by leading enterprises across global markets. At 1TecHub, we don't just implement technology—we govern, orchestrate, and own complex digital programs end-to-end.
           </p>
         </div>
 
@@ -343,7 +344,7 @@ const ClientPortfolio = () => {
                     </div>
 
                     <div className="md:w-5/12 shrink-0">
-                      <p className="text-slate-600 font-medium leading-relaxed text-justify md:text-left text-sm bg-slate-50 p-5 rounded-2xl border border-slate-100">
+                      <p className="text-slate-600 font-medium leading-relaxed text-justify md:text-left text-sm bg-slate-50 p-5 rounded-2xl border border-slate-100 text-justify">
                         {project.overview}
                       </p>
                     </div>
@@ -368,7 +369,7 @@ const ClientPortfolio = () => {
                                 {prog.title}
                               </h4>
                             </div>
-                            <p className="text-sm text-slate-600 font-medium leading-relaxed text-justify">
+                            <p className="text-sm text-slate-600 font-medium leading-relaxed text-justify text-justify">
                               {prog.desc}
                             </p>
                           </div>

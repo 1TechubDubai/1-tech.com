@@ -1196,7 +1196,7 @@ const AIDivisionCTA = () => {
                   <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none">
                     <path d="M12 2L13.5 8.5L20 7L15.5 12L20 17L13.5 15.5L12 22L10.5 15.5L4 17L8.5 12L4 7L10.5 8.5L12 2Z" fill="currentColor" />
                   </svg>
-                  Enter AI Division
+                  Explore AI Division
                   <svg className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>

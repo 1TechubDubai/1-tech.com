@@ -199,7 +199,7 @@ const MessageForm = ({ showTitle = true, className = "" }) => {
                 type="text"
                 name="fullName"
                 required
-                placeholder="John Doe"
+                placeholder="Full Name"
                 value={formData.fullName}
                 onChange={handleChange}
                 disabled={status === 'loading'}
@@ -215,7 +215,7 @@ const MessageForm = ({ showTitle = true, className = "" }) => {
                 type="email"
                 name="email"
                 required
-                placeholder="john@company.com"
+                placeholder="Email Address"
                 value={formData.email}
                 onChange={handleChange}
                 disabled={status === 'loading'}
