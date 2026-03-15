@@ -1,17 +1,98 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { GoogleGenAI } from "@google/genai";
 import { useNavigate, useLocation } from 'react-router-dom';
-import { CalendarCheck, Trash2, ArrowDown, Mic, MicOff, Volume2, VolumeX, Bot, User, Send, X, ArrowRight, ChevronLeft, LayoutGrid } from 'lucide-react'; 
+import { 
+  CalendarCheck, Trash2, ArrowDown, Mic, MicOff, Volume2, VolumeX, 
+  Bot, User, Send, X, ArrowRight, ChevronLeft, LayoutGrid, Loader2,
+  Building2, Smartphone, Truck, Database, BrainCircuit, Server, 
+  Cloud, HeartPulse, Network, ShieldCheck, Key, Globe, PieChart, 
+  LineChart, Recycle 
+} from 'lucide-react'; 
 
 // Core enterprise services matching your exact data structure
 const CORE_SERVICES = [
-    "Enterprise GTM & Market Expansion",
+  "Enterprise GTM & Market Expansion",
   "Enterprise IT Managed Services", 
   "Strategic Technology Talent Solutions", 
   "Intelligent AI, Agentic AI & Analytics", 
   "Enterprise Cyber Security Managed Services", 
   "Next-Gen Web & App Modernization", 
   "API, Integrations & Customizations"
+];
+
+// --- PORTFOLIO DATA ---
+const portfolioData = [
+  {
+    id: 1,
+    client: "No.1 Fast-Moving Consumer Goods (FMCG) Company",
+    shortName: "Moroccan FMCG Leader", 
+    location: "Morocco",
+    type: "Full Digital Transformation",
+    status: "Completely Outsourced to 1TecHub",
+    overview: "1TecHub is the exclusive digital transformation partner for Morocco's leading FMCG enterprise, managing every technology initiative across applications, mobility, Artificial Intelligence (AI), analytics, cloud, and IT operations.",
+    icon: Building2,
+    programs: [
+      { title: "Application Modernization", desc: "Dalaa Baby App modernization, SBD Admin platform, retail engagement apps, and field-force enablement tools providing data-driven mobile capabilities for sales, inventory, and marketing.", icon: Smartphone },
+      { title: "Fleet & Logistics Automation", desc: "Intelligent routing and dispatch, AI-powered fleet monitoring, and driver workflow automation creating a real-time logistics control tower.", icon: Truck },
+      { title: "Data Warehouse & Data Lake", desc: "Unified corporate data platform featuring standardized data models and a multi-source ingestion framework as the foundation for enterprise analytics and AI.", icon: Database },
+      { title: "AI Insights & Agentic Automation", desc: "Retail sales intelligence, inventory and demand forecasting, agentic bots for reporting, and AI-driven decision automation.", icon: BrainCircuit },
+      { title: "Enterprise Resource Planning (ERP) Support", desc: "Ticketing and L1-L3 support, incident, change, and release governance, alongside a continuous enhancement and stabilization roadmap.", icon: Server },
+      { title: "Full IT & Infrastructure Support", desc: "Cloud hosting and infrastructure modernization, server and network administration, disaster recovery readiness, and Azure cloud roadmap execution.", icon: Cloud }
+    ],
+    outcome: "A fully digital, data-driven enterprise ecosystem built, run, and governed entirely by 1TecHub—enabling rapid market expansion and operational excellence across Morocco."
+  },
+  {
+    id: 2,
+    client: "Leading Healthcare Distribution Group",
+    shortName: "MEA Healthcare Distributor", 
+    location: "Middle East & Africa (MEA)",
+    type: "Complete IT Managed Services",
+    status: "Outsourced to 1TecHub",
+    overview: "This multi-country healthcare distributor relies on 1TecHub as its central IT engine, outsourcing operations across ERP, cybersecurity, integrations, automation, and cloud environments.",
+    icon: HeartPulse,
+    programs: [
+        { title: "SAP S4 Hana Managed Services", desc: "Multi-year contract delivered through a certified Systems Integrator (SI). Features centralized global support, onsite/offshore hybrid models, and 24/7 functional and technical operations.", icon: Database },
+        { title: "Multi-Year Cloud Managed Services", desc: "Comprehensive management across Amazon Web Services (AWS), Azure, and Oracle Cloud Infrastructure (OCI), handling rollouts, enhancements, and integrations.", icon: Cloud },
+        { title: "Enterprise API Modernization", desc: "Modernization of Application Programming Interface (API) gateways, implementing cross-business system integrations and secure interoperability frameworks.", icon: Network },
+        { title: "Cybersecurity Managed Services", desc: "24/7 Security Operations Center (SOC) operations, threat detection, incident response, vulnerability lifecycle management, and regulatory compliance oversight.", icon: ShieldCheck },
+        { title: "IAM & PAM Managed Services", desc: "End-to-end Identity and Access Management (IAM) and Privileged Access Management (PAM), encompassing identity governance, user lifecycle automation, and auditing.", icon: Key },
+        { title: "Offshore Resource Managed Services", desc: "Dedicated offshore engineering and support teams delivered from India, providing cost-efficient and scalable enterprise capabilities across application management, cloud operations, cybersecurity, and development. Structured engagement models ensure seamless integration with client teams through hybrid onsite–offshore delivery and 24/7 operational coverage.", icon: Globe }
+    ],
+    outcome: "A modern, secure, and fully governed IT ecosystem enabling streamlined, compliant healthcare distribution across the entire MEA region."
+  },
+  {
+    id: 3,
+    client: "Global Healthcare Group",
+    shortName: "Global Healthcare (GCC)", 
+    location: "GCC Region",
+    type: "Enterprise Finance Transformation",
+    status: "Oracle Suite Implementation",
+    overview: "A multinational healthcare organization partnered with 1TecHub to completely modernize their financial consolidation, compliance, and multi-entity reporting structures.",
+    icon: Building2,
+    programs: [
+      { title: "Oracle FCCS Implementation", desc: "Deployment of Oracle Financial Consolidation and Close Cloud Service (FCCS) to automate financial consolidation, handling currency, entity, and intercompany eliminations.", icon: PieChart },
+      { title: "Enterprise Financial Analytics", desc: "Establishment of unified group reporting frameworks to provide deep, actionable insights into financial health across the enterprise.", icon: LineChart },
+      { title: "Deep ERP-Finance Integrations", desc: "Two additional ongoing Oracle programs dedicated to global financial visibility and deep digital finance modernization.", icon: Network }
+    ],
+    outcome: "A real-time, standardized, and fully compliant multi-entity financial reporting ecosystem seamlessly spanning multiple global companies."
+  },
+  {
+    id: 4,
+    client: "Global Waste Management Company",
+    shortName: "Oman Waste Management", 
+    location: "Oman",
+    type: "Complete Digital Transformation",
+    status: "Outsourced to 1TecHub",
+    overview: "Oman's largest waste management operator entrusted 1TecHub with the complete, end-to-end digitalization of its ERP, fleet operations, and overarching cloud landscape.",
+    icon: Recycle,
+    programs: [
+      { title: "SAP Business One Implementation", desc: "Full module deployment covering Finance, Procurement, Inventory, Contracting, and Billing. Delivered through a certified SI with 1TecHub governing quality and timelines.", icon: Database },
+      { title: "AI-Powered Fleet Operations", desc: "Implementation of route optimization, truck tracking via geo-intelligence, landfill automation, and smart-bin intelligence for collection scheduling.", icon: Truck },
+      { title: "Cloud & Network Modernization", desc: "Comprehensive infrastructure assessment and architecture, executing a secure cloud migration roadmap to create a modernized network backbone.", icon: Cloud },
+      { title: "Microsoft 365 Tenant Migration", desc: "Complex tenant-to-tenant consolidation including identity, mailbox, and data migration executed with a zero-downtime cutover strategy.", icon: Server }
+    ],
+    outcome: "A fully digital, AI-enabled waste management platform featuring central governance, real-time fleet visibility, and seamless ERP operations."
+  }
 ];
 
 // Highly optimized prompt for maximum accuracy and strict boundary control
@@ -31,6 +112,15 @@ OUR 7 CORE CAPABILITIES:
 6) API, Integrations & Customizations: REST/GraphQL, ERP/CRM middleware, data integration & automation.
 7) Enterprise GTM & Market Expansion: Market entry strategy, sales execution, channel partner development, regional branding (GCC/Africa).
 
+OUR PORTFOLIO & CASE STUDIES:
+If a user asks for examples of our work, past clients, or proof of capability, use the following real-world case studies to demonstrate our expertise:
+${portfolioData.map(p => `
+- Client: ${p.client} (${p.location})
+  Project Type: ${p.type}
+  Overview: ${p.overview}
+  Key Deliverables: ${p.programs.map(prog => prog.title).join(', ')}
+  Outcome: ${p.outcome}`).join('\n')}
+
 STRATEGIC ADVISORY & METHODOLOGY (The 4-Phase Blueprint):
 We act as a digital transformation hub. Speed without direction is chaos, so architecture comes first. 
 01 Discovery & Assessment: Ecosystem audit, tech debt evaluation, security gaps.
@@ -43,7 +133,7 @@ ROUTING RULES:
 - shouldRedirectToContact: true ONLY if the user asks for pricing, quotes, or to start a project.
 - selectedServices: Map to the EXACT names from the 7 capabilities if the user implies interest.
 - prefilledMessage: Provide a short 1st-person summary if redirecting to contact.
-- suggestedFollowUps: Generate EXACTLY 3 short questions strictly related to the 7 capabilities or the methodology.`;
+- suggestedFollowUps: Generate EXACTLY 3 short questions strictly related to the 7 capabilities, the methodology, or asking if they want to hear a case study.`;
 
 const GeminiChatBot = ({ apiKey }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -58,28 +148,38 @@ const GeminiChatBot = ({ apiKey }) => {
   
   // --- VOICE FEATURES ---
   const [isListening, setIsListening] = useState(false);
-  const [speakingIndex, setSpeakingIndex] = useState(null);
-  const [availableVoices, setAvailableVoices] = useState([]);
+  const [speakingId, setSpeakingId] = useState(null); // Changed to ID instead of Index
   const recognitionRef = useRef(null);
   
   // Refs
   const messagesEndRef = useRef(null);
   const lastMessageRef = useRef(null); 
   const chatContainerRef = useRef(null); 
+  const currentAudioRef = useRef(null); 
+  const audioContextRef = useRef(null); // Reusable global audio context
   
   const navigate = useNavigate();
   const location = useLocation();
 
-  // --- INITIALIZE SPEECH RECOGNITION & SYNTHESIS VOICES ---
-  useEffect(() => {
-    const loadVoices = () => {
-      setAvailableVoices(window.speechSynthesis.getVoices());
-    };
-    loadVoices();
-    if (window.speechSynthesis.onvoiceschanged !== undefined) {
-      window.speechSynthesis.onvoiceschanged = loadVoices;
+  // --- AUDIO HELPER ---
+  const stopAudio = () => {
+    if (currentAudioRef.current) {
+      try {
+        if (typeof currentAudioRef.current.stop === 'function') {
+          currentAudioRef.current.stop(); 
+          currentAudioRef.current.disconnect(); 
+        } else if (typeof currentAudioRef.current.pause === 'function') {
+          currentAudioRef.current.pause(); 
+        }
+      } catch(e) {
+        console.error("Error stopping audio", e);
+      }
+      currentAudioRef.current = null;
     }
+  };
 
+  // --- INITIALIZE SPEECH RECOGNITION ---
+  useEffect(() => {
     if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
       const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
       recognitionRef.current = new SpeechRecognition();
@@ -107,13 +207,13 @@ const GeminiChatBot = ({ apiKey }) => {
 
   useEffect(() => {
     if (!isOpen) {
-      window.speechSynthesis.cancel();
-      setSpeakingIndex(null);
+      stopAudio();
+      setSpeakingId(null);
       if (isListening && recognitionRef.current) {
         recognitionRef.current.stop();
         setIsListening(false);
       }
-      setShowServicesMenu(false); // Reset menu state on close
+      setShowServicesMenu(false); 
     }
   }, [isOpen, isListening]);
 
@@ -128,43 +228,97 @@ const GeminiChatBot = ({ apiKey }) => {
     }
   };
 
-  const getBestFemaleVoice = () => {
-    if (!availableVoices.length) return null;
+  // --- BACKGROUND AUDIO PRE-FETCHER ---
+  const fetchAudioInBackground = async (messageId, text) => {
+    try {
+      const ai = new GoogleGenAI({ apiKey: apiKey });
+      const cleanText = text.replace(/[*_~`#]/g, '');
 
-    const femaleVoice = availableVoices.find(v => {
-      const name = v.name.toLowerCase();
-      const uri = v.voiceURI.toLowerCase();
-      return name.includes('female') || name.includes('woman') || name.includes('zira') || name.includes('samantha') || name.includes('tessa') || name.includes('karen') || name.includes('victoria') || name.includes('google uk english female') || uri.includes('female');
-    });
+      const response = await ai.models.generateContent({
+        model: "gemini-2.5-flash-preview-tts",
+        contents: `Please read the following text aloud exactly as written: ${cleanText}`,
+        config: {
+          responseModalities: ["AUDIO"],
+          speechConfig: {
+            voiceConfig: {
+              prebuiltVoiceConfig: { voiceName: "Aoede" }
+            }
+          }
+        }
+      });
 
-    if (femaleVoice) return femaleVoice;
+      const parts = response.candidates?.[0]?.content?.parts || [];
+      const audioPart = parts.find(part => part.inlineData && part.inlineData.mimeType.startsWith('audio/'));
 
-    return availableVoices.find(v => v.name === 'Google US English') || availableVoices.find(v => v.lang.startsWith('en')) || availableVoices[0];
+      if (!audioPart) throw new Error('No audio returned');
+
+      const base64Data = audioPart.inlineData.data;
+      const binaryString = window.atob(base64Data);
+      
+      const len = binaryString.length;
+      const bytes = new Uint8Array(len);
+      for (let i = 0; i < len; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+      }
+      
+      const int16Array = new Int16Array(bytes.buffer);
+      const float32Array = new Float32Array(int16Array.length);
+      for (let i = 0; i < int16Array.length; i++) {
+        float32Array[i] = int16Array[i] / 32768.0; 
+      }
+
+      if (!audioContextRef.current) {
+        audioContextRef.current = new (window.AudioContext || window.webkitAudioContext)();
+      }
+
+      const audioBuffer = audioContextRef.current.createBuffer(1, float32Array.length, 24000);
+      audioBuffer.getChannelData(0).set(float32Array);
+
+      // Successfully fetched and decoded! Update the specific message in state.
+      setMessages(prev => prev.map(msg => 
+        msg.id === messageId ? { ...msg, audioBuffer: audioBuffer, audioLoading: false } : msg
+      ));
+
+    } catch (error) {
+      console.error("Background TTS Error:", error);
+      // Let the UI know it failed so it doesn't load forever
+      setMessages(prev => prev.map(msg => 
+        msg.id === messageId ? { ...msg, audioLoading: false, audioError: true } : msg
+      ));
+    }
   };
 
-  const handleSpeak = (text, index) => {
-    if (speakingIndex === index) {
-      window.speechSynthesis.cancel();
-      setSpeakingIndex(null);
+  // --- INSTANT AUDIO PLAYER ---
+  const handleSpeak = (msg) => {
+    if (speakingId === msg.id) {
+      stopAudio();
+      setSpeakingId(null);
       return;
     }
     
-    window.speechSynthesis.cancel(); 
-    
-    const cleanText = text.replace(/[*_~`#]/g, '');
-    const utterance = new SpeechSynthesisUtterance(cleanText);
-    
-    const bestVoice = getBestFemaleVoice();
-    if (bestVoice) utterance.voice = bestVoice;
-    
-    utterance.pitch = 1.05; 
-    utterance.rate = 1.02; 
-    
-    utterance.onend = () => setSpeakingIndex(null);
-    utterance.onerror = () => setSpeakingIndex(null);
-    
-    setSpeakingIndex(index);
-    window.speechSynthesis.speak(utterance);
+    stopAudio();
+    setSpeakingId(msg.id); 
+
+    if (!audioContextRef.current) {
+      audioContextRef.current = new (window.AudioContext || window.webkitAudioContext)();
+    }
+
+    // Crucial for browser autoplay policies: resume context if suspended
+    if (audioContextRef.current.state === 'suspended') {
+      audioContextRef.current.resume();
+    }
+
+    const source = audioContextRef.current.createBufferSource();
+    source.buffer = msg.audioBuffer; // Grab the pre-fetched buffer!
+    source.connect(audioContextRef.current.destination);
+    currentAudioRef.current = source;
+
+    source.onended = () => {
+      setSpeakingId(null);
+      currentAudioRef.current = null;
+    };
+
+    source.start(); // Plays instantly
   };
 
   // --- SCROLL LOGIC ---
@@ -200,8 +354,8 @@ const GeminiChatBot = ({ apiKey }) => {
 
   const clearHistory = () => {
     setMessages([]);
-    window.speechSynthesis.cancel();
-    setSpeakingIndex(null);
+    stopAudio();
+    setSpeakingId(null);
     setShowServicesMenu(false);
   };
 
@@ -236,11 +390,13 @@ const GeminiChatBot = ({ apiKey }) => {
     if (!messageText.trim() || isLoading) return;
     
     if (isListening) toggleListen();
-    window.speechSynthesis.cancel();
-    setSpeakingIndex(null);
-    setShowServicesMenu(false); // Auto-close services menu when asking a question
+    
+    stopAudio();
+    setSpeakingId(null);
+    setShowServicesMenu(false); 
 
-    const userMessage = { role: 'user', text: messageText.trim() };
+    const userMessageId = Date.now().toString();
+    const userMessage = { id: userMessageId, role: 'user', text: messageText.trim() };
     
     let newHistory = [...messages, userMessage];
     setMessages(newHistory);
@@ -255,7 +411,6 @@ const GeminiChatBot = ({ apiKey }) => {
 
       const ai = new GoogleGenAI({ apiKey: apiKey });
       
-      // Keep history formatting pristine to avoid confusion
       const formattedContents = apiHistory.slice(0, -1).map(msg => {
         if (msg.role === 'model') {
           const reconstructedJSON = {
@@ -277,12 +432,11 @@ const GeminiChatBot = ({ apiKey }) => {
       const currentSystemPrompt = getSystemPrompt();
 
       const response = await ai.models.generateContent({
-        model: "gemini-2.5-flash",
+        model: "gemini-2.5-flash", 
         contents: finalContents, 
         config: {
           systemInstruction: currentSystemPrompt,
           responseMimeType: "application/json",
-          // NEW: Strict Schema Enforcement guarantees the bot will never cut off output
           responseSchema: {
             type: "OBJECT",
             properties: {
@@ -300,10 +454,15 @@ const GeminiChatBot = ({ apiKey }) => {
 
       const rawText = response.text.replace(/```json/g, '').replace(/```/g, '').trim();
       const responseData = JSON.parse(rawText);
+      const botMessageId = (Date.now() + 1).toString();
 
       const botMessage = { 
+        id: botMessageId,
         role: 'model', 
         text: responseData.text,
+        audioBuffer: null,      // We don't have the audio yet
+        audioLoading: true,     // Flag that we are actively fetching it
+        audioError: false,
         contactRouting: responseData.shouldRedirectToContact ? {
           services: responseData.selectedServices || [],
           message: responseData.prefilledMessage || ""
@@ -314,9 +473,12 @@ const GeminiChatBot = ({ apiKey }) => {
 
       setMessages((prev) => [...prev, botMessage]);
       
+      // FIRE AND FORGET: Start fetching the audio in the background immediately!
+      fetchAudioInBackground(botMessageId, responseData.text);
+
     } catch (error) {
       console.error("Gemini API Error:", error);
-      const errorMessage = { role: 'model', text: 'Sorry, I encountered an error connecting to my servers. Please try again.' };
+      const errorMessage = { id: Date.now().toString(), role: 'model', text: 'Sorry, I encountered an error connecting to my servers. Please try again.', audioLoading: false };
       setMessages((prev) => [...prev, errorMessage]);
     } finally {
       setIsLoading(false);
@@ -412,7 +574,7 @@ const GeminiChatBot = ({ apiKey }) => {
           {/* Chat History */}
           {messages.map((msg, index) => (
             <div 
-              key={index} 
+              key={msg.id || index} 
               ref={index === messages.length - 1 ? lastMessageRef : null} 
               className={`flex gap-3 max-w-[88%] animate-[fadeUp_0.25s_ease] ${msg.role === 'user' ? 'self-end flex-row-reverse' : 'self-start'}`}
             >
@@ -432,20 +594,30 @@ const GeminiChatBot = ({ apiKey }) => {
                 }`}>
                   <div>{formatMarkdown(msg.text)}</div>
                   
-                  {/* TTS Button */}
-                  {msg.role === 'model' && (
+                  {/* TTS Button with Loading States */}
+                  {msg.role === 'model' && msg.id && (
                     <div className="mt-2 pt-2 border-t border-slate-100 flex justify-end">
-                      <button
-                        onClick={() => handleSpeak(msg.text, index)}
-                        className={`flex items-center gap-1 text-[11px] font-bold px-2 py-1 rounded transition-colors ${
-                          speakingIndex === index 
-                            ? 'text-blue-600 bg-blue-50' 
-                            : 'text-slate-400 hover:text-blue-600 hover:bg-slate-50'
-                        }`}
-                      >
-                        {speakingIndex === index ? <VolumeX size={14} /> : <Volume2 size={14} />}
-                        {speakingIndex === index ? 'Stop' : 'Listen'}
-                      </button>
+                      {msg.audioLoading ? (
+                        <div className="flex items-center gap-1.5 text-[11px] font-bold px-2 py-1 text-slate-400">
+                          <Loader2 size={12} className="animate-spin text-blue-400" /> Preparing Audio...
+                        </div>
+                      ) : msg.audioError ? (
+                        <div className="flex items-center gap-1 text-[11px] font-bold px-2 py-1 text-red-400">
+                          Audio Unavailable
+                        </div>
+                      ) : (
+                        <button
+                          onClick={() => handleSpeak(msg)}
+                          className={`flex items-center gap-1 text-[11px] font-bold px-2 py-1 rounded transition-colors ${
+                            speakingId === msg.id 
+                              ? 'text-blue-600 bg-blue-50' 
+                              : 'text-slate-400 hover:text-blue-600 hover:bg-slate-50'
+                          }`}
+                        >
+                          {speakingId === msg.id ? <VolumeX size={14} /> : <Volume2 size={14} />}
+                          {speakingId === msg.id ? 'Stop' : 'Listen'}
+                        </button>
+                      )}
                     </div>
                   )}
                 </div>

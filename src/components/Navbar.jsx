@@ -57,7 +57,7 @@ const Navbar = () => {
             <NavLink to="/" label="Home" location={location} />
             <NavLink to='/advisory' label="Advisory" location={location} />
             <NavLink to="/services" label="Services" location={location} />
-
+            <NavLink to="/client-success-stories" label="Portfolio" location={location} />
             <NavLink to="/about" label="About Us" location={location} />
             <NavLink to="/blogs" label="Transmissions" location={location} />
             <NavLink to="/contact" label="Contact" location={location} />
@@ -102,8 +102,9 @@ const Navbar = () => {
           <MobileNavLink to="/" label="Home" location={location} delay="100" />          
           <MobileNavLink to='/advisory' label="Advisory" location={location} delay="175" />
           <MobileNavLink to="/services" label="Services" location={location} delay="150" />
-
+          <MobileNavLink to="/client-success-stories" label="Portfolio" location={location} delay="200" />
           <MobileNavLink to="/about" label="About Us" location={location} delay="200" />
+          
           <MobileNavLink to="/blogs" label="Transmissions" location={location} delay="250" />
           <MobileNavLink to="/contact" label="Contact Us" location={location} delay="300" />
         </div>

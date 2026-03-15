@@ -11,6 +11,7 @@ import TermsOfService from './pages/TermsOfService.jsx';
 import DigitalTransformation from './pages/Advisory.jsx';
 import BlogsMain from './pages/BlogsMain.jsx';
 import BlogPage from './pages/BlogPage.jsx';
+import ClientPortfolio from './pages/ClientPortfolio.jsx';
 
 const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
 
@@ -29,6 +30,7 @@ function App() {
         <Route path="/services" element={<Services />} />
         <Route path="/services/:id" element={<Services />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path='/client-success-stories' element={<ClientPortfolio />} />
         <Route path='/privacy-policy' element={<PrivacyPolicy/>} />
         <Route path='/terms-of-service' element={<TermsOfService/>} />
         <Route path='/blogs' element={<BlogsMain/>} />
