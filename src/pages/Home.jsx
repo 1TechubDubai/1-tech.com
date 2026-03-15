@@ -615,7 +615,7 @@ const Hero = () => {
 };
 
 const servicesData = [
-  { id: 'gtm-market-expansion', icon: TrendingUp, title: 'Enterprise GTM & Market Expansion', description: 'Strategic consulting and digital platforms to accelerate product launches and international growth.' },
+  { id: 'gtm-market-expansion', icon: TrendingUp, title: 'Enterprise Go To Market (GTM) & Market Expansion', description: 'Strategic consulting and digital platforms to accelerate product launches and international growth.' },
   { id: 'it-managed-services', icon: Users, title: 'Enterprise IT Managed Services', description: 'End-to-end management of IT operations, ensuring 99.99% uptime and proactive maintenance.' },
   { id: 'strategic-talent-solutions', icon: Users, title: 'Strategic Technology Talent Solutions', description: 'Access elite, certified technology architects and engineers to scale your global operations instantly.' },
   { id: 'ai-analytics', icon: Brain, title: 'Intelligent AI, Agentic AI & Analytics', description: 'Deploy autonomous agents and predictive models to automate complex enterprise workflows.' },

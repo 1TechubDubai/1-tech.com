@@ -413,7 +413,7 @@ const Services = () => {
                     {/* Tags */}
                     <div className="flex flex-wrap gap-2 mt-auto">
                       {item.tags.map((tag, tIdx) => (
-                        <span key={tIdx} className="px-3 py-1.5 bg-slate-50 text-slate-600 group-hover:bg-blue-50 group-hover:text-blue-700 group-hover:border-blue-100 transition-colors text-[11px] font-bold rounded-md border border-slate-100">
+                        <span key={tIdx} className="px-3 py-1.5 bg-slate-50 text-slate-600 transition-colors text-[11px] font-bold rounded-md border border-slate-100">
                           {tag}
                         </span>
                       ))}
@@ -463,7 +463,7 @@ const Services = () => {
               onClick={handleConsultationClick}
               className="relative z-10 shrink-0 w-full sm:w-auto bg-white text-blue-900 font-bold py-4 px-8 rounded-full flex items-center justify-center gap-2 hover:bg-blue-50 hover:scale-105 transition-all duration-300 shadow-xl group"
             >
-              Speak to an Architect
+              Speak to an Expert
               <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
             </button>
           </div>

@@ -11,10 +11,10 @@ import {
 export const servicesData = [
   {
     id: 'gtm-market-expansion',
-    sidebarTitle: 'Enterprise GTM & Expansion',
+    sidebarTitle: 'Enterprise Go To Market (GTM) & Expansion',
     icon: TrendingUp,
     coverImage: 'https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070&auto=format&fit=crop',
-    title: 'Enterprise GTM & Market Expansion',
+    title: 'Enterprise Go To Market (GTM) & Market Expansion',
     subtitle: 'Strategic. Proven. Results-Driven.',
     description: "Entering a new geographical market is fraught with high costs, regulatory hurdles, and immense strategic risk. At 1TecHub, our Enterprise GTM & Market Expansion services are specifically engineered to help ambitious technology companies scale into the Middle East, Africa, and India with surgical precision and proven frameworks. We go far beyond traditional consulting—we literally become your on-the-ground regional sales and operational team. We represent your brand to top-tier enterprise clients, navigating local nuances to drive rapid, measurable, and highly profitable revenue growth.",
     portfolio: [
