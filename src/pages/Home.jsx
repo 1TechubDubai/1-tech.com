@@ -259,6 +259,207 @@ const AmbientBackground = () => (
   </div>
 );
 
+// --- EXTRACTED ANIMATION COMPONENT FOR REUSABILITY ---
+const TechOrb = () => (
+  <div className="flex justify-center items-center relative w-full my-4 md:my-0">
+    <div
+      className="hero-float relative mx-auto aspect-square flex items-center justify-center w-[240px] sm:w-[280px] md:w-[460px] max-w-full"
+    >
+      {/* Ambient glow beneath */}
+      <div className="outer-glow absolute inset-[10%] rounded-full pointer-events-none"
+        style={{
+          background: 'radial-gradient(ellipse, rgba(59,130,246,0.25) 0%, rgba(6,182,212,0.12) 50%, transparent 75%)',
+          filter: 'blur(30px)'
+        }} />
+
+      {/* Hex grid background panel */}
+      <svg className="absolute inset-0 w-full h-full opacity-40" viewBox="0 0 520 520" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="hexgrid" x="0" y="0" width="52" height="60" patternUnits="userSpaceOnUse">
+            <polygon points="26,2 50,16 50,44 26,58 2,44 2,16" fill="none" stroke="rgba(59,130,246,0.5)" strokeWidth="0.8"/>
+          </pattern>
+          <radialGradient id="hexmask" cx="50%" cy="50%" r="50%">
+            <stop offset="30%" stopColor="white" stopOpacity="1"/>
+            <stop offset="100%" stopColor="white" stopOpacity="0"/>
+          </radialGradient>
+          <mask id="hexfade">
+            <rect width="520" height="520" fill="url(#hexmask)"/>
+          </mask>
+        </defs>
+        <rect width="520" height="520" fill="url(#hexgrid)" mask="url(#hexfade)"/>
+      </svg>
+
+      {/* Concentric decorative arcs */}
+      <svg className="absolute inset-0 w-full h-full" viewBox="0 0 520 520">
+        {[200, 230, 255].map((r, i) => (
+          <circle key={i} cx="260" cy="260" r={r}
+            fill="none"
+            stroke={i === 1 ? "rgba(6,182,212,0.2)" : "rgba(99,102,241,0.13)"}
+            strokeWidth="0.8"
+            strokeDasharray={i === 0 ? "4 12" : i === 1 ? "2 8" : "6 20"}/>
+        ))}
+        <circle cx="260" cy="260" r="242"
+          fill="none" stroke="rgba(59,130,246,0.35)" strokeWidth="1.5"
+          strokeDasharray="80 500"
+          style={{ animation: 'arcDraw 3s linear infinite', transformOrigin: '260px 260px' }}/>
+      </svg>
+
+      <div className="hero-scene absolute inset-0 flex items-center justify-center pointer-events-none">
+        <div className="relative flex items-center justify-center" style={{ width: '62%', height: '62%' }}>
+          {/* Ring 1 */}
+          <div className="ring-1 absolute inset-0 flex items-center justify-center" style={{ width: '100%', height: '100%' }}>
+            <div style={{
+              width: '100%', height: '100%', borderRadius: '50%',
+              border: '1.5px solid rgba(59,130,246,0.45)',
+              boxShadow: '0 0 12px rgba(59,130,246,0.25), inset 0 0 12px rgba(59,130,246,0.1)',
+              position: 'relative',
+            }}>
+              <div style={{
+                position: 'absolute', top: -5, left: 'calc(50% - 5px)',
+                width: 10, height: 10, borderRadius: '50%', background: '#3b82f6',
+                boxShadow: '0 0 10px rgba(59,130,246,1), 0 0 20px rgba(59,130,246,0.6)',
+              }}/>
+            </div>
+          </div>
+
+          {/* Ring 2 */}
+          <div className="ring-2 absolute flex items-center justify-center" style={{ width: '87%', height: '87%' }}>
+            <div style={{
+              width: '100%', height: '100%', borderRadius: '50%',
+              border: '1.5px solid rgba(6,182,212,0.5)',
+              boxShadow: '0 0 14px rgba(6,182,212,0.2), inset 0 0 14px rgba(6,182,212,0.08)',
+              position: 'relative',
+            }}>
+              <div style={{
+                position: 'absolute', bottom: -5, left: 'calc(50% - 5px)',
+                width: 10, height: 10, borderRadius: '50%', background: '#06b6d4',
+                boxShadow: '0 0 10px rgba(6,182,212,1), 0 0 20px rgba(6,182,212,0.6)',
+              }}/>
+            </div>
+          </div>
+
+          {/* Ring 3 */}
+          <div className="ring-3 absolute flex items-center justify-center" style={{ width: '72%', height: '72%' }}>
+            <div style={{
+              width: '100%', height: '100%', borderRadius: '50%',
+              border: '1px solid rgba(139,92,246,0.4)',
+              boxShadow: '0 0 10px rgba(139,92,246,0.18)',
+              position: 'relative',
+            }}>
+              <div style={{
+                position: 'absolute', top: '15%', right: -4,
+                width: 8, height: 8, borderRadius: '50%', background: '#8b5cf6',
+                boxShadow: '0 0 8px rgba(139,92,246,1), 0 0 16px rgba(139,92,246,0.6)',
+              }}/>
+            </div>
+          </div>
+
+          {/* Core Sphere */}
+          <div className="core-pulse absolute flex items-center justify-center"
+            style={{
+              width: '44%', height: '44%', borderRadius: '50%',
+              background: 'radial-gradient(ellipse at 35% 30%, rgba(255,255,255,0.9) 0%, rgba(147,197,253,0.8) 25%, rgba(59,130,246,0.9) 55%, rgba(29,78,216,1) 80%, rgba(15,23,42,0.95) 100%)',
+            }}>
+            <div className="scan-line absolute left-0 right-0 h-[2px] rounded-full pointer-events-none"
+              style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.7), transparent)' }} />
+            <svg width="60%" height="60%" viewBox="0 0 100 100" style={{ position: 'absolute', opacity: 0.25 }}>
+              <line x1="50" y1="10" x2="50" y2="40" stroke="white" strokeWidth="1"/>
+              <line x1="50" y1="60" x2="50" y2="90" stroke="white" strokeWidth="1"/>
+              <line x1="10" y1="50" x2="40" y2="50" stroke="white" strokeWidth="1"/>
+              <line x1="60" y1="50" x2="90" y2="50" stroke="white" strokeWidth="1"/>
+              <circle cx="50" cy="50" r="12" fill="none" stroke="white" strokeWidth="1"/>
+              <circle cx="50" cy="50" r="6" fill="rgba(255,255,255,0.8)"/>
+              <circle cx="50" cy="10" r="3" fill="white"/>
+              <circle cx="50" cy="90" r="3" fill="white"/>
+              <circle cx="10" cy="50" r="3" fill="white"/>
+              <circle cx="90" cy="50" r="3" fill="white"/>
+            </svg>
+          </div>
+
+          {/* Floating data nodes around sphere */}
+          {[
+            { angle: 0,   label: 'AGENTIC AI', color: '#3b82f6', delay: '0s'   },
+            { angle: 60,  label: 'CYBER SEC',  color: '#06b6d4', delay: '0.4s' },
+            { angle: 120, label: 'TALENT',     color: '#8b5cf6', delay: '0.8s' },
+            { angle: 180, label: 'APP MOD',     color: '#3b82f6', delay: '1.2s' },
+            { angle: 240, label: 'IT OPS',    color: '#06b6d4', delay: '1.6s' },
+            { angle: 300, label: 'API SYNC',   color: '#8b5cf6', delay: '2.0s' },
+          ].map(({ angle, label, color, delay }) => {
+            const rad = (angle * Math.PI) / 180;
+            const x = Math.cos(rad) * 38;
+            const y = Math.sin(rad) * 38; 
+            return (
+              <div key={label} style={{
+                position: 'absolute', left: `calc(50% + ${x}%)`, top: `calc(50% + ${y}%)`,
+                transform: 'translate(-50%, -50%)', animation: `floatBadge 5s ease-in-out infinite`,
+                animationDelay: delay, zIndex: 10,
+              }}>
+                <svg style={{ position: 'absolute', top: '50%', left: '50%', overflow: 'visible', pointerEvents: 'none' }} width="1" height="1">
+                  <line x1="0" y1="0" x2={`${-x * 0.7}%`} y2={`${-y * 0.7}%`} stroke={color} strokeWidth="0.8" opacity="0.35" strokeDasharray="3 4"/>
+                </svg>
+                <div style={{
+                  padding: '4px 8px', borderRadius: 7, background: 'rgba(255,255,255,0.92)',
+                  backdropFilter: 'blur(12px)', border: `1px solid ${color}44`,
+                  boxShadow: `0 0 12px ${color}33, 0 2px 10px rgba(0,0,0,0.07)`,
+                  fontSize: 9, fontWeight: 800, letterSpacing: '0.1em', color: color,
+                  whiteSpace: 'nowrap', position: 'relative',
+                }}>
+                  <span style={{
+                    display: 'inline-block', width: 5, height: 5, borderRadius: '50%', background: color,
+                    marginRight: 4, verticalAlign: 'middle', boxShadow: `0 0 5px ${color}`,
+                    animation: 'dotPing 2s ease-in-out infinite', animationDelay: delay,
+                  }}/>
+                  {label}
+                </div>
+              </div>
+            );
+          })}
+
+          {/* Scatter particles */}
+          {[
+            { x: -38, y: -28, s: 4, c: 'rgba(59,130,246,0.6)',  d: '0s'   },
+            { x:  36, y: -36, s: 3, c: 'rgba(6,182,212,0.7)',   d: '0.8s' },
+            { x:  42, y:  26, s: 5, c: 'rgba(139,92,246,0.5)',  d: '1.4s' },
+            { x: -36, y:  34, s: 3, c: 'rgba(59,130,246,0.55)', d: '2.0s' },
+            { x:  18, y:  44, s: 4, c: 'rgba(6,182,212,0.6)',   d: '0.5s' },
+            { x: -18, y: -44, s: 3, c: 'rgba(139,92,246,0.6)',  d: '1.8s' },
+          ].map(({ x, y, s, c, d }, i) => (
+            <div key={i} style={{
+              position: 'absolute', left: `calc(50% + ${x}%)`, top: `calc(50% + ${y}%)`,
+              width: s, height: s, borderRadius: '50%', background: c, boxShadow: `0 0 ${s * 2}px ${c}`,
+              animation: `floatBadge ${4 + i * 0.7}s ease-in-out infinite`, animationDelay: d,
+            }}/>
+          ))}
+        </div>
+      </div>
+
+      {/* Floating stat card (bottom-left) */}
+      <div className="absolute -bottom-1 -left-2 sm:-bottom-6 sm:-left-4 bg-white/90 backdrop-blur-xl p-2.5 sm:p-5 rounded-2xl shadow-xl border border-slate-100 flex items-center gap-2 sm:gap-3 z-20"
+        style={{ animation: 'floatBadge 6s ease-in-out infinite', animationDelay: '1s' }}>
+        <div className="w-8 h-8 sm:w-12 sm:h-12 rounded-full bg-cyan-50 flex items-center justify-center text-cyan-600 shadow-inner border border-cyan-100">
+          <Globe size={18} className="sm:w-5 sm:h-5" />
+        </div>
+        <div>
+          <div className="text-sm sm:text-xl font-extrabold text-slate-900 leading-none">Global</div>
+          <div className="text-[9px] sm:text-xs font-medium text-slate-500 mt-1 uppercase tracking-wider">Ecosystem</div>
+        </div>
+      </div>
+
+      {/* Top-right metric badge */}
+      <div className="absolute -top-1 -right-2 sm:-top-6 sm:-right-4 bg-white/90 backdrop-blur-xl p-2.5 sm:p-4 rounded-2xl shadow-xl border border-slate-100 flex items-center gap-2 z-20"
+        style={{ animation: 'floatBadge 5s ease-in-out infinite', animationDelay: '2.5s' }}>
+        <div className="w-7 h-7 sm:w-10 sm:h-10 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 shadow-inner border border-blue-100">
+          <Brain size={16} className="sm:w-[18px] sm:h-[18px]" />
+        </div>
+        <div>
+          <div className="text-[12px] sm:text-base font-extrabold text-slate-900 leading-none">Agentic AI</div>
+          <div className="text-[8px] sm:text-xs font-medium text-slate-500 mt-1 uppercase tracking-wider">Workflows</div>
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
 const Hero = () => {
   return (
     <>
@@ -325,42 +526,55 @@ const Hero = () => {
         .outer-glow { animation: outerGlow 3s ease-in-out infinite; }
       `}</style>
 
-      {/* Added overflow-hidden to prevent 3D nodes from stretching page width */}
-      <section className="relative w-full pt-32 pb-20 md:pt-36 md:pb-28 min-h-[90vh] flex items-center bg-transparent overflow-hidden">
+      {/* Tighter padding and min-height for mobile sizing */}
+      <section className="relative w-full pt-24 pb-12 md:pt-36 md:pb-28 min-h-[95dvh] md:min-h-[90vh] flex flex-col justify-center bg-transparent overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 w-full relative z-10">
-          <div className="grid md:grid-cols-2 gap-12 md:gap-8 items-center">
+          
+          <div className="grid md:grid-cols-2 gap-0 md:gap-12 items-center">
 
-            {/* ── Left Column ── */}
-            <div className="flex flex-col space-y-6 md:pr-8 text-center md:text-left order-2 md:order-1">
-<a 
+            {/* ── Left Column (Text & Buttons) ── */}
+            <div className="flex flex-col text-center md:text-left">
+              
+              {/* Top Badge */}
+              <a 
                 href="https://1techub.ai" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="group inline-flex items-center gap-3 px-2 py-1.5 pr-5 rounded-full bg-white/60 backdrop-blur-md border border-blue-200/60 w-max mx-auto md:mx-0 shadow-sm hover:bg-white hover:border-cyan-300 hover:shadow-md transition-all hover:-translate-y-0.5"
+                className="group inline-flex items-center gap-2.5 px-2 py-1.5 pr-5 rounded-full bg-white/60 backdrop-blur-md border border-blue-200/60 w-max mx-auto md:mx-0 shadow-sm hover:bg-white hover:border-cyan-300 hover:shadow-md transition-all hover:-translate-y-0.5"
               >
                 <div className="flex items-center justify-center w-7 h-7 rounded-full bg-gradient-to-tr from-cyan-400 to-blue-600 text-white shadow-inner">
                   <svg className="w-3.5 h-3.5 relative z-10" viewBox="0 0 24 24" fill="none">
                     <path d="M12 2L13.5 8.5L20 7L15.5 12L20 17L13.5 15.5L12 22L10.5 15.5L4 17L8.5 12L4 7L10.5 8.5L12 2Z" fill="currentColor" />
                   </svg>
                 </div>
-                <span className="text-xs sm:text-sm font-bold text-slate-700 tracking-wide">
+                <span className="text-[11px] sm:text-sm font-bold text-slate-700 tracking-wide">
                   Explore our dedicated <span className="text-blue-600">AI Division</span>
                 </span>
                 <ArrowRight size={14} className="text-slate-400 group-hover:text-blue-600 transition-colors group-hover:translate-x-1" />
               </a>
 
-              <h1 className="text-3xl sm:text-5xl lg:text-7xl font-extrabold text-slate-900 leading-[1.1] tracking-tight break-words mt-4">
+              {/* Main Heading */}
+              <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold text-slate-900 leading-[1.1] tracking-tight break-words mt-3 md:mt-4">
                 Empowering your business with{" "}
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500">
                   next-gen solutions.
                 </span>
               </h1>
-              <p className="text-base sm:text-lg text-slate-600 leading-relaxed max-w-xl mx-auto md:mx-0 font-medium">
+              
+              {/* MOBILE ONLY: Tech Orb sits right here between Heading and Description */}
+              <div className="block md:hidden w-full mt-4 mb-2">
+                <TechOrb />
+              </div>
+              
+              {/* Description */}
+              <p className="text-sm sm:text-lg text-slate-600 leading-relaxed max-w-xl mx-auto md:mx-0 font-medium md:mt-6">
                 We design, build, and scale innovative technology solutions that drive real results. Transform your digital presence with our expert engineering and advisory services.
               </p>
-              <div className="flex flex-col sm:flex-row items-center gap-4 pt-6 justify-center md:justify-start">
+              
+              {/* Action Buttons */}
+              <div className="flex flex-col sm:flex-row items-center gap-3 pt-6 justify-center md:justify-start">
                 <Link to="/services"
-                  className="w-full sm:w-auto px-8 py-4 rounded-full bg-blue-600 text-white font-bold flex items-center justify-center gap-2 hover:bg-blue-700 transition-all shadow-lg shadow-blue-600/20 hover:shadow-xl hover:shadow-blue-600/30 hover:-translate-y-0.5">
+                  className="w-full sm:w-auto px-8 py-3.5 md:py-4 rounded-full bg-blue-600 text-white font-bold flex items-center justify-center gap-2 hover:bg-blue-700 transition-all shadow-lg shadow-blue-600/20 hover:shadow-xl hover:shadow-blue-600/30 hover:-translate-y-0.5">
                   Explore Services <ArrowRight size={18} />
                 </Link>
                 <Link 
@@ -369,7 +583,7 @@ const Hero = () => {
                     selectedServices: [],
                     prefilledMessage: "Hi Team,\n\nI would like to schedule a consultation to discuss how 1TecHub can help with our enterprise technology needs and digital transformation initiatives.\n\nPlease let me know the best time to connect."
                   }}
-                  className="w-full sm:w-auto px-8 py-4 rounded-full bg-white/80 backdrop-blur-md border border-slate-200 text-slate-900 font-bold flex items-center justify-center hover:border-blue-400 hover:text-blue-600 hover:bg-white transition-all shadow-sm"
+                  className="w-full sm:w-auto px-8 py-3.5 md:py-4 rounded-full bg-white/80 backdrop-blur-md border border-slate-200 text-slate-900 font-bold flex items-center justify-center hover:border-blue-400 hover:text-blue-600 hover:bg-white transition-all shadow-sm"
                 >
                   Let's Talk
                   <Phone size={18} className="ml-2" />
@@ -377,234 +591,9 @@ const Hero = () => {
               </div>
             </div>
 
-            {/* ── Right Column: 3D Tech Orb ── */}
-            <div className="flex justify-center items-center relative order-1 md:order-2 w-full">
-              <div
-                className="hero-float relative mx-auto aspect-square flex items-center justify-center my-6 md:my-0"
-                style={{ width: 'min(85vw, 460px)' }}
-              >
-                {/* Ambient glow beneath */}
-                <div className="outer-glow absolute inset-[10%] rounded-full pointer-events-none"
-                  style={{
-                    background: 'radial-gradient(ellipse, rgba(59,130,246,0.25) 0%, rgba(6,182,212,0.12) 50%, transparent 75%)',
-                    filter: 'blur(30px)'
-                  }} />
-
-                {/* Hex grid background panel */}
-                <svg className="absolute inset-0 w-full h-full opacity-40" viewBox="0 0 520 520" xmlns="http://www.w3.org/2000/svg">
-                  <defs>
-                    <pattern id="hexgrid" x="0" y="0" width="52" height="60" patternUnits="userSpaceOnUse">
-                      <polygon points="26,2 50,16 50,44 26,58 2,44 2,16"
-                        fill="none" stroke="rgba(59,130,246,0.5)" strokeWidth="0.8"/>
-                    </pattern>
-                    <radialGradient id="hexmask" cx="50%" cy="50%" r="50%">
-                      <stop offset="30%" stopColor="white" stopOpacity="1"/>
-                      <stop offset="100%" stopColor="white" stopOpacity="0"/>
-                    </radialGradient>
-                    <mask id="hexfade">
-                      <rect width="520" height="520" fill="url(#hexmask)"/>
-                    </mask>
-                  </defs>
-                  <rect width="520" height="520" fill="url(#hexgrid)" mask="url(#hexfade)"/>
-                </svg>
-
-                {/* Concentric decorative arcs */}
-                <svg className="absolute inset-0 w-full h-full" viewBox="0 0 520 520">
-                  {[200, 230, 255].map((r, i) => (
-                    <circle key={i} cx="260" cy="260" r={r}
-                      fill="none"
-                      stroke={i === 1 ? "rgba(6,182,212,0.2)" : "rgba(99,102,241,0.13)"}
-                      strokeWidth="0.8"
-                      strokeDasharray={i === 0 ? "4 12" : i === 1 ? "2 8" : "6 20"}/>
-                  ))}
-                  <circle cx="260" cy="260" r="242"
-                    fill="none" stroke="rgba(59,130,246,0.35)" strokeWidth="1.5"
-                    strokeDasharray="80 500"
-                    style={{ animation: 'arcDraw 3s linear infinite', transformOrigin: '260px 260px' }}/>
-                </svg>
-
-                <div className="hero-scene absolute inset-0 flex items-center justify-center pointer-events-none">
-                  <div
-                    className="relative flex items-center justify-center"
-                    style={{ width: '62%', height: '62%' }}
-                  >
-                    {/* Ring 1 */}
-                    <div className="ring-1 absolute inset-0 flex items-center justify-center" style={{ width: '100%', height: '100%' }}>
-                      <div style={{
-                        width: '100%', height: '100%',
-                        borderRadius: '50%',
-                        border: '1.5px solid rgba(59,130,246,0.45)',
-                        boxShadow: '0 0 12px rgba(59,130,246,0.25), inset 0 0 12px rgba(59,130,246,0.1)',
-                        position: 'relative',
-                      }}>
-                        <div style={{
-                          position: 'absolute', top: -5, left: 'calc(50% - 5px)',
-                          width: 10, height: 10, borderRadius: '50%',
-                          background: '#3b82f6',
-                          boxShadow: '0 0 10px rgba(59,130,246,1), 0 0 20px rgba(59,130,246,0.6)',
-                        }}/>
-                      </div>
-                    </div>
-
-                    {/* Ring 2 */}
-                    <div className="ring-2 absolute flex items-center justify-center" style={{ width: '87%', height: '87%' }}>
-                      <div style={{
-                        width: '100%', height: '100%',
-                        borderRadius: '50%',
-                        border: '1.5px solid rgba(6,182,212,0.5)',
-                        boxShadow: '0 0 14px rgba(6,182,212,0.2), inset 0 0 14px rgba(6,182,212,0.08)',
-                        position: 'relative',
-                      }}>
-                        <div style={{
-                          position: 'absolute', bottom: -5, left: 'calc(50% - 5px)',
-                          width: 10, height: 10, borderRadius: '50%',
-                          background: '#06b6d4',
-                          boxShadow: '0 0 10px rgba(6,182,212,1), 0 0 20px rgba(6,182,212,0.6)',
-                        }}/>
-                      </div>
-                    </div>
-
-                    {/* Ring 3 */}
-                    <div className="ring-3 absolute flex items-center justify-center" style={{ width: '72%', height: '72%' }}>
-                      <div style={{
-                        width: '100%', height: '100%',
-                        borderRadius: '50%',
-                        border: '1px solid rgba(139,92,246,0.4)',
-                        boxShadow: '0 0 10px rgba(139,92,246,0.18)',
-                        position: 'relative',
-                      }}>
-                        <div style={{
-                          position: 'absolute', top: '15%', right: -4,
-                          width: 8, height: 8, borderRadius: '50%',
-                          background: '#8b5cf6',
-                          boxShadow: '0 0 8px rgba(139,92,246,1), 0 0 16px rgba(139,92,246,0.6)',
-                        }}/>
-                      </div>
-                    </div>
-
-                    {/* Core Sphere */}
-                    <div className="core-pulse absolute flex items-center justify-center"
-                      style={{
-                        width: '44%', height: '44%',
-                        borderRadius: '50%',
-                        background: 'radial-gradient(ellipse at 35% 30%, rgba(255,255,255,0.9) 0%, rgba(147,197,253,0.8) 25%, rgba(59,130,246,0.9) 55%, rgba(29,78,216,1) 80%, rgba(15,23,42,0.95) 100%)',
-                      }}>
-                      <div className="scan-line absolute left-0 right-0 h-[2px] rounded-full pointer-events-none"
-                        style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.7), transparent)' }} />
-                      <svg width="60%" height="60%" viewBox="0 0 100 100" style={{ position: 'absolute', opacity: 0.25 }}>
-                        <line x1="50" y1="10" x2="50" y2="40" stroke="white" strokeWidth="1"/>
-                        <line x1="50" y1="60" x2="50" y2="90" stroke="white" strokeWidth="1"/>
-                        <line x1="10" y1="50" x2="40" y2="50" stroke="white" strokeWidth="1"/>
-                        <line x1="60" y1="50" x2="90" y2="50" stroke="white" strokeWidth="1"/>
-                        <circle cx="50" cy="50" r="12" fill="none" stroke="white" strokeWidth="1"/>
-                        <circle cx="50" cy="50" r="6" fill="rgba(255,255,255,0.8)"/>
-                        <circle cx="50" cy="10" r="3" fill="white"/>
-                        <circle cx="50" cy="90" r="3" fill="white"/>
-                        <circle cx="10" cy="50" r="3" fill="white"/>
-                        <circle cx="90" cy="50" r="3" fill="white"/>
-                      </svg>
-                    </div>
-
-                    {/* ── Floating data nodes around sphere ── 
-                        FIX: Reduced orbit radius (x,y multiplication factor) from 46 to 38 
-                        to prevent elements bleeding out of screen edges on mobile.
-                    */}
-                    {[
-                      { angle: 0,   label: 'AGENTIC AI', color: '#3b82f6', delay: '0s'   },
-                      { angle: 60,  label: 'CYBER SEC',  color: '#06b6d4', delay: '0.4s' },
-                      { angle: 120, label: 'TALENT',     color: '#8b5cf6', delay: '0.8s' },
-                      { angle: 180, label: 'IT OPS',     color: '#3b82f6', delay: '1.2s' },
-                      { angle: 240, label: 'APP MOD',    color: '#06b6d4', delay: '1.6s' },
-                      { angle: 300, label: 'API SYNC',   color: '#8b5cf6', delay: '2.0s' },
-                    ].map(({ angle, label, color, delay }) => {
-                      const rad = (angle * Math.PI) / 180;
-                      const x = Math.cos(rad) * 38; // <-- Adjusted to keep labels inside viewport
-                      const y = Math.sin(rad) * 38; 
-                      return (
-                        <div key={label} style={{
-                          position: 'absolute',
-                          left: `calc(50% + ${x}%)`,
-                          top: `calc(50% + ${y}%)`,
-                          transform: 'translate(-50%, -50%)',
-                          animation: `floatBadge 5s ease-in-out infinite`,
-                          animationDelay: delay,
-                          zIndex: 10,
-                        }}>
-                          <svg style={{ position: 'absolute', top: '50%', left: '50%', overflow: 'visible', pointerEvents: 'none' }} width="1" height="1">
-                            <line
-                              x1="0" y1="0"
-                              x2={`${-x * 0.7}%`} y2={`${-y * 0.7}%`}
-                              stroke={color} strokeWidth="0.8" opacity="0.35" strokeDasharray="3 4"/>
-                          </svg>
-                          <div style={{
-                            padding: '4px 8px',
-                            borderRadius: 7,
-                            background: 'rgba(255,255,255,0.92)',
-                            backdropFilter: 'blur(12px)',
-                            border: `1px solid ${color}44`,
-                            boxShadow: `0 0 12px ${color}33, 0 2px 10px rgba(0,0,0,0.07)`,
-                            fontSize: 9,
-                            fontWeight: 800,
-                            letterSpacing: '0.1em',
-                            color: color,
-                            whiteSpace: 'nowrap',
-                            position: 'relative',
-                          }}>
-                            <span style={{
-                              display: 'inline-block', width: 5, height: 5,
-                              borderRadius: '50%', background: color, marginRight: 4,
-                              verticalAlign: 'middle', boxShadow: `0 0 5px ${color}`,
-                              animation: 'dotPing 2s ease-in-out infinite', animationDelay: delay,
-                            }}/>
-                            {label}
-                          </div>
-                        </div>
-                      );
-                    })}
-
-                    {/* Scatter particles */}
-                    {[
-                      { x: -38, y: -28, s: 4, c: 'rgba(59,130,246,0.6)',  d: '0s'   },
-                      { x:  36, y: -36, s: 3, c: 'rgba(6,182,212,0.7)',   d: '0.8s' },
-                      { x:  42, y:  26, s: 5, c: 'rgba(139,92,246,0.5)',  d: '1.4s' },
-                      { x: -36, y:  34, s: 3, c: 'rgba(59,130,246,0.55)', d: '2.0s' },
-                      { x:  18, y:  44, s: 4, c: 'rgba(6,182,212,0.6)',   d: '0.5s' },
-                      { x: -18, y: -44, s: 3, c: 'rgba(139,92,246,0.6)',  d: '1.8s' },
-                    ].map(({ x, y, s, c, d }, i) => (
-                      <div key={i} style={{
-                        position: 'absolute', left: `calc(50% + ${x}%)`, top: `calc(50% + ${y}%)`,
-                        width: s, height: s, borderRadius: '50%', background: c, boxShadow: `0 0 ${s * 2}px ${c}`,
-                        animation: `floatBadge ${4 + i * 0.7}s ease-in-out infinite`, animationDelay: d,
-                      }}/>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Floating stat card (bottom-left) */}
-                <div className="absolute -bottom-4 left-0 sm:-bottom-6 sm:-left-4 bg-white/90 backdrop-blur-xl p-3 sm:p-5 rounded-2xl shadow-xl border border-slate-100 flex items-center gap-3 z-20"
-                  style={{ animation: 'floatBadge 6s ease-in-out infinite', animationDelay: '1s' }}>
-                  <div className="w-9 h-9 sm:w-12 sm:h-12 rounded-full bg-cyan-50 flex items-center justify-center text-cyan-600 shadow-inner border border-cyan-100">
-                    <Globe size={20} />
-                  </div>
-                  <div>
-                    <div className="text-base sm:text-xl font-extrabold text-slate-900 leading-none">Global</div>
-                    <div className="text-[10px] sm:text-xs font-medium text-slate-500 mt-1 uppercase tracking-wider">Ecosystem</div>
-                  </div>
-                </div>
-
-                {/* Top-right metric badge */}
-                <div className="absolute -top-4 right-0 sm:-top-6 sm:-right-4 bg-white/90 backdrop-blur-xl p-3 sm:p-4 rounded-2xl shadow-xl border border-slate-100 flex items-center gap-2 z-20"
-                  style={{ animation: 'floatBadge 5s ease-in-out infinite', animationDelay: '2.5s' }}>
-                  <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 shadow-inner border border-blue-100">
-                    <Brain size={18} />
-                  </div>
-                  <div>
-                    <div className="text-sm sm:text-base font-extrabold text-slate-900 leading-none">Agentic AI</div>
-                    <div className="text-[10px] sm:text-xs font-medium text-slate-500 mt-1 uppercase tracking-wider">Workflows</div>
-                  </div>
-                </div>
-
-              </div>
+            {/* ── Right Column: DESKTOP ONLY Tech Orb ── */}
+            <div className="hidden md:flex justify-center items-center w-full">
+              <TechOrb />
             </div>
 
           </div>

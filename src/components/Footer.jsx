@@ -1,14 +1,9 @@
-import React, { useEffect } from 'react';
 import logo from "../assets/logo.svg";
 import { Linkedin, Mail, Phone } from 'lucide-react';
 import { BrandWhatsapp } from 'tabler-icons-react';
 import { Link } from 'react-router-dom';
 
 const Footer = () => {
-  useEffect(() => {
-    console.log(import.meta.env.MODE);
-  }, []);
-
   return (
     <footer className="w-full bg-[#fafbfc] pt-1 border-t border-slate-200 relative font-sans mt-12">
       {/* Subtle Blue Gradient Top Border */}
