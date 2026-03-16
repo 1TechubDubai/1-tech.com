@@ -6,7 +6,7 @@ import {
   Bot, User, Send, X, ArrowRight, ChevronLeft, LayoutGrid, Loader2,
   Building2, Smartphone, Truck, Database, BrainCircuit, Server, 
   Cloud, HeartPulse, Network, ShieldCheck, Key, Globe, PieChart, 
-  LineChart, Recycle 
+  LineChart, Recycle, ChevronDown, Search
 } from 'lucide-react'; 
 
 // Core enterprise services matching your exact data structure
@@ -19,6 +19,24 @@ const CORE_SERVICES = [
   "Next-Gen Web & App Modernization", 
   "API, Integrations & Customizations"
 ];
+
+// List of supported languages for speech and bot responses
+const SUPPORTED_LANGUAGES = [
+  { code: 'en-US', name: 'English' },
+  { code: 'es-ES', name: 'Spanish' },
+  { code: 'fr-FR', name: 'French' },
+  { code: 'de-DE', name: 'German' },
+  { code: 'ar-SA', name: 'Arabic' },
+  { code: 'zh-CN', name: 'Mandarin' },
+  { code: 'hi-IN', name: 'Hindi' },
+  { code: 'ja-JP', name: 'Japanese' },
+  { code: 'pt-BR', name: 'Portuguese' },
+  { code: 'ru-RU', name: 'Russian' },
+  { code: 'it-IT', name: 'Italian' },
+  { code: 'nl-NL', name: 'Dutch' },
+  { code: 'ko-KR', name: 'Korean' },
+  { code: 'tr-TR', name: 'Turkish' }
+].sort((a, b) => a.name.localeCompare(b.name));
 
 // --- PORTFOLIO DATA ---
 const portfolioData = [
@@ -96,7 +114,10 @@ const portfolioData = [
 ];
 
 // Highly optimized prompt for maximum accuracy and strict boundary control
-const getSystemPrompt = () => `You are the official AI advisory assistant for 1TecHub. 
+// We pass the currently selected language here so the AI knows to speak it.
+const getSystemPrompt = (languageName) => `You are the official AI advisory assistant for 1TecHub. 
+
+CRITICAL INSTRUCTION: You MUST communicate and respond to the user entirely in the following language: ${languageName}.
 
 YOUR PERSONA & INSTRUCTIONS:
 - Tone: Professional, highly confident, concise, and business-focused.
@@ -133,7 +154,7 @@ ROUTING RULES:
 - shouldRedirectToContact: true ONLY if the user asks for pricing, quotes, or to start a project.
 - selectedServices: Map to the EXACT names from the 7 capabilities if the user implies interest.
 - prefilledMessage: Provide a short 1st-person summary if redirecting to contact.
-- suggestedFollowUps: Generate EXACTLY 3 short questions strictly related to the 7 capabilities, the methodology, or asking if they want to hear a case study.`;
+- suggestedFollowUps: Generate EXACTLY 3 short questions strictly related to the 7 capabilities, the methodology, or asking if they want to hear a case study. All suggestedFollowUps MUST also be in ${languageName}.`;
 
 const GeminiChatBot = ({ apiKey }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -146,9 +167,15 @@ const GeminiChatBot = ({ apiKey }) => {
   // State to toggle the "Services Menu" in the quick actions bar
   const [showServicesMenu, setShowServicesMenu] = useState(false);
   
+  // --- LANGUAGE STATES ---
+  const [selectedLanguage, setSelectedLanguage] = useState(SUPPORTED_LANGUAGES.find(l => l.code === 'en-US'));
+  const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
+  const [langSearch, setLangSearch] = useState('');
+  const langDropdownRef = useRef(null);
+
   // --- VOICE FEATURES ---
   const [isListening, setIsListening] = useState(false);
-  const [speakingId, setSpeakingId] = useState(null); // Changed to ID instead of Index
+  const [speakingId, setSpeakingId] = useState(null); 
   const recognitionRef = useRef(null);
   
   // Refs
@@ -156,10 +183,21 @@ const GeminiChatBot = ({ apiKey }) => {
   const lastMessageRef = useRef(null); 
   const chatContainerRef = useRef(null); 
   const currentAudioRef = useRef(null); 
-  const audioContextRef = useRef(null); // Reusable global audio context
+  const audioContextRef = useRef(null); 
   
   const navigate = useNavigate();
   const location = useLocation();
+
+  // Handle clicking outside the language dropdown
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (langDropdownRef.current && !langDropdownRef.current.contains(event.target)) {
+        setIsLangDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   // --- AUDIO HELPER ---
   const stopAudio = () => {
@@ -214,6 +252,7 @@ const GeminiChatBot = ({ apiKey }) => {
         setIsListening(false);
       }
       setShowServicesMenu(false); 
+      setIsLangDropdownOpen(false);
     }
   }, [isOpen, isListening]);
 
@@ -223,8 +262,12 @@ const GeminiChatBot = ({ apiKey }) => {
       setIsListening(false);
     } else {
       setInput(''); 
-      recognitionRef.current?.start();
-      setIsListening(true);
+      if (recognitionRef.current) {
+        // Set the recognition language dynamically before starting
+        recognitionRef.current.lang = selectedLanguage.code;
+        recognitionRef.current?.start();
+        setIsListening(true);
+      }
     }
   };
 
@@ -239,11 +282,7 @@ const GeminiChatBot = ({ apiKey }) => {
         contents: `Please read the following text aloud exactly as written: ${cleanText}`,
         config: {
           responseModalities: ["AUDIO"],
-          speechConfig: {
-            voiceConfig: {
-              prebuiltVoiceConfig: { voiceName: "Aoede" }
-            }
-          }
+          // We omit the hardcoded voice config here so the AI can naturally output the right accent for the language
         }
       });
 
@@ -281,7 +320,6 @@ const GeminiChatBot = ({ apiKey }) => {
 
     } catch (error) {
       console.error("Background TTS Error:", error);
-      // Let the UI know it failed so it doesn't load forever
       setMessages(prev => prev.map(msg => 
         msg.id === messageId ? { ...msg, audioLoading: false, audioError: true } : msg
       ));
@@ -303,13 +341,12 @@ const GeminiChatBot = ({ apiKey }) => {
       audioContextRef.current = new (window.AudioContext || window.webkitAudioContext)();
     }
 
-    // Crucial for browser autoplay policies: resume context if suspended
     if (audioContextRef.current.state === 'suspended') {
       audioContextRef.current.resume();
     }
 
     const source = audioContextRef.current.createBufferSource();
-    source.buffer = msg.audioBuffer; // Grab the pre-fetched buffer!
+    source.buffer = msg.audioBuffer; 
     source.connect(audioContextRef.current.destination);
     currentAudioRef.current = source;
 
@@ -318,7 +355,7 @@ const GeminiChatBot = ({ apiKey }) => {
       currentAudioRef.current = null;
     };
 
-    source.start(); // Plays instantly
+    source.start(); 
   };
 
   // --- SCROLL LOGIC ---
@@ -394,6 +431,7 @@ const GeminiChatBot = ({ apiKey }) => {
     stopAudio();
     setSpeakingId(null);
     setShowServicesMenu(false); 
+    setIsLangDropdownOpen(false); // Close language dropdown if open
 
     const userMessageId = Date.now().toString();
     const userMessage = { id: userMessageId, role: 'user', text: messageText.trim() };
@@ -429,7 +467,9 @@ const GeminiChatBot = ({ apiKey }) => {
 
       const currentMessage = { role: 'user', parts: [{ text: userMessage.text }] };
       const finalContents = [...formattedContents, currentMessage];
-      const currentSystemPrompt = getSystemPrompt();
+      
+      // Pass the selected language dynamically into the system prompt
+      const currentSystemPrompt = getSystemPrompt(selectedLanguage.name);
 
       const response = await ai.models.generateContent({
         model: "gemini-2.5-flash", 
@@ -460,8 +500,8 @@ const GeminiChatBot = ({ apiKey }) => {
         id: botMessageId,
         role: 'model', 
         text: responseData.text,
-        audioBuffer: null,      // We don't have the audio yet
-        audioLoading: true,     // Flag that we are actively fetching it
+        audioBuffer: null,      
+        audioLoading: true,     
         audioError: false,
         contactRouting: responseData.shouldRedirectToContact ? {
           services: responseData.selectedServices || [],
@@ -473,7 +513,6 @@ const GeminiChatBot = ({ apiKey }) => {
 
       setMessages((prev) => [...prev, botMessage]);
       
-      // FIRE AND FORGET: Start fetching the audio in the background immediately!
       fetchAudioInBackground(botMessageId, responseData.text);
 
     } catch (error) {
@@ -520,6 +559,52 @@ const GeminiChatBot = ({ apiKey }) => {
             </div>
           </div>
           
+          {/* LANGUAGE SELECTOR DROPDOWN */}
+          <div className="relative" ref={langDropdownRef}>
+            <button 
+              onClick={() => setIsLangDropdownOpen(!isLangDropdownOpen)} 
+              className="text-[11px] font-bold text-slate-600 flex items-center gap-1 bg-white border border-slate-200 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 px-2 py-1.5 rounded-lg transition-colors mr-1 shadow-sm"
+              title="Select Language"
+            >
+              {selectedLanguage.name} <ChevronDown size={12} className={`transition-transform duration-200 ${isLangDropdownOpen ? 'rotate-180' : ''}`}/>
+            </button>
+
+            {isLangDropdownOpen && (
+              <div className="absolute top-full right-0 mt-2 w-44 bg-white border border-slate-200 rounded-xl shadow-xl z-50 flex flex-col overflow-hidden">
+                <div className="p-2 border-b border-slate-100 bg-slate-50 flex items-center gap-2">
+                  <Search size={14} className="text-slate-400" />
+                  <input 
+                    type="text" 
+                    placeholder="Search language..." 
+                    value={langSearch}
+                    onChange={(e) => setLangSearch(e.target.value)}
+                    className="text-[11px] font-medium bg-transparent focus:outline-none w-full text-slate-700 placeholder-slate-400"
+                    autoFocus
+                  />
+                </div>
+                <div className="max-h-48 overflow-y-auto custom-scrollbar p-1">
+                  {SUPPORTED_LANGUAGES.filter(l => l.name.toLowerCase().includes(langSearch.toLowerCase())).map(lang => (
+                    <button 
+                      key={lang.code}
+                      onClick={() => { 
+                        setSelectedLanguage(lang); 
+                        setIsLangDropdownOpen(false); 
+                        setLangSearch('');
+                        // AUTO MESSAGE REMOVED AS REQUESTED 
+                      }}
+                      className={`w-full text-left px-3 py-2 text-[11px] font-bold rounded-lg transition-colors ${selectedLanguage.code === lang.code ? 'bg-blue-600 text-white' : 'text-slate-600 hover:bg-blue-50 hover:text-blue-700'}`}
+                    >
+                      {lang.name}
+                    </button>
+                  ))}
+                  {SUPPORTED_LANGUAGES.filter(l => l.name.toLowerCase().includes(langSearch.toLowerCase())).length === 0 && (
+                    <div className="px-3 py-2 text-[11px] text-slate-400 text-center">No results found</div>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+
           {/* Clear History Button */}
           {messages.length > 0 && (
             <button 
@@ -639,7 +724,7 @@ const GeminiChatBot = ({ apiKey }) => {
                   </div>
                 )}
 
-                {/* Calendar Routing */}
+                {/* --- MODIFIED: Meeting / Calendar Routing Button --- */}
                 {msg.calendarRouting && (
                   <div className="mt-3 w-full max-w-[260px]">
                     <div className="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm flex flex-col gap-3">
@@ -647,7 +732,12 @@ const GeminiChatBot = ({ apiKey }) => {
                       <button
                         onClick={(e) => {
                           e.preventDefault();
-                          window.open("https://calendly.com/harish-krishnan1976", "_blank");
+                          toggleChat();
+                          navigate("/contact", { 
+                            state: { 
+                              prefilledMessage: "Hi team,\n\nI would like to schedule a strategic meeting with your experts to discuss a digital transformation roadmap for our enterprise.\n\nPlease let me know the best times to connect."
+                            }
+                          });
                         }}
                         className="flex items-center justify-center gap-2 py-2.5 px-4 bg-blue-600 text-white rounded-xl text-[13px] font-bold hover:bg-blue-700 transition-all w-full shadow-md hover:shadow-blue-500/20"
                       >
@@ -797,6 +887,11 @@ const GeminiChatBot = ({ apiKey }) => {
           -ms-overflow-style: none;
           scrollbar-width: none;
         }
+        
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
       `}</style>
     </>
   );
