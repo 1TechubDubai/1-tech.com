@@ -282,7 +282,7 @@ const GeminiChatBot = ({ apiKey }) => {
         contents: `Please read the following text aloud exactly as written: ${cleanText}`,
         config: {
           responseModalities: ["AUDIO"],
-          // We omit the hardcoded "Aoede" voice config here so the AI can naturally output the right accent for the language
+          // We omit the hardcoded voice config here so the AI can naturally output the right accent for the language
         }
       });
 
@@ -590,7 +590,7 @@ const GeminiChatBot = ({ apiKey }) => {
                         setSelectedLanguage(lang); 
                         setIsLangDropdownOpen(false); 
                         setLangSearch('');
-                        triggerSend(`Hello! Let's continue in ${lang.name}.`); // Optional greeting to prompt switch
+                        // AUTO MESSAGE REMOVED AS REQUESTED 
                       }}
                       className={`w-full text-left px-3 py-2 text-[11px] font-bold rounded-lg transition-colors ${selectedLanguage.code === lang.code ? 'bg-blue-600 text-white' : 'text-slate-600 hover:bg-blue-50 hover:text-blue-700'}`}
                     >
