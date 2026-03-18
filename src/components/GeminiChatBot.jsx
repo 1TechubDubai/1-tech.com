@@ -370,7 +370,7 @@ const GeminiChatBot = ({ apiKey }) => {
   };
 
   // --- SCROLL LOGIC ---
-  useEffect(() => {
+useEffect(() => {
     if (isLoading || (messages.length > 0 && messages[messages.length - 1].role === 'user')) {
       messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     } 
@@ -385,7 +385,7 @@ const GeminiChatBot = ({ apiKey }) => {
         });
       }
     }
-  }, [messages, isLoading]);
+  }, [messages.length, isLoading]);
 
   useEffect(() => {
     setShowTooltip(true);
@@ -688,11 +688,10 @@ const GeminiChatBot = ({ apiKey }) => {
                     ? 'bg-gradient-to-br from-blue-600 to-blue-500 border border-blue-600 rounded-tr-sm text-white'
                     : 'bg-white border border-slate-200 rounded-tl-sm text-slate-700'
                 }`}>
-                  <div>{formatMarkdown(msg.text)}</div>
                   
-                  {/* TTS Button with Loading States */}
+                  {/* --- TEXT-TO-SPEECH BUTTON MOVED TO TOP --- */}
                   {msg.role === 'model' && msg.id && (
-                    <div className="mt-2 pt-2 border-t border-slate-100 flex justify-end">
+                    <div className="mb-2 flex justify-end">
                       {msg.audioLoading ? (
                         <div className="flex items-center gap-1.5 text-[11px] font-bold px-2 py-1 text-slate-400">
                           <Loader2 size={12} className="animate-spin text-blue-400" /> Preparing Audio...
@@ -709,6 +708,7 @@ const GeminiChatBot = ({ apiKey }) => {
                               ? 'text-blue-600 bg-blue-50' 
                               : 'text-slate-400 hover:text-blue-600 hover:bg-slate-50'
                           }`}
+                          title={speakingId === msg.id ? "Stop speaking" : "Read aloud"}
                         >
                           {speakingId === msg.id ? <VolumeX size={14} /> : <Volume2 size={14} />}
                           {speakingId === msg.id ? 'Stop' : 'Listen'}
@@ -716,6 +716,10 @@ const GeminiChatBot = ({ apiKey }) => {
                       )}
                     </div>
                   )}
+
+                  {/* Chat Text now renders below the button */}
+                  <div>{formatMarkdown(msg.text)}</div>
+                  
                 </div>
 
                 {/* Follow-up Suggestions */}
@@ -735,7 +739,7 @@ const GeminiChatBot = ({ apiKey }) => {
                   </div>
                 )}
 
-                {/* --- MODIFIED: Meeting / Calendar Routing Button --- */}
+                {/* --- SMART CALENDAR ROUTING BUTTON --- */}
                 {msg.calendarRouting && (
                   <div className="mt-3 w-full max-w-[260px]">
                     <div className="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm flex flex-col gap-3">
