@@ -292,13 +292,12 @@ const GeminiChatBot = ({ apiKey }) => {
 
       // Helper function to keep the fetch request clean
       const fetchTTS = async (voiceConfig) => {
-        return await fetch(`https://texttospeech.googleapis.com/v1/text:synthesize?key=${apiKey}`, {
+        return await fetch('https://1techub.ai/api/tts', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            input: { text: cleanText },
-            voice: voiceConfig,
-            audioConfig: { audioEncoding: 'MP3', speakingRate: 1.0, pitch: 0.0 }
+            text: cleanText,
+            voice: voiceConfig
           })
         });
       };
@@ -441,7 +440,8 @@ useEffect(() => {
     
     stopAudio();
     setSpeakingId(null);
-    setShowServicesMenu(false); 
+    // Note: Assuming setShowServicesMenu is defined elsewhere in your component
+    if (typeof setShowServicesMenu === 'function') setShowServicesMenu(false); 
     setIsLangDropdownOpen(false); // Close language dropdown if open
 
     const userMessageId = Date.now().toString();
@@ -458,8 +458,7 @@ useEffect(() => {
         apiHistory = apiHistory.slice(1);
       }
 
-      const ai = new GoogleGenAI({ apiKey: apiKey });
-      
+      // Format history specifically for the backend to pass to Google
       const formattedContents = apiHistory.slice(0, -1).map(msg => {
         if (msg.role === 'model') {
           const reconstructedJSON = {
@@ -482,29 +481,25 @@ useEffect(() => {
       // Pass the selected language dynamically into the system prompt
       const currentSystemPrompt = getSystemPrompt(selectedLanguage.name);
 
-      const response = await ai.models.generateContent({
-        model: "gemini-2.5-flash", 
-        contents: finalContents, 
-        config: {
-          systemInstruction: currentSystemPrompt,
-          responseMimeType: "application/json",
-          responseSchema: {
-            type: "OBJECT",
-            properties: {
-              text: { type: "STRING" },
-              shouldRedirectToContact: { type: "BOOLEAN" },
-              shouldShowCalendar: { type: "BOOLEAN" },
-              selectedServices: { type: "ARRAY", items: { type: "STRING" } },
-              prefilledMessage: { type: "STRING" },
-              suggestedFollowUps: { type: "ARRAY", items: { type: "STRING" } }
-            },
-            required: ["text", "shouldRedirectToContact", "shouldShowCalendar", "selectedServices", "prefilledMessage", "suggestedFollowUps"]
-          }
-        }
+      // 🔐 SECURE FIX: Call your custom EC2 backend instead of Google directly
+      const serverResponse = await fetch('https://1techub.ai/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          contents: finalContents,
+          systemInstruction: currentSystemPrompt
+        })
       });
 
-      const rawText = response.text.replace(/```json/g, '').replace(/```/g, '').trim();
-      const responseData = JSON.parse(rawText);
+      if (!serverResponse.ok) {
+        throw new Error(`Server responded with status: ${serverResponse.status}`);
+      }
+
+      // The backend already parses the raw text into a clean JSON object
+      const responseData = await serverResponse.json();
+      
       const botMessageId = (Date.now() + 1).toString();
 
       const botMessage = { 
@@ -524,10 +519,11 @@ useEffect(() => {
 
       setMessages((prev) => [...prev, botMessage]);
       
+      // Trigger your secure TTS background fetch
       fetchAudioInBackground(botMessageId, responseData.text);
 
     } catch (error) {
-      console.error("Gemini API Error:", error);
+      console.error("Secure Backend Fetch Error:", error);
       const errorMessage = { id: Date.now().toString(), role: 'model', text: 'Sorry, I encountered an error connecting to my servers. Please try again.', audioLoading: false };
       setMessages((prev) => [...prev, errorMessage]);
     } finally {
@@ -691,27 +687,29 @@ useEffect(() => {
                   
                   {/* --- TEXT-TO-SPEECH BUTTON MOVED TO TOP --- */}
                   {msg.role === 'model' && msg.id && (
-                    <div className="mb-2 flex justify-end">
+                    <div className="mb-3 flex justify-end">
                       {msg.audioLoading ? (
-                        <div className="flex items-center gap-1.5 text-[11px] font-bold px-2 py-1 text-slate-400">
-                          <Loader2 size={12} className="animate-spin text-blue-400" /> Preparing Audio...
+                        <div className="flex items-center gap-2 text-[11px] font-bold px-3 py-1.5 rounded-full border border-blue-100 bg-blue-50 text-blue-600 shadow-sm">
+                          <Loader2 size={14} className="animate-spin text-blue-500" /> 
+                          <span>Preparing Audio...</span>
                         </div>
                       ) : msg.audioError ? (
-                        <div className="flex items-center gap-1 text-[11px] font-bold px-2 py-1 text-red-400">
-                          Audio Unavailable
+                        <div className="flex items-center gap-2 text-[11px] font-bold px-3 py-1.5 rounded-full border border-red-200 bg-red-50 text-red-500 shadow-sm">
+                          <VolumeX size={14} />
+                          <span>Audio Unavailable</span>
                         </div>
                       ) : (
                         <button
                           onClick={() => handleSpeak(msg)}
-                          className={`flex items-center gap-1 text-[11px] font-bold px-2 py-1 rounded transition-colors ${
+                          className={`flex items-center gap-2 text-[11px] font-bold px-3 py-1.5 rounded-full border transition-all duration-300 shadow-sm ${
                             speakingId === msg.id 
-                              ? 'text-blue-600 bg-blue-50' 
-                              : 'text-slate-400 hover:text-blue-600 hover:bg-slate-50'
+                              ? 'bg-blue-600 border-blue-600 text-white shadow-[0_0_12px_rgba(59,130,246,0.3)] scale-[1.02]' 
+                              : 'bg-white border-slate-200 text-slate-500 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200'
                           }`}
                           title={speakingId === msg.id ? "Stop speaking" : "Read aloud"}
                         >
                           {speakingId === msg.id ? <VolumeX size={14} /> : <Volume2 size={14} />}
-                          {speakingId === msg.id ? 'Stop' : 'Listen'}
+                          <span className="tracking-wide uppercase">{speakingId === msg.id ? 'Stop' : 'Listen'}</span>
                         </button>
                       )}
                     </div>

@@ -13,15 +13,10 @@ import BlogsMain from './pages/BlogsMain.jsx';
 import BlogPage from './pages/BlogPage.jsx';
 import ClientPortfolio from './pages/ClientPortfolio.jsx';
 
-const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
-
 function App() {
-  // useEffect(()=>{
-  //   console.log("Gemini API Key:", apiKey);
-  // },[])
   return (
     <BrowserRouter>
-      <GeminiChatbot apiKey={apiKey} />
+      <GeminiChatbot />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/home" element={<Home />} />
