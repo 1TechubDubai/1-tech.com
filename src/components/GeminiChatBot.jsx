@@ -283,9 +283,19 @@ const GeminiChatBot = ({ apiKey }) => {
     }
   };
 
-  // --- BACKGROUND AUDIO PRE-FETCHER ---
+// --- BACKGROUND AUDIO PRE-FETCHER ---
   const fetchAudioInBackground = async (messageId, text) => {
+    // 1. SAFETY CHECK: Prevent the crash if text is missing or undefined
+    if (!text || typeof text !== 'string') {
+      console.warn("fetchAudioInBackground: 'text' is undefined or empty. Skipping TTS.");
+      setMessages(prev => prev.map(msg => 
+        msg.id === messageId ? { ...msg, audioLoading: false, audioError: true } : msg
+      ));
+      return; // Exit the function early so it never reaches .replace()
+    }
+
     try {
+      // It is now safe to use string methods
       const cleanText = text.replace(/[*_~`#]/g, '');
       const targetVoiceName = BEST_VOICES[selectedLanguage.code];
       const targetLangCode = selectedLanguage.code === 'zh-CN' ? 'cmn-CN' : selectedLanguage.code;
@@ -432,17 +442,15 @@ useEffect(() => {
       );
     });
   };
-
-  const triggerSend = async (messageText) => {
+const triggerSend = async (messageText) => {
     if (!messageText.trim() || isLoading) return;
     
     if (isListening) toggleListen();
     
     stopAudio();
     setSpeakingId(null);
-    // Note: Assuming setShowServicesMenu is defined elsewhere in your component
     if (typeof setShowServicesMenu === 'function') setShowServicesMenu(false); 
-    setIsLangDropdownOpen(false); // Close language dropdown if open
+    setIsLangDropdownOpen(false); 
 
     const userMessageId = Date.now().toString();
     const userMessage = { id: userMessageId, role: 'user', text: messageText.trim() };
@@ -458,37 +466,18 @@ useEffect(() => {
         apiHistory = apiHistory.slice(1);
       }
 
-      // Format history specifically for the backend to pass to Google
-      const formattedContents = apiHistory.slice(0, -1).map(msg => {
-        if (msg.role === 'model') {
-          const reconstructedJSON = {
-            text: msg.text || "",
-            shouldRedirectToContact: !!msg.contactRouting,
-            shouldShowCalendar: msg.calendarRouting || false,
-            selectedServices: msg.contactRouting?.services || [],
-            prefilledMessage: msg.contactRouting?.message || "",
-            suggestedFollowUps: msg.suggestedFollowUps || []
-          };
-          return { role: 'model', parts: [{ text: JSON.stringify(reconstructedJSON) }] };
-        } else {
-          return { role: 'user', parts: [{ text: msg.text || "" }] };
-        }
-      });
+      const formattedContents = apiHistory.map(msg => ({
+        role: msg.role,
+        parts: [{ text: msg.text || "" }]
+      }));
 
-      const currentMessage = { role: 'user', parts: [{ text: userMessage.text }] };
-      const finalContents = [...formattedContents, currentMessage];
-      
-      // Pass the selected language dynamically into the system prompt
       const currentSystemPrompt = getSystemPrompt(selectedLanguage.name);
 
-      // 🔐 SECURE FIX: Call your custom EC2 backend instead of Google directly
       const serverResponse = await fetch('https://1techub.ai/api/chat', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          contents: finalContents,
+          contents: formattedContents,
           systemInstruction: currentSystemPrompt
         })
       });
@@ -497,15 +486,60 @@ useEffect(() => {
         throw new Error(`Server responded with status: ${serverResponse.status}`);
       }
 
-      // The backend already parses the raw text into a clean JSON object
       const responseData = await serverResponse.json();
       
+      // --- BULLETPROOF TEXT EXTRACTION ---
+      
+      // 1. Try standard keys first
+      let finalBotText = responseData.text || responseData.response || responseData.message || responseData.content || "";
+
+      // 2. If the AI translated the key (e.g., 'respuesta'), find the first large string in the object
+      if (!finalBotText) {
+        for (const key in responseData) {
+          if (typeof responseData[key] === 'string' && !['prefilledMessage'].includes(key)) {
+            finalBotText = responseData[key];
+            break; // Grab the first valid text block we find
+          }
+        }
+      }
+
+      // 3. Dynamically find ANY array that contains our bullet points (ignoring known routing arrays)
+      for (const key in responseData) {
+        const isArray = Array.isArray(responseData[key]);
+        const isNotRoutingArray = key !== 'suggestedFollowUps' && key !== 'selectedServices';
+        
+        if (isArray && isNotRoutingArray) {
+          const formattedBullets = responseData[key].map(step => {
+            // If it's a plain string
+            if (typeof step === 'string') {
+              return `* ${step}`;
+            } 
+            // If it's an object (solves the [object Object] issue)
+            else if (typeof step === 'object' && step !== null) {
+              const textValues = Object.values(step).filter(val => typeof val === 'string');
+              return `* ${textValues.join(': ')}`;
+            }
+            return '';
+          }).filter(Boolean).join('\n');
+
+          if (formattedBullets) {
+            finalBotText += (finalBotText ? '\n\n' : '') + formattedBullets;
+          }
+        }
+      }
+
+      // 4. Final Safety Check
+      if (!finalBotText) {
+         console.error("Backend returned an unexpected payload:", responseData);
+         throw new Error("Missing text content in server response");
+      }
+
       const botMessageId = (Date.now() + 1).toString();
 
       const botMessage = { 
         id: botMessageId,
         role: 'model', 
-        text: responseData.text,
+        text: finalBotText, 
         audioElement: null,      
         audioLoading: true,     
         audioError: false,
@@ -519,9 +553,9 @@ useEffect(() => {
 
       setMessages((prev) => [...prev, botMessage]);
       
-      // Trigger your secure TTS background fetch
-      fetchAudioInBackground(botMessageId, responseData.text);
-
+      // Fetch audio in background using the combined text
+      fetchAudioInBackground(botMessageId, finalBotText);
+      
     } catch (error) {
       console.error("Secure Backend Fetch Error:", error);
       const errorMessage = { id: Date.now().toString(), role: 'model', text: 'Sorry, I encountered an error connecting to my servers. Please try again.', audioLoading: false };
