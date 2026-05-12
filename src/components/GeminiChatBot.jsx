@@ -586,10 +586,10 @@ const triggerSend = async (messageText) => {
       </button>
 
       {/* Chat Window */}
-      <div className={`fixed bottom-[100px] right-7 w-[380px] max-w-[calc(100vw-40px)] h-[580px] max-h-[calc(100vh-130px)] bg-white/95 backdrop-blur-xl border border-slate-200 rounded-2xl shadow-2xl flex flex-col overflow-hidden z-[9998] transition-all duration-300 font-sans ${isOpen ? 'translate-y-0 scale-100 opacity-100 pointer-events-auto' : 'translate-y-4 scale-95 opacity-0 pointer-events-none'}`}>
-        
+      <div className={`fixed bottom-[100px] right-7 w-[380px] max-w-[calc(100vw-40px)] h-[580px] max-h-[calc(100vh-130px)] bg-white/95 backdrop-blur-xl border border-slate-200 rounded-2xl shadow-2xl flex flex-col overflow-hidden z-[9998] font-sans origin-bottom-right transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${isOpen ? 'translate-y-0 scale-100 opacity-100 pointer-events-auto' : 'translate-y-12 scale-[0.85] opacity-0 pointer-events-none'}`}>
+
         {/* Header */}
-        <div className="px-5 py-4 bg-slate-50 border-b border-slate-200 flex items-center gap-3 shrink-0">
+        <div className={`px-5 py-4 bg-slate-50 border-b border-slate-200 flex items-center gap-3 shrink-0 transition-all duration-500 delay-100 ease-out ${isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}>
           <div className="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center shrink-0 shadow-sm border border-blue-200">
             <Bot size={20} />
           </div>
@@ -675,12 +675,12 @@ const triggerSend = async (messageText) => {
           </div>
         )}
 
-        {/* Messages Area */}
-        <div 
-          ref={chatContainerRef}
-          onScroll={handleScroll}
-          className="relative flex-1 overflow-y-auto px-4 py-5 flex flex-col gap-4 bg-[#f8fafc]" 
-        >
+          {/* Messages Area */}
+          <div 
+            ref={chatContainerRef}
+            onScroll={handleScroll}
+            className={`relative flex-1 overflow-y-auto px-4 py-5 flex flex-col gap-4 bg-[#f8fafc] transition-all duration-500 delay-[150ms] ease-out ${isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`} 
+          >
           
           {/* Initial Greeting */}
           {messages.length === 0 && (
@@ -788,7 +788,7 @@ const triggerSend = async (messageText) => {
                         }}
                         className="flex items-center justify-center gap-2 py-2.5 px-4 bg-blue-600 text-white rounded-xl text-[13px] font-bold hover:bg-blue-700 transition-all w-full shadow-md hover:shadow-blue-500/20"
                       >
-                        <span>Book a Meeting</span>
+                        <span>Schedule a Consultation</span>
                         <CalendarCheck size={16} />
                       </button>
                     </div>
@@ -865,7 +865,7 @@ const triggerSend = async (messageText) => {
                   <LayoutGrid size={12} /> Explore Services
                 </button>
                 <button onClick={() => triggerSend('Can you explain your 4-Phase Transformation Blueprint?')} className="bg-slate-50 border border-slate-200 rounded-full text-slate-600 font-bold text-[11px] px-3 py-1.5 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 transition-colors shrink-0">Our Methodology</button>
-                <button onClick={() => triggerSend('I would like to schedule a meeting with your team.')} className="bg-blue-50 border border-blue-200 rounded-full text-blue-700 font-bold text-[11px] px-3 py-1.5 hover:bg-blue-600 hover:text-white transition-colors shrink-0">Book a Meeting</button>
+                <button onClick={() => triggerSend('I would like to schedule a meeting with your team.')} className="bg-blue-50 border border-blue-200 rounded-full text-blue-700 font-bold text-[11px] px-3 py-1.5 hover:bg-blue-600 hover:text-white transition-colors shrink-0">Schedule a Consultation</button>
               </>
             )}
           </div>
@@ -879,7 +879,7 @@ const triggerSend = async (messageText) => {
         </div>
 
         {/* Input Area */}
-        <div className="bg-slate-50 border-t border-slate-200 flex flex-col shrink-0">
+        <div className={`bg-slate-50 border-t border-slate-200 flex flex-col shrink-0 transition-all duration-500 delay-200 ease-out ${isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
           <form onSubmit={handleFormSubmit} className="p-3 flex gap-2 items-center">
             <div className="flex-1 relative flex items-center">
               <input
